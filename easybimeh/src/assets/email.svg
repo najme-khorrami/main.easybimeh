@@ -1,0 +1,26 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #1dd8cf;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #212121;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <title>Artboard 5</title>
+  <g>
+    <path class="cls-1" d="M27.75,9.55H8a1.54,1.54,0,0,0-1.54,1.54V23.74A1.54,1.54,0,0,0,8,25.28h19.8a1.54,1.54,0,0,0,1.55-1.54V11.09A1.54,1.54,0,0,0,27.75,9.55Z"/>
+    <g>
+      <rect class="cls-2" x="2.7" y="6.72" width="24" height="16.5" rx="2"/>
+      <path class="cls-2" d="M3.31,7.29l7.91,7.41,1.45,1.35a3,3,0,0,0,4.06,0l1.45-1.35L26.1,7.29"/>
+      <line class="cls-2" x1="9.75" y1="16.18" x2="3.29" y2="22.63"/>
+      <line class="cls-2" x1="26.12" y1="22.63" x2="19.66" y2="16.18"/>
+    </g>
+  </g>
+</svg>

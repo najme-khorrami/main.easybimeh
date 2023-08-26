@@ -1,8 +1,15 @@
 // app global css in SCSS form
+@font-face {
+    font-family: iransans;
+    src: url(./fonts/FontsFree-Net-ir_sans.ttf);
+}
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+}
+body {
+    font-family: 'iransans';
 }
 a {
     text-decoration: none;
