@@ -35,53 +35,62 @@
         <q-img src="../../src/assets/steps-icon.svg" width="40px" fit="contain" class="q-mr-sm"></q-img>
         <span>با چند گام ساده کسب و کار سنتی خودت رو الکترونیکی کن:</span>
       </div>
-      <div class="row q-my-md" @mouseleave="deleteProgress">
-        <div class="col-3 my-card" v-for="item in stepsList" :key="item.id">
-          <div class="step-item bg-white shadow-15 q-pa-lg column items-center no-wrap" :id="item.id" @mouseover="runProgress">
-            <q-img :src="item.src" fit="contain" :id="item.id"></q-img>
-            <span class="text-center q-pt-md" :id="item.id">{{ item.title }}</span>
-          </div> 
+      <div class="container">
+        <div class="row no-wrap justify-around" @mouseleave="deleteProgress">
+          <q-card v-for="item in stepsList" :key="item.id" :id="item.id" class="step-item shadow-15 q-ma-md" @mouseover="runProgress">
+            <q-card-section :id="item.id">
+              <q-img :src="item.src" fit="contain" :ratio="1/1" width="200px"></q-img>
+            </q-card-section>
+            <q-card-section class="q-mb-md" :id="item.id">
+              <span >{{ item.title }}</span>
+            </q-card-section>
+          </q-card>
         </div>
       </div>
-      <div class="progress-container">
-        <div class="steps">
-          <div class="step shadow-3" id="1"><span>1</span></div>
-          <div class="step shadow-3" id="2"><span>2</span></div>
-          <div class="step shadow-3" id="3"><span>3</span></div>
-          <div class="step shadow-3" id="4"><span>4</span></div>
-        </div>
-        <div class="progress-box">
-          <div class="progress"></div>
+      <div class="container">
+        <div class="progress-container">
+          <div class="steps">
+            <div v-for="i in 4" :key="i" :class="['step','shadow-'+i]" :id="i">
+              <span>{{i}}</span>
+            </div>
+          </div>
+          <div class="progress-box">
+            <div class="progress"></div>
+          </div>
         </div>
       </div>
+
     </section>
   </q-page>
+
+  <InsureCompsSlider />
 </template>
 
 <script>
-import { defineComponent,ref } from 'vue'
+import { defineComponent } from 'vue'
+import InsureCompsSlider from 'components/InsureCompsSlider.vue';
 
 export default defineComponent({
   name: 'IndexPage',
+  components: {
+    InsureCompsSlider
+  },
 
   setup() {
+    
     const stepsList = [
       {id:1 ,title:'تو ایزی بیمه ثبت نام کن' ,src:'../../src/assets/step1.svg'},
       {id:2 ,title:'همکاران من ثبت نامت رو بررسی و تأیید میکنن' ,src:'../../src/assets/step2.svg'},
       {id:3 ,title:'وقت یه آموزش مختصره!' ,src:'../../src/assets/step3.svg'},
       {id:4 ,title:'به سایت اختصاصی خودت خوش اومدی!' ,src:'../../src/assets/step4.svg'}
     ]
-    
     return {
       stepsList,
-      step: ref(1),
       runProgress(event) {
-        this.step = event.target.id 
+        let step = event.target.id 
         let progressEl = document.querySelector('.progress')
-        if(this.step === '1') progressEl.style.width = '0px'
-        else if(this.step === '2') progressEl.style.width = '33.33%'
-        else if(this.step === '3') progressEl.style.width = '66.66%'
-        else if(this.step === '4') progressEl.style.width = '100%'
+        let length = 33.33 * (step - 1)
+        progressEl.style.width = length+'%'
       },
       deleteProgress() {
         let progressEl = document.querySelector('.progress')
@@ -141,15 +150,12 @@ export default defineComponent({
       font-size: 22px;
     }
     .step-item {
-      border-radius: 30px;
+      max-width: 300px;
+      text-align: center;
       width: 100%;
-      max-width: 320px;
-      height: 100%;
-      max-height: 340px;
-      margin: auto;
+      border-radius: 30px;
       span {
         font-size: 16px;
-        margin-top: 20px;
       }
     }
   }
