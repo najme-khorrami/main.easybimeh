@@ -64,16 +64,20 @@
   </q-page>
 
   <InsureCompsSlider />
+  <PackagesComp />
+  
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 import InsureCompsSlider from 'components/InsureCompsSlider.vue';
+import PackagesComp from 'components/PackagesComp.vue';
 
 export default defineComponent({
   name: 'IndexPage',
   components: {
-    InsureCompsSlider
+    InsureCompsSlider,
+    PackagesComp
   },
 
   setup() {
@@ -146,9 +150,6 @@ export default defineComponent({
   .steps-section {
     background: url(../../src/assets/new-pattern.svg) no-repeat center center;
     background-size: cover;
-    span {
-      font-size: 22px;
-    }
     .step-item {
       max-width: 300px;
       text-align: center;

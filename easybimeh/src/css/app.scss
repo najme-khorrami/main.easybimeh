@@ -22,3 +22,9 @@ a {
 .container {
     padding: 0 150px;
 }
+.header {
+    white-space: nowrap;
+    span {
+      font-size: 24px;
+    }
+}
