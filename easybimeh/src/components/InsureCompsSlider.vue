@@ -216,9 +216,6 @@ export default defineComponent({
     .carousel__slide {
       padding: 10px;
     }
-    .carousel svg {
-      border: 5px solid red !important;
-    }
     .my-card {
       height: 450px;
       border-radius: 5px;

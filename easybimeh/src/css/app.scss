@@ -11,7 +11,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    scroll-behavior: smooth;
+    // scroll-behavior: smooth;
 }
 body {
     font-family: 'iransans';
@@ -26,5 +26,10 @@ a {
     white-space: nowrap;
     span {
       font-size: 24px;
+    }
+}
+@media (max-width: $breakpoint-md-min) {
+    .container {
+        padding: 0 0;
     }
 }

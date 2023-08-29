@@ -103,7 +103,7 @@ export default defineComponent({
       {id:3 ,title:'پرسش های متداول' ,href:'#' },
       {id:4 ,title:'پیگیری درخواست' ,href:'#' },
     ]
-    const footerList = ['دانستنی های بیمه','پرسش های متداول','شرکت های بیمه','درباره ما','قوانین و مقررات','انتقاداتو پیشنهادات','کاتالوگ ایزی بیمه']
+    const footerList = ['دانستنی های بیمه','پرسش های متداول','شرکت های بیمه','درباره ما','قوانین و مقررات','انتقادات و پیشنهادات','کاتالوگ ایزی بیمه']
     const footerConct = [
       {title:'info@easybimeh.com' ,src:'https://img.icons8.com/pulsar-color/30/3b8bff/secured-letter.png'},
       {title:'02191691049' ,src:'https://img.icons8.com/pulsar-color/30/3b8bff/phone.png'},
@@ -185,5 +185,16 @@ export default defineComponent({
   // footer
   .footer-1 {
     background-color: $footer1;
+    ul {
+      list-style: none; 
+      li::before {
+        content: "\25AA";
+        color: $primary; 
+        font-weight: bolder; 
+        display: inline-block; 
+        width: 1em;
+        margin-left: -1em; 
+      }
+    }
   }
 </style>
