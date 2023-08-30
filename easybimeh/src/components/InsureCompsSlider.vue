@@ -45,7 +45,7 @@
     <div class="container">
       <div class="header row items-center q-py-lg">
         <q-img src="../../src/assets/info.svg" width="40px" fit="contain" class="q-mr-sm"></q-img>
-        <span>دانستنی های بیمه</span>
+        <span class="text-weight-medium">دانستنی های بیمه</span>
       </div>
       <!-- slider -->
       <carousel :items-to-show="1" dir="rtl" :items-to-scroll="1" :wrapAround="true" :autoplay="3000" :transition="1000" :pauseAutoplayOnHover="true" :breakpoints="breakpoints" @load="myFunction">
@@ -155,7 +155,7 @@ export default defineComponent({
     .slider-container {
       min-height: 245px;
       position: relative;
-      background: linear-gradient(90deg,#1763cc 0,#1c68d3 26.1%,#2d7beb 57.76%,#3787fa 92.17%,#3b8bff 100%);
+      background: $gradient-primary;
       > .q-img {
         position: absolute;
       }
@@ -190,7 +190,7 @@ export default defineComponent({
           display: inline-flex;
           align-items: center;
           .number {
-            background: linear-gradient(126.18deg,#1763cc 0,#1c68d3 26.1%,#2d7beb 57.76%, #3787fa 92.17%, #3b8bff 100%);
+            background: $gradient-primary;
             border-radius: 50%;
             min-width: 50px;
             width: 50px;

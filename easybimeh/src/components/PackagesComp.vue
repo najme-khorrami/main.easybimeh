@@ -5,7 +5,7 @@
       <div class="header row justify-between items-center">
         <div>
           <q-img src="../../src/assets/package-icon.svg" width="70px" height="100px" class="q-mr-sm"></q-img>
-          <span>بسته ها</span>  
+          <span class="text-weight-medium">بسته ها</span>  
         </div>
         <q-btn class="packages-comparison q-py-md q-px-lg" @click="packagesComparison = true">
           <q-img src="../../src/assets/packages-comparison-icon.svg" width="20px"></q-img>
@@ -50,10 +50,22 @@
             <q-card-section horizontal class="card-dialog-btn">
               <q-btn icon-right="arrow_back" label="مشاهده کامل ویژگی های بسته" falt unelevated square align="between" class="full-width"></q-btn>
             </q-card-section>
-            <q-card-section class="card-select-duration q-my-md q-pa-none">
-              <div>
-                <label for="select-price">بسته زمانی را انتخاب نمایید:</label>
-                <q-select outlined :options="options" v-model="selectModel"></q-select>
+            <q-card-section class="card-discount q-my-md q-pa-none">
+              <div v-if="item.id !== 1" class="discount not-free row no-wrap">
+                <div class="col-8">
+                  <label for="select-price" class="text-grey-7">بسته زمانی را انتخاب نمایید:</label>
+                  <q-select dense color="grey-10" outlined :options="options" v-model="selectModel" :label="options[0]" class="q-ml-md"></q-select> 
+                </div>
+                <div class="col-4 relative-position">
+                  <span class="absolute-right text-red-7" style="left: 10px;top: 0;">تخفیف</span>
+                  <q-img src="../../src/assets/label.svg" fit="contain" width="70%" style="float: left;top: 50%;transform: translateY(-60%);"></q-img>
+                  <span class="absolute-right text-white" style="top: 32px;left: 10px;font-size: 18px;">10%</span>
+                </div>
+              </div>
+              <div v-if="item.id == 1" class="discount free relative-position">
+                <q-img src="../../src/assets/free.svg" fit="contain" width="70%" style="float: left;top: 50%;transform: translateY(-50%);"></q-img>
+                <span class="absolute-right text-white" style="top: 32px;left: 10px;">رایگان</span>
+                <span class="absolute-left text-white" style="top: 32px;right: 40%;">تخفیف</span>
               </div>
               <div class="row justify-between full-width text-teal-4 bg-teal-1 q-py-sm q-px-md" style="font-size: 16px;">
                 <span>حق اشتراک ماهیانه</span>
@@ -90,6 +102,14 @@ setup() {
     .then(function (response) {
       let count = 1;
       response.data.message.plans.forEach(function (item) {
+        let pricesList = []
+        item.easyBimehPlanPrices.forEach(function(priceItem){
+          let newPrice = {
+            percent: priceItem.discount,
+            
+          }
+          pricesList.push(newPrice)
+        })
         let featuresList = []
         for(var i=0;i<5;i++) {
           featuresList.push(item.easyBimehPlanFeatures[i].title)
@@ -98,7 +118,7 @@ setup() {
           id: count,
           title: item.easyBimehPlan.title,
           users: item.easyBimehPlan.maxUsers,
-        //   discount: item.easyBimehPlanPrices.discount,
+          discount: pricesList,
           features: featuresList,
           className: item.easyBimehPlan.packageClass
         }
@@ -139,7 +159,7 @@ setup() {
 
 <style lang="scss" scoped>
   .packages-comparison {
-    background: linear-gradient(90deg,#1763cc 0,#2370dc 28.65%,#307ff0 56.06%,#3888fb 82.88%,#3b8bff 100%);
+    background: $gradient-primary;
     border-radius: 30px;
   }
   .q-dialog .main-section {
@@ -148,7 +168,7 @@ setup() {
   .packagestyle1 {
     .card-users span ,
     .q-card__actions {
-      background: linear-gradient(97.51deg,#1763cc 0,#2370dc 28.65%,#307ff0 56.06%,#3888fb 82.88%,#3b8bff 100%)!important;
+      background: $gradient-primary!important;
     }
     .card-dialog-btn {
       color: #0084c6;
@@ -205,6 +225,12 @@ setup() {
   }
   .carousel__slide {
     padding: 10px;
+  }
+  .card-discount .discount{
+    height: 90px;
+  }
+  .discount.free {
+    font-size: 16px;
   }
 </style>
   

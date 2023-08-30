@@ -1,11 +1,27 @@
 // app global css in SCSS form
 @font-face {
     font-family: iransans;
-    src: url(./fonts/FontsFree-Net-ir_sans.ttf);
+    src: url(./fonts/IRANSansWeb.woff);
+}
+@font-face {
+    font-family: iransans;
+    src: url(./fonts/IRANSansWebBold.woff) format('woff');
+    font-weight: 900;
 }
 @font-face {
     font-family: iransans;
     src: url(./fonts/IRANSansWebMedium.woff) format('woff');
+    font-weight: 500;
+}
+@font-face {
+    font-family: iransans;
+    src: url(./fonts/IRANSansWebLight.woff) format('woff');
+    font-weight: 300;
+}
+@font-face {
+    font-family: iransans;
+    src: url(./fonts/IRANSansWebUltraLight.woff) format('woff');
+    font-weight: 100;
 }
 * {
     padding: 0;
