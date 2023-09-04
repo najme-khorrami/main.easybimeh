@@ -5,13 +5,13 @@
       <q-img src="../../src/assets/wave.svg" class="bottom-bg"></q-img> <!-- bottom background image -->
       <div class="container">
         <div class="row">
-          <div class="col-12 col-sm-7">
-            <div>
-              <q-img src="../../src/assets/svg-final-animated.svg"></q-img>
+          <div class="col-12 col-sm-7 vertical-middle">
+            <div class="q-py-lg vertical-middle"> 
+              <q-img src="../../src/assets/svg-final-animated.svg" class="vertical-middle"></q-img>
             </div>
           </div>
-          <div class="col-12 col-sm-5 column justify-end q-pl-md">
-            <div class="left-side text-center">
+          <div class="text-side col-12 col-sm-5 column justify-center q-pl-none">
+            <div class="left-side text-center q-py-lg">
               <h2 class="text-white text-weight-bold q-px-sm">ایزی بیمه؛ نرم افزار مدیریت دفاتر نمایندگی و کارگزاری بیمه</h2>
               <p class="text-white"> اگر می‌خواهید با تحول دیجیتال، کسب و کار خود را هوشمند کنید.اگر میخواهید وب سایت حرفه ای بیمه ای اختصاصی داشته باشید.اگر مدیریت عملکرد شبکه فروش دغدغه شماست.اگر می‌خواهید فروش آنلاین بیمه را تجربه کنید.ایزی بیمه همه این امکانات را در کنار ده‌ها قابلیت دیگر برای شما فراهم کرده است.</p>
               <q-btn padding="8px 12px">
@@ -23,23 +23,26 @@
             </div>
           </div>
           <div id="scroll" class="col-12 text-center">
-            <span class="text-white">اسکرول کنید</span>
+            <span class="gt-xs text-white">اسکرول کنید</span>
             <q-img src="../../src/assets/scroll.svg" width="48px" height="128px" fit="contain"></q-img>
           </div>
         </div>
       </div>
     </section>
     <!-- steps section -->
-    <section class="steps-section q-py-md">
-      <div class="header row justify-center items-center q-py-lg">
+    <section class="steps-section q-py-lg">
+      <div class="container header row no-wrap justify-center items-center q-py-lg">
         <q-img src="../../src/assets/steps-icon.svg" width="40px" fit="contain" class="q-mr-sm"></q-img>
         <span>با چند گام ساده کسب و کار سنتی خودت رو الکترونیکی کن:</span>
       </div>
-      <div class="container">
-        <div class="row no-wrap justify-around" @mouseleave="deleteProgress">
+      <div class="lt-sm">
+        <q-img src="../../src/assets/mobile-banner.png"></q-img>
+      </div>
+      <div class="gt-xs container">
+        <div class="row no-wrap justify-around q-py-md" @mouseleave="deleteProgress">
           <q-card v-for="item in stepsList" :key="item.id" :id="item.id" class="step-item shadow-15 q-ma-md" @mouseover="runProgress">
             <q-card-section :id="item.id">
-              <q-img :src="item.src" fit="contain" :ratio="1/1" width="200px"></q-img>
+              <q-img :src="item.src" fit="contain" :ratio="1/1" max-width="200px" width="100%"></q-img>
             </q-card-section>
             <q-card-section class="q-mb-md" :id="item.id">
               <span >{{ item.title }}</span>
@@ -48,7 +51,7 @@
         </div>
       </div>
       <div class="container">
-        <div class="progress-container">
+        <div class="gt-xs progress-container">
           <div class="steps">
             <div v-for="i in 4" :key="i" :class="['step','shadow-'+i]" :id="i">
               <span>{{i}}</span>
@@ -127,12 +130,12 @@ export default defineComponent({
       padding-bottom: 8px;
     }
     & .q-btn {
-        font-size: 18px;
-        background: linear-gradient(90deg,#ed7e3c 0, #ffb154 100%);
-        a {
-          display: flex;
-          align-items: center;
-        }
+      font-size: 18px;
+      background: linear-gradient(90deg,#ed7e3c 0, #ffb154 100%);
+      a {
+        display: flex;
+        align-items: center;
+      }
     }
   }
   #scroll {
@@ -201,4 +204,57 @@ export default defineComponent({
       }
     }
   }
+
+  @media (max-width: $breakpoint-sm-min) {  // 0 to 769px
+    .home-section .left-side {
+      h2 {
+        font-size: 20px;
+        line-height: 30px;
+      }
+      p {
+        font-size: 15px;
+        line-height: 26px;
+      }
+      .q-btn {
+        font-size: 18px;
+      }
+    }
+    .steps-section .header {
+      justify-content: flex-start;
+      span {
+        font-size: 16px;
+        white-space: pre-line;
+        word-wrap: break-word;
+        width: 100%;
+        font-weight: 900;
+      }
+      .q-img {
+        min-width: 40px !important;
+      }
+    }
+  }
+  @media (min-width: 769px) {  // 769px to ..
+    .home-section .left-side {
+      padding-left: 30px !important;
+    }
+  }
+  @media (max-width: $breakpoint-xs-max) {  // 0 to 1200px
+    .home-section {
+      #scroll {
+        .q-img {
+          margin-top: -60px;
+        }
+      }
+      .left-side {
+        .q-btn {
+          width: 100%;
+          a {
+            width: 100%;
+            display: block;
+            text-align: center;
+          }
+        }
+      }
+    }
+  } 
 </style>

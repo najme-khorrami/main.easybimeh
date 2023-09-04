@@ -1,10 +1,10 @@
 <template>
   <!-- package section -->
-  <section class="package-section q-py-md">
+  <section id="scroll-signup" class="package-section q-py-md">
     <div class="container">
       <div class="header row justify-between items-center">
         <div>
-          <q-img src="../../src/assets/package-icon.svg" width="70px" height="100px" class="q-mr-sm"></q-img>
+          <q-img src="../../src/assets/package-icon.svg" width="60px" height="100px" class="q-mr-sm"></q-img>
           <span class="text-weight-medium">بسته ها</span>  
         </div>
         <q-btn class="packages-comparison q-py-md q-px-lg" @click="packagesComparison = true">
@@ -31,7 +31,7 @@
         </q-dialog>
         <!-- dialog -->
       </div>
-      <carousel :items-to-show="1" dir="rtl" :items-to-scroll="1" :wrapAround="true" :autoplay="3000" :transition="1000" :pauseAutoplayOnHover="true" :breakpoints="breakpoints" @load="myFunction">
+      <carousel :items-to-show="1" dir="rtl" :items-to-scroll="1" :wrapAround="true" :autoplay="3000" :transition="1000" :pauseAutoplayOnHover="true" :breakpoints="breakpoints">
         <Slide v-for="item in plansList" :key="item.id">
           <q-card class="shadow-3 full-width" :class="item.className">
             <div class="card-header relative-position">
@@ -54,7 +54,8 @@
               <div v-if="item.id !== 1" class="discount not-free row no-wrap">
                 <div class="col-8">
                   <label for="select-price" class="text-grey-7">بسته زمانی را انتخاب نمایید:</label>
-                  <q-select dense color="grey-10" outlined :options="options" v-model="selectModel" :label="options[0]" class="q-ml-md"></q-select> 
+                  <!-- should fix -->
+                  <q-select dense color="grey-7" outlined :options="options" v-model="selectModel" class="q-ml-md" behavior="menu"></q-select> 
                 </div>
                 <div class="col-4 relative-position">
                   <span class="absolute-right text-red-7" style="left: 10px;top: 0;">تخفیف</span>
@@ -91,25 +92,17 @@ import { Carousel, Slide } from 'vue3-carousel'
 export default defineComponent({
 name: "PackagesComp",
 components: {
-    Carousel,
-    Slide,
-  },
+  Carousel,
+  Slide,
+},
 
 setup() {
-  let plansList = [];
+  let plansList = [];  // four cards introducing 4 packages
   axios
     .get("https://server.easybimeh.com/api/Information?key=0")
     .then(function (response) {
       let count = 1;
       response.data.message.plans.forEach(function (item) {
-        let pricesList = []
-        item.easyBimehPlanPrices.forEach(function(priceItem){
-          let newPrice = {
-            percent: priceItem.discount,
-            
-          }
-          pricesList.push(newPrice)
-        })
         let featuresList = []
         for(var i=0;i<5;i++) {
           featuresList.push(item.easyBimehPlanFeatures[i].title)
@@ -118,18 +111,22 @@ setup() {
           id: count,
           title: item.easyBimehPlan.title,
           users: item.easyBimehPlan.maxUsers,
-          discount: pricesList,
+          discount: item.easyBimehPlanPrices,
           features: featuresList,
           className: item.easyBimehPlan.packageClass
         }
         plansList.push(newItem)
         count++
       });
-      console.log(response.data.message.plans);
+      // console.log(plansList);
     })
     .catch(function (error) {
       console.error(error);
     });
+    // should fix
+  // let options = [
+  //   {label: plansList.discount}
+  // ]
   return {
     packagesComparison: ref(false),
     plansList,
@@ -150,8 +147,8 @@ setup() {
         mouseDrag: false,
       },
     },
-    selectModel: ref(null),
-    options: ['یک ساله', 'شش ماهه', 'سه ماهه']
+    selectModel: ref('یک ساله'), // should fix
+    options: ref(['یک ساله','شش ماهه','سه ماهه'])
   };
 },
 });
@@ -231,6 +228,15 @@ setup() {
   }
   .discount.free {
     font-size: 16px;
+  }
+
+  @media (max-width: 769px) {  // 0 to 769px
+    .package-section .header {
+      span {
+        font-size: 16px;
+        font-weight: 900;
+      }
+    }
   }
 </style>
   

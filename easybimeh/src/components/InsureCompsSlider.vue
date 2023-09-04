@@ -3,7 +3,7 @@
   <section class="slider-section">
     <div class="slider-container q-pt-xl">
       <q-img src="../../src/assets/wave.svg" class="absolute-bottom"></q-img>
-      <Carousel :items-to-show="11.95" :items-to-scroll="3" :autoplay="1500" :transition="1000" :wrap-around="true" :pauseAutoplayOnHover="true">
+      <Carousel  :breakpoints="compBreakpoints" :items-to-show="3.3" :items-to-scroll="3" :autoplay="1500" :transition="1000" :wrap-around="true" :pauseAutoplayOnHover="true">
         <Slide  v-for="item in companyList" :key="item.enTitle">
           <div class="carousel__item bg-white">
             <a :href="item.url" class="q-pa-md" style="width: 100%;height: 100%;" target="_blank">
@@ -17,7 +17,7 @@
     <div class="advantages-container bg-warning relative-position">
       <q-img src="../../src/assets/layer1.svg" class="right-side"></q-img>
       <q-img src="../../src/assets/layer2.svg" class="left-side absolute-bottom-right"></q-img>
-      <div class="q-py-xl">
+      <div class="content q-py-xl">
         <h3 class="text-bold text-h4">ایزی بیمه چه قابلیت هایی دارد؟</h3>
         <p style="font-size: 16px;" class="q-pt-lg">
           به منظور شناخت دقیق تر محصول 
@@ -42,13 +42,13 @@
   </section>
   <!-- information section -->
   <section class="information-section q-py-md">
-    <div class="container">
+    <div class="container special-container">
       <div class="header row items-center q-py-lg">
         <q-img src="../../src/assets/info.svg" width="40px" fit="contain" class="q-mr-sm"></q-img>
         <span class="text-weight-medium">دانستنی های بیمه</span>
       </div>
       <!-- slider -->
-      <carousel :items-to-show="1" dir="rtl" :items-to-scroll="1" :wrapAround="true" :autoplay="3000" :transition="1000" :pauseAutoplayOnHover="true" :breakpoints="breakpoints" @load="myFunction">
+      <carousel :items-to-show="1" dir="rtl" :items-to-scroll="1" :wrapAround="true" :autoplay="3000" :transition="500" :pauseAutoplayOnHover="true" :breakpoints="breakpoints">
         <Slide v-for="item in insureInfoList" :key="item.id">
           <div class="carousel__item">
             <q-card class="my-card q-my-md q-pa-md relative-position shadow-5">
@@ -126,18 +126,45 @@ export default defineComponent({
      onMounted(() => {
       let leftArrow = document.querySelector('.carousel__prev')
       let rightArrow = document.querySelector('.carousel__next')
-      leftArrow.innerHTML = '<i class="fa-solid fa-arrow-left circle shadow-10 text-white q-pa-md bg-primary" style="font-size:20px;border-radius:50%;transform:translate(-80px);"></i>'
-      rightArrow.innerHTML = '<i class="fa-solid fa-arrow-right circle shadow-10 text-white q-pa-md bg-primary" style="font-size:20px;border-radius:50%;transform:translate(80px);"></i>'
+      leftArrow.innerHTML = '<i class="gt-sm fa-solid fa-arrow-left circle shadow-10 text-white q-pa-md bg-primary" style="font-size:20px;border-radius:50%;float:right;margin-right:150px;"></i>'
+      rightArrow.innerHTML = '<i class="gt-sm fa-solid fa-arrow-right circle shadow-10 text-white q-pa-md bg-primary" style="font-size:20px;border-radius:50%;float:left;margin-left:150px;"></i>'
     })
     return {
       companyList,
       slide: ref(1),
       itemsList,
       insureInfoList,
+      compBreakpoints: {
+        480: {
+          itemsToShow: 4,
+        },
+        600: {
+          itemsToShow: 4.75,
+        },
+        769: {
+          itemsToShow: 5.85,
+        },
+        850: {
+          itemsToShow: 6.5,
+        },
+        1000: {
+          itemsToShow: 7.95,
+        },
+        1100: {
+          itemsToShow: 8.95,
+        },
+        1200: {
+          itemsToShow: 9.85,
+        },
+        1400: {
+          itemsToShow: 11.75,
+        },
+      },
       breakpoints: {
         600: {
           itemsToShow: 2,
-          itemsToScroll:2
+          itemsToScroll:2,
+          snapAlign: 'start'
         },
         1200: {
           itemsToShow: 3,
@@ -173,11 +200,11 @@ export default defineComponent({
     }
     .advantages-container {
       min-height: 290px;
+      position: relative;
       .right-side {
-        width: 21%;
+        width: 21vw;
         position:absolute;
         left: 0;
-        transform: translate(-50%,-20%);
       }
       .left-side {
         width: 45%;
@@ -241,6 +268,71 @@ export default defineComponent({
         cursor: pointer;
       }
     }
-
   }
+
+  @media (max-width: 769px) {  // 0 to 769px
+    
+    .information-section {
+      .header span {
+        font-size: 16px;
+        font-weight: 900;
+      }
+    }
+    .slider-container {
+      height: 320px;
+    }
+    .advantages-container {
+      .content {
+        position: absolute;
+        top: -140px;
+        padding: 0 20px;
+      }
+      .right-side {
+        display: none;
+      }
+      .left-side {
+        width: 100% !important;
+      }
+      p {
+        display: none;
+      }
+      h3 {
+        font-size: 16px !important;
+        font-weight: 200;
+        color: white;
+      }
+      .active-advantage {
+        padding: 5px;
+        .number {
+          min-width: 30px !important;
+          width: 10px !important;
+          height: 30px !important;
+          font-size: 18px !important;
+        }
+        .title {
+          font-size: 14px !important;
+        }
+      }
+    }
+  }  
+  @media (max-width: 1200px) {  // 0 to 1200px
+    .advantages-container {
+      position: relative;
+      .right-side {
+        bottom: 50%;
+        transform: translate(-50% , 50%);
+      }
+      h3 {
+        font-size: 26px;
+      }
+    }
+  }  
+  @media (min-width: 1200px) {  // 1200px to ..
+  .advantages-container {
+    position: relative;
+    .right-side {
+       transform: translate(-50% , -50px);
+    }
+    }
+  } 
 </style>

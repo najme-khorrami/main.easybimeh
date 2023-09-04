@@ -5,20 +5,26 @@
       <div class="container full-width">
         <div class="row justify-between">
           <div class="right-side row justify-center items-center">
-            <a v-for="item in conIconList" :key="item.id" :href="item.href" :class="[item.name,'q-ma-xs','q-pa-xs']">
+            <a v-for="item in conIconList" :key="item.id" class="cursor-pointer" :class="[item.name,'q-ma-xs','q-pa-xs']" target="_blank" :href="item.href">
               <q-icon :name="item.icon" size="12px">
                 <q-tooltip transition-show="fade" transition-hide="fade">{{ item.title }}</q-tooltip>
               </q-icon>
             </a>
           </div>
-          <div class="left-side row justify-center items-center">
+          <div class="gt-sm left-side row justify-center items-center">
             <a href="aboutus" class="info text-white q-mr-md q-pa-xs">
               <q-icon name="fa-solid fa-circle-info" size="14px" class="q-px-xs"></q-icon>
               درباره ما
             </a>
-            <a href="#" class="concat text-white q-pa-xs">
+            <a @click="scrollContactus" class="concat text-white q-pa-xs cursor-pointer">
               <q-icon name="fa-regular fa-envelope-open" size="14px" class="q-px-xs"></q-icon>
               ارتباط با ما
+            </a>
+          </div>
+          <div class="lt-md left-side row justify-center items-center">
+            <a @click="scrollSignup" class="concat text-white q-pa-xs cursor-pointer">
+              ثبت نام
+              <q-icon name="fa-solid fa-arrow-right-to-bracket" size="14px" class="q-px-xs"></q-icon>
             </a>
           </div>
         </div>
@@ -28,36 +34,74 @@
     <div class="menu-header bg-primary row items-center shadow-1">
       <div class="container full-width full-height">
         <q-toolbar class="full-width full-height justify-between" style="padding: 0;">
-          <q-img src="../../src/assets/easybimeh-logo-white.svg" alt="ایزی بیمه" width="150px" style="min-width:130px;" fit="fill"></q-img>
-          <q-btn class="eb-connect full-height">
+          <q-img src="../../src/assets/easybimeh-logo-white.svg" alt="ایزی بیمه" width="150px" style="min-width:130px;" fit="fill" href=""></q-img>
+          <q-btn class="eb-connect full-height q-mx-sm">
             <a href="#">
-              <q-img src="../../src/assets/eb-connect.svg" alt="eb-connect" width="130px" height="30px" fit="contain"></q-img>
+              <q-img src="../../src/assets/eb-connect.svg" alt="eb-connect" width="130px" height="30px" fit="contain" class="gt-sm"></q-img>
+              <q-img src="../../src/assets/eb-short.svg" alt="eb-connect" width="25px" height="35px" fit="contain" class="lt-md"></q-img>
             </a>
           </q-btn>
           <q-btn color="info" padding="0 15px" size="14px" class="system-btn full-height">
             <a href="#">سامانه جامع مدیریت کارگزاری آنلاین</a>
           </q-btn>
-          <q-tabs>
-            <q-tab v-for="item in tabList" :key="item.id">
-              <a :href="item.href" class="text-white" style="font-size: 14px;">{{ item.title }}</a>
-            </q-tab>
-          </q-tabs>
-          <q-btn class="sign-up full-height" size="14px" padding="0 35px">
-            <a href="#" class="text-white">ثبت نام</a>
+          <div class="tabs full-height gt-sm row no-wrap justify-between items-center">
+            <div v-for="item in tabList" :key="item.id">
+              <a @click="showRequestDialog = (item.id == 4) ? true : false;" :href="item.href" class="block text-white q-pa-md" style="font-size: 14px;white-space: nowrap;">{{ item.title }}</a>
+            </div>
+          </div>
+          <q-btn @click="scrollSignup" class="sign-up gt-sm full-height" size="14px" padding="0 35px">
+            <a class="cursor-pointer text-white">ثبت نام</a>
           </q-btn>
+          <button class="bar-btn lt-md absolute-right" @click="showMenu">
+            <span></span><span></span><span></span>
+          </button>
       </q-toolbar>
       </div>
     </div>
+
+    <!-- toggle menu -->
+    <section v-if="ifShow" class="lt-md full-menu bg-white q-px-lg column justify-between">
+      <q-list>
+        <q-item v-for="item in toggleMenuList" :key="item.id" class="item-menu">
+          <a class="full-width text-black text-weight-medium q-py-sm" :href="item.href">{{ item.title }}</a>
+        </q-item>
+      </q-list>
+      <div class="row justify-center q-pb-md" style="position: sticky;bottom: 0;">
+        <q-btn flat icon-right="info" label="درباره ما" style="border-left: 1px solid #dfdfdf;"></q-btn>
+        <q-btn flat icon-right="phone" label="تماس با ما"></q-btn>
+      </div>
+    </section>
+
+    <!-- dialog for following up request/sign up -->
+    <q-dialog v-model="showRequestDialog">
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-img src="../../src/assets/note.svg" width="40px"></q-img>
+          <div class="text-h6 q-pl-sm">پیگیری ثبت نام</div>
+        </q-card-section>
+        <q-card-section>
+          <q-form class="row q-gutter-md">
+            <q-input outlined v-model="trackingCode" dense label="کد رهگیری درخواست *" :rules="[val => val !== null && val !== '' || 'کد رهگیری را وارد کنید']" />
+            <q-input outlined v-model="nationalCode" dense label="کد ملی متقاضی *" :rules="[val => val !== null && val !== '' || 'کد ملی متقاضی را وارد کنید']" />
+          </q-form>
+        </q-card-section>
+        <q-separator />
+        <q-card-actions align="right" class="q-pa-md">
+          <q-btn padding="sm xl" class="text-weight-light" outline label="انصراف" color="primary" v-close-popup></q-btn>
+          <q-btn padding="sm xl" class="text-weight-light" color="primary" label="پیگیری" @click="onSubmit"></q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 
     <q-page-container>
       <router-view />
     </q-page-container>
 
     <!-- first footer -->
-    <div class="footer-1 text-dark q-pa-md">
+    <div id="scroll-contactus" class="footer-1 text-dark q-pa-md">
       <div class="container full-width">
         <div class="row full-width">
-          <div class="col-3 column">
+          <div class="col-12 col-sm-4 column">
             <h6 class="q-my-xs q-mb-md text-weight-medium">امکانات سایت</h6>
             <ul>
               <li v-for="item in footerList" :key="item" class="facilities q-py-xs">
@@ -65,7 +109,7 @@
               </li>
             </ul>
           </div>
-          <div class="col column">
+          <div class="col-12 col-sm-8 column contact-footer">
             <h6 class="q-my-xs q-mb-md text-weight-medium">ارتباط با ما</h6>
             <div v-for="item in footerConct" :key="item.title" class="row no-wrap items-center q-py-xs">
               <img :src="item.src" alt="">
@@ -114,22 +158,31 @@
 
 <script>
 import { defineComponent,ref,onMounted  } from 'vue'
+import axios from "axios";
 
 export default defineComponent({
   name: 'MainLayout',
 
   setup () {
     const conIconList = [
-      {id:1 ,name:'linkedin' ,href:'https://www.linkedin.com/company/easybimeh/' ,title:'Linkedin' ,icon:'fab fa-linkedin-in' },
-      {id:2 ,name:'telegram' ,href:'https://t.me/easybimeh' ,title:'Telegram' ,icon:'fab fa-telegram-plane' },
-      {id:3 ,name:'instagram' ,href:'https://www.instagram.com/easybimeh/' ,title:'Instagram' ,icon:'fab fa-instagram' },
-      {id:4 ,name:'twitter' ,href:'https://twitter.com/BimehEasy' ,title:'Twitter' ,icon:'fab fa-twitter' },
+      {id:1 ,name:'linkedin' ,icon:'fab fa-linkedin-in'},
+      {id:2 ,name:'telegram' ,icon:'fab fa-telegram-plane'},
+      {id:3 ,name:'instagram' ,icon:'fab fa-instagram'},
+      {id:4 ,name:'twitter' ,icon:'fab fa-twitter'},
     ]
     const tabList = [
-      {id:1 ,title:'برخی از مشتریان' ,href:'#' },
-      {id:2 ,title:'شرکت های بیمه' ,href:'#' },
-      {id:3 ,title:'پرسش های متداول' ,href:'#' },
+      {id:1 ,title:'برخی از مشتریان' ,href:'insuranceCentre' },
+      {id:2 ,title:'شرکت های بیمه' ,href:'insuranceCompanies' },
+      {id:3 ,title:'پرسش های متداول' ,href:'faq' },
       {id:4 ,title:'پیگیری درخواست' ,href:'#' },
+    ]
+    const toggleMenuList = [
+      {id:1 ,title:'ثبت نام' ,href:'#' },
+      {id:2 ,title:'پیگیری درخواست' ,href:'#' },
+      {id:3 ,title:'پرسش های متداول' ,href:'faq' },
+      {id:4 ,title:'یادآور تمدید بیمه نامه' ,href:'#' },
+      {id:5 ,title:'شرکت های بیمه' ,href:'insuranceCompanies' },
+      {id:6 ,title:'برخی از مشتریان' ,href:'insuranceCentre' },
     ]
     const footerList = ['دانستنی های بیمه','پرسش های متداول','شرکت های بیمه','درباره ما','قوانین و مقررات','انتقادات و پیشنهادات','کاتالوگ ایزی بیمه']
     let footerConct = [
@@ -137,11 +190,51 @@ export default defineComponent({
       {title:'02191691049' ,src:'https://img.icons8.com/pulsar-color/30/3b8bff/phone.png'},
       {title: 'تهران - خیابان ولیعصر نبش خیابان توانیر(عباسپور) پلاک 2492 طبقه 1 واحد 104' ,src:'https://img.icons8.com/pulsar-color/30/3B8BFF/place-marker.png'}
     ]
+    // axios
+    onMounted(() => {
+      axios
+      .get("https://server.easybimeh.com/api/Information?key=0")
+      .then((response) => {
+        let data = response.data.message.information
+        for (const key in data) {
+          for(let i=0 ; i<4 ; i++) {
+            if(conIconList[i].name == key) {
+              conIconList[i].href=data[key][0].link
+              conIconList[i].title=data[key][0].title
+            }
+          }
+        }
+        // console.log("ths",conIconList);
+      })
+      .catch((error) => {
+        console.error(error);
+      }); 
+    })
+
     return {
       conIconList,
       tabList,
       footerList,
       footerConct,
+      ifShow: ref(false),
+      showMenu() {
+        this.ifShow = !this.ifShow
+      },
+      toggleMenuList,
+      scrollContactus() {
+        let contactFooter = document.querySelector('#scroll-contactus')
+        window.scrollTo( 0, contactFooter.getBoundingClientRect().y - 50 );
+      },
+      scrollSignup() {
+        let contactFooter = document.querySelector('#scroll-signup')
+        window.scrollBy( 0, contactFooter.getBoundingClientRect().y - 50 );
+      },
+      showRequestDialog: ref(false),
+      trackingCode: ref(''),
+      nationalCode: ref(''),
+      onSubmit() {
+        // do sth on submit
+      }
     }
   }
 })
@@ -150,12 +243,48 @@ export default defineComponent({
   // header
   .contact-header {
     height: 35px;
+    z-index: 2;
   }
   .menu-header {
     height: 75px;
     position: sticky;
     top: 0;
+    z-index: 2;
+    .tabs div{
+      transition: .4s;
+      &:hover {
+        background-color: rgba(70, 70, 70, 0.1);
+      }
+    }
+    .bar-btn {
+      width: 40px;
+      height: 50px;
+      padding: 5px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      background-color: transparent;
+      border: 0;
+      span {
+        width: 100%;
+        height: 3px;
+        background-color: white;
+      }
+    }
+  }
+  .full-menu {
     z-index: 1;
+    width: 100%;
+    height:100vh;
+    position: sticky;
+    top: 75px;
+    .item-menu {
+      border-bottom: .5px solid #dfdfdf;
+    }
+    .item-menu:last-of-type {
+      border-bottom: none;
+    }
   }
   .q-icon {
     transition: color .2s;
@@ -234,4 +363,32 @@ export default defineComponent({
   .footer-2 {
     background: $gradient-primary;
   }
+ 
+  @media (max-width: $breakpoint-sm-min) {  // 0 to 769px
+    .contact-footer {
+      h6 {
+        margin-top: 25px;
+      }
+    }
+    .footer-2 {
+      > .container > .row {
+        flex-direction: column;
+      } 
+    }
+  }
+  @media (max-width: $breakpoint-md-min) {  // 0 to 1024px
+    .menu-header {
+      .q-toolbar {
+        justify-content: flex-start;
+        .eb-connect {
+          height: auto !important;
+        }
+      }
+    }
+  }
+  @media (max-width: 1200px) {  // 0 to 1200px
+    .system-btn {
+        display: none;
+    }
+  }  
 </style>
