@@ -52,7 +52,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
     :deep(.q-btn.btn--no-hover .q-focus-helper) {
-        display: none;  // no hovering on button
+        display: none;  /* no hover on buttons*/
     }
     .title {
         span {

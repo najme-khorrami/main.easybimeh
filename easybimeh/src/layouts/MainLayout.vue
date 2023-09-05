@@ -34,15 +34,15 @@
     <div class="menu-header bg-primary row items-center shadow-1">
       <div class="container full-width full-height">
         <q-toolbar class="full-width full-height justify-between" style="padding: 0;">
-          <q-img src="../../src/assets/easybimeh-logo-white.svg" alt="ایزی بیمه" width="150px" style="min-width:130px;" fit="fill" href=""></q-img>
-          <q-btn class="eb-connect full-height q-mx-sm">
-            <a href="#">
-              <q-img src="../../src/assets/eb-connect.svg" alt="eb-connect" width="130px" height="30px" fit="contain" class="gt-sm"></q-img>
-              <q-img src="../../src/assets/eb-short.svg" alt="eb-connect" width="25px" height="35px" fit="contain" class="lt-md"></q-img>
-            </a>
+          <q-btn flat class="btn--no-hover q-pa-none q-ma-none full-height">
+            <q-img src="../../src/assets/easybimeh-logo-white.svg" alt="ایزی بیمه" width="180px" style="min-width:130px;" fit="fill" href=""></q-img>
+          </q-btn>
+          <q-btn class="eb-connect full-height q-mx-sm" href="#">
+            <q-img src="../../src/assets/eb-connect.svg" alt="eb-connect" width="130px" height="30px" fit="contain" class="gt-md"></q-img>
+            <q-img src="../../src/assets/eb-short.svg" alt="eb-connect" width="25px" height="35px" fit="contain" class="lt-lg"></q-img>
           </q-btn>
           <q-btn color="info" padding="0 15px" size="14px" class="system-btn full-height">
-            <a href="#">سامانه جامع مدیریت کارگزاری آنلاین</a>
+            <a href="#" class="text-weight-light text-black">سامانه جامع مدیریت کارگزاری آنلاین</a>
           </q-btn>
           <div class="tabs full-height gt-sm row no-wrap justify-between items-center">
             <div v-for="item in tabList" :key="item.id">
@@ -66,6 +66,9 @@
           <a class="full-width text-black text-weight-medium q-py-sm" :href="item.href">{{ item.title }}</a>
         </q-item>
       </q-list>
+      <div class="">
+        <q-btn color="info" text-color="black" size="16px" class="text-weight-light" label="سامانه جامع مدیریت کارگزاری آنلاین"></q-btn>
+      </div>
       <div class="row justify-center q-pb-md" style="position: sticky;bottom: 0;">
         <q-btn flat icon-right="info" label="درباره ما" style="border-left: 1px solid #dfdfdf;"></q-btn>
         <q-btn flat icon-right="phone" label="تماس با ما"></q-btn>
@@ -104,8 +107,8 @@
           <div class="col-12 col-sm-4 column">
             <h6 class="q-my-xs q-mb-md text-weight-medium">امکانات سایت</h6>
             <ul>
-              <li v-for="item in footerList" :key="item" class="facilities q-py-xs">
-                <a href="#" class="text-weight-regular">{{ item }}</a>
+              <li v-for="item in footerList" :key="item.id" class="facilities q-py-xs">
+                <a :href="item.href" class="text-weight-regular">{{ item.title }}</a>
               </li>
             </ul>
           </div>
@@ -184,7 +187,15 @@ export default defineComponent({
       {id:5 ,title:'شرکت های بیمه' ,href:'insuranceCompanies' },
       {id:6 ,title:'برخی از مشتریان' ,href:'insuranceCentre' },
     ]
-    const footerList = ['دانستنی های بیمه','پرسش های متداول','شرکت های بیمه','درباره ما','قوانین و مقررات','انتقادات و پیشنهادات','کاتالوگ ایزی بیمه']
+    const footerList = [
+      {id: 1,title: 'دانستنی های بیمه',href: 'typesOfInsurance'},
+      {id: 2,title: 'پرسش های متداول',href: 'faq'},
+      {id: 3,title: 'شرکت های بیمه',href: 'insuranceCompanies'},
+      {id: 4,title: 'درباره ما',href: 'aboutus'},
+      {id: 5,title: 'قوانین و مقررات',href: '#'},
+      {id: 6,title: 'انتقادات و پیشنهادات',href: '#'},
+      {id: 7,title: 'کاتالوگ ایزی بیمه',href: '#'}
+    ]
     let footerConct = [
       {title:'info@easybimeh.com' ,src:'https://img.icons8.com/pulsar-color/30/3b8bff/secured-letter.png'},
       {title:'02191691049' ,src:'https://img.icons8.com/pulsar-color/30/3b8bff/phone.png'},
@@ -240,6 +251,9 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" scoped>
+  :deep(.q-btn.btn--no-hover .q-focus-helper) {
+    display: none;  /* no hover on buttons*/
+  }
   // header
   .contact-header {
     height: 35px;
