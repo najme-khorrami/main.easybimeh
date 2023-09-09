@@ -18,7 +18,7 @@
             </a>
             <a @click="scrollContactus" class="concat text-white q-pa-xs cursor-pointer">
               <q-icon name="fa-regular fa-envelope-open" size="14px" class="q-px-xs"></q-icon>
-              ارتباط با ما
+              تماس با ما
             </a>
           </div>
           <div class="lt-md left-side row justify-center items-center">
@@ -34,8 +34,8 @@
     <div class="menu-header bg-primary row items-center shadow-1">
       <div class="container full-width full-height">
         <q-toolbar class="full-width full-height justify-between" style="padding: 0;">
-          <q-btn flat class="btn--no-hover q-pa-none q-ma-none full-height">
-            <q-img src="../../src/assets/easybimeh-logo-white.svg" alt="ایزی بیمه" width="180px" style="min-width:130px;" fit="fill" href=""></q-img>
+          <q-btn flat class="btn--no-hover q-pa-none q-ma-none full-height" to="/">
+            <q-img src="../../src/assets/easybimeh-logo-white.svg" alt="ایزی بیمه" width="180px" style="min-width:130px;" fit="fill"></q-img>
           </q-btn>
           <q-btn class="eb-connect full-height q-mx-sm" href="#">
             <q-img src="../../src/assets/eb-connect.svg" alt="eb-connect" width="130px" height="30px" fit="contain" class="gt-md"></q-img>
@@ -76,23 +76,25 @@
     </section>
 
     <!-- dialog for following up request/sign up -->
-    <q-dialog v-model="showRequestDialog">
+    <q-dialog v-model="showRequestDialog" @hide="resetDialog">
       <q-card>
-        <q-card-section class="row items-center">
-          <q-img src="../../src/assets/note.svg" width="40px"></q-img>
-          <div class="text-h6 q-pl-sm">پیگیری ثبت نام</div>
-        </q-card-section>
-        <q-card-section>
-          <q-form class="row q-gutter-md">
-            <q-input outlined v-model="trackingCode" dense label="کد رهگیری درخواست *" :rules="[val => val !== null && val !== '' || 'کد رهگیری را وارد کنید']" />
-            <q-input outlined v-model="nationalCode" dense label="کد ملی متقاضی *" :rules="[val => val !== null && val !== '' || 'کد ملی متقاضی را وارد کنید']" />
-          </q-form>
-        </q-card-section>
-        <q-separator />
-        <q-card-actions align="right" class="q-pa-md">
-          <q-btn padding="sm xl" class="text-weight-light" outline label="انصراف" color="primary" v-close-popup></q-btn>
-          <q-btn padding="sm xl" class="text-weight-light" color="primary" label="پیگیری" @click="onSubmit"></q-btn>
-        </q-card-actions>
+        <q-form @submit="onSubmit">
+          <q-card-section class="row items-center">
+            <q-img src="../../src/assets/note.svg" width="40px"></q-img>
+            <div class="text-h6 q-pl-sm">پیگیری ثبت نام</div>
+          </q-card-section>
+          <q-card-section>
+            <div class="row q-gutter-md">
+              <q-input outlined v-model="trackingCode" dense label="کد رهگیری درخواست *" :rules="[val => val !== null && val !== '' || 'کد رهگیری را وارد کنید']" />
+              <q-input outlined v-model="nationalCode" dense label="کد ملی متقاضی *" :rules="[val => val !== null && val !== '' || 'کد ملی متقاضی را وارد کنید']" />
+              </div>
+          </q-card-section>
+          <q-separator />
+          <q-card-actions align="right" class="q-pa-md">
+            <q-btn padding="sm xl" class="text-weight-light" outline label="انصراف" color="primary" v-close-popup></q-btn>
+            <q-btn padding="sm xl" class="text-weight-light" color="primary" type="submit" :disable="isAble = (trackingCode==''||nationalCode=='') ? true : false" label="پیگیری" ></q-btn>
+          </q-card-actions>
+        </q-form>
       </q-card>
     </q-dialog>
 
@@ -108,7 +110,7 @@
             <h6 class="q-my-xs q-mb-md text-weight-medium">امکانات سایت</h6>
             <ul>
               <li v-for="item in footerList" :key="item.id" class="facilities q-py-xs">
-                <a :href="item.href" class="text-weight-regular">{{ item.title }}</a>
+                <a :href="item.href" class="text-weight-regular" :target="item.target">{{ item.title }}</a>
               </li>
             </ul>
           </div>
@@ -188,19 +190,22 @@ export default defineComponent({
       {id:6 ,title:'برخی از مشتریان' ,href:'insuranceCentre' },
     ]
     const footerList = [
-      {id: 1,title: 'دانستنی های بیمه',href: 'typesOfInsurance'},
-      {id: 2,title: 'پرسش های متداول',href: 'faq'},
-      {id: 3,title: 'شرکت های بیمه',href: 'insuranceCompanies'},
-      {id: 4,title: 'درباره ما',href: 'aboutus'},
-      {id: 5,title: 'قوانین و مقررات',href: '#'},
-      {id: 6,title: 'انتقادات و پیشنهادات',href: '#'},
-      {id: 7,title: 'کاتالوگ ایزی بیمه',href: '#'}
+      {id: 1,title: 'دانستنی های بیمه',href: 'typesOfInsurance',target: '_self'},
+      {id: 2,title: 'پرسش های متداول',href: 'faq',target: '_self'},
+      {id: 3,title: 'شرکت های بیمه',href: 'insuranceCompanies',target: '_self'},
+      {id: 4,title: 'درباره ما',href: 'aboutus',target: '_self'},
+      {id: 5,title: 'قوانین و مقررات',href: 'termsConditions',target: '_self'},
+      {id: 6,title: 'انتقادات و پیشنهادات',href: 'registerComplaint',target: '_self'},
+      {id: 7,title: 'کاتالوگ ایزی بیمه',href: 'https://media.easybimeh.com/marketplace/assets/easybimehcatalog.pdf',target: '_blank'}
     ]
     let footerConct = [
       {title:'info@easybimeh.com' ,src:'https://img.icons8.com/pulsar-color/30/3b8bff/secured-letter.png'},
       {title:'02191691049' ,src:'https://img.icons8.com/pulsar-color/30/3b8bff/phone.png'},
       {title: 'تهران - خیابان ولیعصر نبش خیابان توانیر(عباسپور) پلاک 2492 طبقه 1 واحد 104' ,src:'https://img.icons8.com/pulsar-color/30/3B8BFF/place-marker.png'}
     ]
+    const trackingCode = ref('')
+    const nationalCode = ref('')
+
     // axios
     onMounted(() => {
       axios
@@ -241,10 +246,15 @@ export default defineComponent({
         window.scrollBy( 0, contactFooter.getBoundingClientRect().y - 50 );
       },
       showRequestDialog: ref(false),
-      trackingCode: ref(''),
-      nationalCode: ref(''),
+      trackingCode,
+      nationalCode,
       onSubmit() {
         // do sth on submit
+        console.log("success")
+      },
+      resetDialog() {
+        trackingCode.value = null
+        nationalCode.value = null
       }
     }
   }

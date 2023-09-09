@@ -9,7 +9,10 @@ const routes = [
       { path: 'insuranceCentre', component: () => import('pages/InsuranceCentre.vue') },
       { path: 'insuranceCompanies', component: () => import('pages/InsuranceCompanies.vue') },
       { path: 'faq', component: () => import('pages/Faq.vue') },
-      { path: 'typesOfInsurance', component: () => import('pages/TypesOfInsurance.vue') }
+      { path: 'typesOfInsurance', component: () => import('pages/TypesOfInsurance.vue') },
+      { path: 'termsConditions', component: () => import('pages/TermsConditions.vue') },
+      { path: 'registerComplaint', component: () => import('pages/RegisterComplaint.vue') },
+      { path: 'infography', component: () => import('pages/Infography.vue') }
     ]
   },
 

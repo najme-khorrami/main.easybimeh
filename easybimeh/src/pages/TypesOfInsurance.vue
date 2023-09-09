@@ -9,7 +9,7 @@
       </div>
       <div class="container">
         <div class="insure-boxes row q-mb-md">
-          <q-card id="insure-item" class="cursor-pointer" v-for="item in insuranceTypes" :key="item.id">
+          <q-card id="insure-item" class="cursor-pointer" v-for="item in insuranceTypes" :key="item.id" @click="showThisDialog(evt,item)">
             <q-card-section class="q-pa-none row justify-center items-center" style="height: 50%;">
               <img :src="item.imageUrl" :alt="item.title" class="q-pa-sm">
             </q-card-section>
@@ -20,6 +20,21 @@
         </div>
       </div>
     </section>
+
+    <!-- dialog -->
+    <q-dialog v-model="insureTypeModel">
+      <q-card style="max-width: 90%;">
+        <q-card-section>
+          <div style="font-size: 18px;" class="text-weight-bold">{{ dialogContent.title }}</div>
+        </q-card-section>
+        <q-card-section class="content q-pt-none" style="font-size: 16px;" v-html="dialogContent.description">  
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn label="تایید" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
   </q-page>
 </template>
 
@@ -28,11 +43,13 @@ import { defineComponent } from 'vue'
 import axios from "axios";
 
 export default defineComponent({
-  name: 'typesOfInsurance',
+  name: 'TypesOfInsurance',
 
   data() {
     return {
-      insuranceTypes: []
+      insuranceTypes: [],
+      insureTypeModel: false,
+      dialogContent: ''
     }
   },
   mounted() {
@@ -48,6 +65,10 @@ export default defineComponent({
   methods: {
     setHeight() {
       return { minHeight: '400px' }
+    },
+    showThisDialog(evt,item) {
+      this.insureTypeModel = true
+      this.dialogContent = item
     }
   }
 })
@@ -56,6 +77,9 @@ export default defineComponent({
 <style lang="scss" scoped>
   :deep(.q-btn.btn--no-hover .q-focus-helper) {
     display: none;  /* no hover on buttons*/
+  }
+  :deep(ul) {
+    padding: 20px;
   }
   .title {
     span {
