@@ -12,11 +12,11 @@
           </div>
           <div class="text-side col-12 col-sm-5 column justify-center q-pl-none">
             <div class="left-side text-center q-py-lg">
-              <h2 class="text-white text-weight-bold q-px-sm">ایزی بیمه؛ نرم افزار مدیریت دفاتر نمایندگی و کارگزاری بیمه</h2>
-              <p class="text-white"> اگر می‌خواهید با تحول دیجیتال، کسب و کار خود را هوشمند کنید.اگر میخواهید وب سایت حرفه ای بیمه ای اختصاصی داشته باشید.اگر مدیریت عملکرد شبکه فروش دغدغه شماست.اگر می‌خواهید فروش آنلاین بیمه را تجربه کنید.ایزی بیمه همه این امکانات را در کنار ده‌ها قابلیت دیگر برای شما فراهم کرده است.</p>
+              <h2 class="text-white text-weight-bold q-px-sm">{{ headerDescription.title }}</h2>
+              <p class="text-white">{{ headerDescription.content }}</p>
               <q-btn padding="8px 12px">
                 <a href="infography" class="text-white">
-                  کسب و کار خود را متحول کنید
+                  {{ headerBtnLabel }}
                   <q-icon name="fa-solid fa-arrow-left" size="18px" class="q-pl-sm"></q-icon>
                 </a>
               </q-btn>
@@ -75,6 +75,7 @@
 import { defineComponent } from 'vue'
 import InsureCompsSlider from 'components/InsureCompsSlider.vue';
 import PackagesComp from 'components/PackagesComp.vue';
+import axios from "axios";
 
 export default defineComponent({
   name: 'IndexPage',
@@ -83,30 +84,45 @@ export default defineComponent({
     PackagesComp
   },
 
-  setup() {
-    
-    const stepsList = [
-      {id:1 ,title:'تو ایزی بیمه ثبت نام کن' ,src:'../../src/assets/step1.svg'},
-      {id:2 ,title:'همکاران من ثبت نامت رو بررسی و تأیید میکنن' ,src:'../../src/assets/step2.svg'},
-      {id:3 ,title:'وقت یه آموزش مختصره!' ,src:'../../src/assets/step3.svg'},
-      {id:4 ,title:'به سایت اختصاصی خودت خوش اومدی!' ,src:'../../src/assets/step4.svg'}
-    ]
+  data() {
     return {
-      stepsList,
-      runProgress(event) {
-        let step = event.target.id 
-        let progressEl = document.querySelector('.progress')
-        let length = 33.33 * (step - 1)
-        progressEl.style.width = length+'%'
-      },
-      deleteProgress() {
-        let progressEl = document.querySelector('.progress')
-        progressEl.style.width = '0px'
-      }
+      stepsList: [
+        {id:1 ,title:'تو ایزی بیمه ثبت نام کن' ,src:'../../src/assets/step1.svg'},
+        {id:2 ,title:'همکاران من ثبت نامت رو بررسی و تأیید میکنن' ,src:'../../src/assets/step2.svg'},
+        {id:3 ,title:'وقت یه آموزش مختصره!' ,src:'../../src/assets/step3.svg'},
+        {id:4 ,title:'به سایت اختصاصی خودت خوش اومدی!' ,src:'../../src/assets/step4.svg'}
+      ],
+      headerBtnLabel: '',
+      headerDescription: ''
+    }
+  },
+  created() {
+    axios
+    .get("https://server.easybimeh.com/api/Information?key=0")
+    .then((response)=> {
+        let data = response.data.message.information
+        this.headerBtnLabel = data.buttonLabel[0].title
+        this.headerDescription = data.headerDescription[0]
+    })
+    .catch((error)=> {
+        console.error(error);
+    });
+  },
+  methods: {
+    runProgress(event) {
+      let step = event.target.id 
+      let progressEl = document.querySelector('.progress')
+      let length = 33.33 * (step - 1)
+      progressEl.style.width = length+'%'
+    },
+    deleteProgress() {
+      let progressEl = document.querySelector('.progress')
+      progressEl.style.width = '0px'
     }
   }
 })
 </script>
+
 <style lang="scss" scoped>
   // home section
   .home-section {
@@ -140,6 +156,7 @@ export default defineComponent({
   }
   #scroll {
     position: relative;
+    margin-top: -50px;
     span {
       margin: auto;
       writing-mode: vertical-rl;
@@ -241,6 +258,7 @@ export default defineComponent({
   @media (max-width: $breakpoint-xs-max) {  // 0 to 1200px
     .home-section {
       #scroll {
+        margin-top: -10px;
         .q-img {
           margin-top: -60px;
         }

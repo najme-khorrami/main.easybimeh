@@ -131,15 +131,20 @@
         <div class="row no-wrap items-center">
           <div class="q-pa-md">
             <q-img src="../../src/assets/easybimeh-logo-white.svg" width="150px"></q-img>
-            <p class="text-white text-weight-light q-py-md" style="font-size: 14px;line-height: 30px;"> ایزی بیمه یک سامانه یکپارچه تحت وب است که ضمن ایجاد بستر ارائه خدمات بیمه الکترونیکی به دفاترنمایندگی بیمه ، مکانیزاسیون فعالیت های داخلی و شبکه فروش آنها را در یک فضای ساده و کاربر پسند فراهم
-می کند. این سیستم مبتنی بر تکنولوژی رایانش ابری بوده و بدون اینکه دفاتر بیمه را با دردسرهای ناشی ازنگهداری و توسعه مواجه نماید ، امکانات مورد نیاز آنها را در یک فضای امن و مطمئن و بدون محدودیت زمانی و مکانی به آنها ارائه میکند. </p>
+            <p class="text-white text-weight-light q-py-md" style="font-size: 14px;line-height: 30px;">{{ description }}</p>
           </div>
           <div class="q-pa-md row no-wrap">
             <div class="bg-white q-pa-sm q-ma-sm rounded-borders shadow-3 row justify-center items-center" style="width: 110px;height: 160px;">
+              
               <q-img src="../../src/assets/samandehi.png" alt="samandehi logo"></q-img>
             </div>
-            <div class="bg-white q-pa-sm q-ma-sm rounded-borders shadow-3 row justify-center items-center" style="width: 110px;height: 160px;">
-              <q-img src="https://logo.samandehi.ir/logo.aspx?id=133144&p=nbpdqftiqftinbpdshwlshwl" alt="enamd logo"></q-img>
+            <div class="cursor-pointer bg-white q-pa-sm q-ma-sm rounded-borders shadow-3 row justify-center items-center" style="width: 110px;height: 160px;">
+              <!--should fix--> 
+              <q-img src="https://trustseal.enamad.ir/logo.aspx?id=115535&Code=FQGeGpyKQvc9MWO4cvaB" alt="enamd logo" @click="window.open('https://trustseal.enamad.ir/?id=115535&amp;Code=FQGeGpyKQvc9MWO4cvaB', 'Popup','toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30')"></q-img>
+              
+              
+
+
             </div>
             <div class="bg-white q-pa-sm q-ma-sm rounded-borders shadow-3 row justify-center items-center" style="width: 110px;height: 160px;">
               <q-img src="../../src/assets/anjoman.png"></q-img>
@@ -168,98 +173,98 @@ import axios from "axios";
 export default defineComponent({
   name: 'MainLayout',
 
-  setup () {
-    const conIconList = [
-      {id:1 ,name:'linkedin' ,icon:'fab fa-linkedin-in'},
-      {id:2 ,name:'telegram' ,icon:'fab fa-telegram-plane'},
-      {id:3 ,name:'instagram' ,icon:'fab fa-instagram'},
-      {id:4 ,name:'twitter' ,icon:'fab fa-twitter'},
-    ]
-    const tabList = [
-      {id:1 ,title:'برخی از مشتریان' ,href:'insuranceCentre' },
-      {id:2 ,title:'شرکت های بیمه' ,href:'insuranceCompanies' },
-      {id:3 ,title:'پرسش های متداول' ,href:'faq' },
-      {id:4 ,title:'پیگیری درخواست' ,href:'#' },
-    ]
-    const toggleMenuList = [
-      {id:1 ,title:'ثبت نام' ,href:'#' },
-      {id:2 ,title:'پیگیری درخواست' ,href:'#' },
-      {id:3 ,title:'پرسش های متداول' ,href:'faq' },
-      {id:4 ,title:'یادآور تمدید بیمه نامه' ,href:'#' },
-      {id:5 ,title:'شرکت های بیمه' ,href:'insuranceCompanies' },
-      {id:6 ,title:'برخی از مشتریان' ,href:'insuranceCentre' },
-    ]
-    const footerList = [
-      {id: 1,title: 'دانستنی های بیمه',href: 'typesOfInsurance',target: '_self'},
-      {id: 2,title: 'پرسش های متداول',href: 'faq',target: '_self'},
-      {id: 3,title: 'شرکت های بیمه',href: 'insuranceCompanies',target: '_self'},
-      {id: 4,title: 'درباره ما',href: 'aboutus',target: '_self'},
-      {id: 5,title: 'قوانین و مقررات',href: 'termsConditions',target: '_self'},
-      {id: 6,title: 'انتقادات و پیشنهادات',href: 'registerComplaint',target: '_self'},
-      {id: 7,title: 'کاتالوگ ایزی بیمه',href: 'https://media.easybimeh.com/marketplace/assets/easybimehcatalog.pdf',target: '_blank'}
-    ]
-    let footerConct = [
-      {title:'info@easybimeh.com' ,src:'https://img.icons8.com/pulsar-color/30/3b8bff/secured-letter.png'},
-      {title:'02191691049' ,src:'https://img.icons8.com/pulsar-color/30/3b8bff/phone.png'},
-      {title: 'تهران - خیابان ولیعصر نبش خیابان توانیر(عباسپور) پلاک 2492 طبقه 1 واحد 104' ,src:'https://img.icons8.com/pulsar-color/30/3B8BFF/place-marker.png'}
-    ]
-    const trackingCode = ref('')
-    const nationalCode = ref('')
-
-    // axios
-    onMounted(() => {
-      axios
-      .get("https://server.easybimeh.com/api/Information?key=0")
-      .then((response) => {
-        let data = response.data.message.information
-        for (const key in data) {
-          for(let i=0 ; i<4 ; i++) {
-            if(conIconList[i].name == key) {
-              conIconList[i].href=data[key][0].link
-              conIconList[i].title=data[key][0].title
-            }
+  data() {
+    return {
+      conIconList: [
+        {id:1 ,name:'linkedin' ,icon:'fab fa-linkedin-in'},
+        {id:2 ,name:'telegram' ,icon:'fab fa-telegram-plane'},
+        {id:3 ,name:'instagram' ,icon:'fab fa-instagram'},
+        {id:4 ,name:'twitter' ,icon:'fab fa-twitter'},
+      ],
+      tabList: [
+        {id:1 ,title:'برخی از مشتریان' ,href:'insuranceCentre' },
+        {id:2 ,title:'شرکت های بیمه' ,href:'insuranceCompanies' },
+        {id:3 ,title:'پرسش های متداول' ,href:'faq' },
+        {id:4 ,title:'پیگیری درخواست' ,href:'#' },
+      ],
+      toggleMenuList: [
+        {id:1 ,title:'ثبت نام' ,href:'#' },
+        {id:2 ,title:'پیگیری درخواست' ,href:'#' },
+        {id:3 ,title:'پرسش های متداول' ,href:'faq' },
+        {id:4 ,title:'یادآور تمدید بیمه نامه' ,href:'#' },
+        {id:5 ,title:'شرکت های بیمه' ,href:'insuranceCompanies' },
+        {id:6 ,title:'برخی از مشتریان' ,href:'insuranceCentre' },
+      ],
+      footerList: [
+        {id: 1,title: 'دانستنی های بیمه',href: 'typesOfInsurance',target: '_self'},
+        {id: 2,title: 'پرسش های متداول',href: 'faq',target: '_self'},
+        {id: 3,title: 'شرکت های بیمه',href: 'insuranceCompanies',target: '_self'},
+        {id: 4,title: 'درباره ما',href: 'aboutus',target: '_self'},
+        {id: 5,title: 'قوانین و مقررات',href: 'termsConditions',target: '_self'},
+        {id: 6,title: 'انتقادات و پیشنهادات',href: 'registerComplaint',target: '_self'},
+        {id: 7,title: 'کاتالوگ ایزی بیمه',href: 'https://media.easybimeh.com/marketplace/assets/easybimehcatalog.pdf',target: '_blank'}
+      ],
+      footerConct: [
+        {title:'' ,src:'https://img.icons8.com/pulsar-color/30/3b8bff/secured-letter.png'},
+        {title:'' ,src:'https://img.icons8.com/pulsar-color/30/3b8bff/phone.png'},
+        {title:'' ,src:'https://img.icons8.com/pulsar-color/30/3B8BFF/place-marker.png'}
+      ],
+      trackingCode: '',
+      nationalCode: '',
+      ifShow: false,
+      showRequestDialog: false,
+      description: '',
+      enamadLink: '',
+      samandehi: ''
+    }
+  },
+  created() {
+    axios
+    .get("https://server.easybimeh.com/api/Information?key=0")
+    .then((response) => {
+      let data = response.data.message.information
+      for (const key in data) {
+        for(let i=0 ; i<4 ; i++) {
+          if(this.conIconList[i].name == key) {
+            this.conIconList[i].href = data[key][0].link
+            this.conIconList[i].title = data[key][0].title
           }
         }
-        // console.log("ths",conIconList);
-      })
-      .catch((error) => {
-        console.error(error);
-      }); 
-    })
-
-    return {
-      conIconList,
-      tabList,
-      footerList,
-      footerConct,
-      ifShow: ref(false),
-      showMenu() {
-        this.ifShow = !this.ifShow
-      },
-      toggleMenuList,
-      scrollContactus() {
-        let contactFooter = document.querySelector('#scroll-contactus')
-        window.scrollTo( 0, contactFooter.getBoundingClientRect().y - 50 );
-      },
-      scrollSignup() {
-        let contactFooter = document.querySelector('#scroll-signup')
-        window.scrollBy( 0, contactFooter.getBoundingClientRect().y - 50 );
-      },
-      showRequestDialog: ref(false),
-      trackingCode,
-      nationalCode,
-      onSubmit() {
-        // do sth on submit
-        console.log("success")
-      },
-      resetDialog() {
-        trackingCode.value = null
-        nationalCode.value = null
       }
+      this.footerConct[0].title = data.email[0].content
+      this.footerConct[1].title = data.tell[0].content
+      this.footerConct[2].title = data.address[0].content
+      this.description = data.description[0].content
+      this.enamadLink = data.enamad[0].link
+    })
+    .catch((error) => {
+      console.error(error);
+    }); 
+  },
+  methods: {
+    showMenu() {
+      this.ifShow = !this.ifShow
+    },
+    scrollContactus() {
+      let contactFooter = document.querySelector('#scroll-contactus')
+      window.scrollTo( 0, contactFooter.getBoundingClientRect().y - 50 );
+    },
+    scrollSignup() {
+      let contactFooter = document.querySelector('#scroll-signup')
+      window.scrollBy( 0, contactFooter.getBoundingClientRect().y - 50 );
+    },
+    onSubmit() {
+      // do sth on submit
+      console.log("success")
+    },
+    resetDialog() {
+      this.trackingCode = ''
+      this.nationalCode = ''
     }
   }
 })
 </script>
+
 <style lang="scss" scoped>
   :deep(.q-btn.btn--no-hover .q-focus-helper) {
     display: none;  /* no hover on buttons*/

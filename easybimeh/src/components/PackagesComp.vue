@@ -32,26 +32,26 @@
         <!-- dialog -->
       </div>
       <carousel :items-to-show="1" dir="rtl" :items-to-scroll="1" :wrapAround="true" :autoplay="3000" :transition="1000" :pauseAutoplayOnHover="true" :breakpoints="breakpoints">
-        <Slide v-for="item in plansList" :key="item.id">
-          <q-card class="shadow-3 full-width" :class="item.className">
+        <Slide v-for="(item,index) in plansList" :key="index">
+          <q-card class="shadow-3 full-width" :class="item.easyBimehPlan.packageClass">
             <div class="card-header relative-position">
-              <q-img :src="bgImage+item.id+'.svg'"></q-img>
-              <span class="absolute-center q-pb-lg text-h6 text-center text-white">{{ item.title }}</span>
+              <q-img :src="bgImage+index+'.svg'"></q-img>
+              <span class="absolute-center q-pb-lg text-h6 text-center text-white">{{ item.easyBimehPlan.title }}</span>
             </div>
             <q-card-section class="card-users">
-              <span>با {{ item.users }} کاربر</span>
+              <span>با {{ item.easyBimehPlan.maxUsers }} کاربر</span>
             </q-card-section>
             <q-card-section class="card-features">
-              <div v-for="feature in item.features" :key="feature" class="justify-start">
-                <q-img :src="checkIcon+item.id+'.svg'" width="15px" height="20px" fit="contain" class="q-mr-sm"></q-img>
-                <span>{{ feature }}</span>
+              <div v-for="feature in item.easyBimehPlanFeatures.slice(0, 5)" :key="feature.id" class="justify-start">
+                <q-img :src="checkIcon+index+'.svg'" width="15px" height="20px" fit="contain" class="q-mr-sm"></q-img>
+                <span>{{ feature.title }}</span>
               </div>
             </q-card-section>
             <q-card-section horizontal class="card-dialog-btn">
               <q-btn icon-right="arrow_back" label="مشاهده کامل ویژگی های بسته" falt unelevated square align="between" class="full-width"></q-btn>
             </q-card-section>
             <q-card-section class="card-discount q-my-md q-pa-none">
-              <div v-if="item.id !== 1" class="discount not-free row no-wrap">
+              <div v-if="index !== 0" class="discount not-free row no-wrap">
                 <div class="col-8">
                   <label for="select-price" class="text-grey-7">بسته زمانی را انتخاب نمایید:</label>
                   <!-- should fix -->
@@ -60,17 +60,18 @@
                 <div class="col-4 relative-position">
                   <span class="absolute-right text-red-7" style="left: 10px;top: 0;">تخفیف</span>
                   <q-img src="../../src/assets/label.svg" fit="contain" width="70%" style="float: left;top: 50%;transform: translateY(-60%);"></q-img>
-                  <span class="absolute-right text-white" style="top: 32px;left: 10px;font-size: 18px;">10%</span>
+                  <span class="absolute-right text-white" style="top: 32px;left: 10px;font-size: 18px;">{{  }}%</span>
                 </div>
               </div>
-              <div v-if="item.id == 1" class="discount free relative-position">
+              <div v-if="index == 0" class="discount free relative-position">
                 <q-img src="../../src/assets/free.svg" fit="contain" width="70%" style="float: left;top: 50%;transform: translateY(-50%);"></q-img>
-                <span class="absolute-right text-white" style="top: 32px;left: 10px;">رایگان</span>
+                <span class="absolute-right text-white" style="top: 32px;left: 10px;font-size: 18px;">100%</span>
                 <span class="absolute-left text-white" style="top: 32px;right: 40%;">تخفیف</span>
               </div>
               <div class="row justify-between full-width text-teal-4 bg-teal-1 q-py-sm q-px-md" style="font-size: 16px;">
                 <span>حق اشتراک ماهیانه</span>
-                <span>{{  }}هزار تومان</span>
+                <span v-if="index == 0">رایگان</span>
+                <span v-if="index != 0">{{  }}%</span>
               </div>
             </q-card-section>
             <q-card-actions vertical horizontal>
@@ -96,43 +97,13 @@ components: {
   Slide,
 },
 
-setup() {
-  let plansList = [];  // four cards introducing 4 packages
-  axios
-    .get("https://server.easybimeh.com/api/Information?key=0")
-    .then(function (response) {
-      let count = 1;
-      response.data.message.plans.forEach(function (item) {
-        let featuresList = []
-        for(var i=0;i<5;i++) {
-          featuresList.push(item.easyBimehPlanFeatures[i].title)
-        }
-        let newItem = {
-          id: count,
-          title: item.easyBimehPlan.title,
-          users: item.easyBimehPlan.maxUsers,
-          discount: item.easyBimehPlanPrices,
-          features: featuresList,
-          className: item.easyBimehPlan.packageClass
-        }
-        plansList.push(newItem)
-        count++
-      });
-      // console.log(plansList);
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
-    // should fix
-  // let options = [
-  //   {label: plansList.discount}
-  // ]
+data() {
   return {
-    packagesComparison: ref(false),
-    plansList,
-    bgImage: ref('../../src/assets/package-header'),
-    checkIcon: ref('../../src/assets/check-pack'),
-    slide: ref(1),
+    plansList: '',  // four cards introducing 4 packages
+    packagesComparison: false,
+    bgImage: '../../src/assets/package-header',
+    checkIcon: '../../src/assets/check-pack',
+    slide: 1,
     breakpoints: {
       600: {
         itemsToShow: 2,
@@ -147,10 +118,20 @@ setup() {
         mouseDrag: false,
       },
     },
-    selectModel: ref('یک ساله'), // should fix
-    options: ref(['یک ساله','شش ماهه','سه ماهه'])
-  };
+    selectModel: 'یک ساله', // should fix
+    options: ['یک ساله','شش ماهه','سه ماهه']
+  }
 },
+created() {
+  axios
+  .get("https://server.easybimeh.com/api/Information?key=0")
+  .then((response) => {
+    this.plansList = response.data.message.plans
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}
 });
 </script>
 
