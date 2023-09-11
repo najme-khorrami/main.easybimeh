@@ -115,7 +115,7 @@
           </ul>
           <div class="more-info">
             برای فعالسازی اشتراک 
-            <a href="#" class="text-info">اینجا</a>
+            <a @click="gotoPackages" class="cursor-pointer text-info">اینجا</a>
             کلیک کنید
           </div>
         </div>
@@ -186,6 +186,18 @@ export default defineComponent({
   methods: {
     setHeight() {
       return { minHeight: '400px' }
+    },
+    gotoPackages() {
+      this.$router.push('/')
+      setTimeout(this.scrollPackages, 1000);
+    },
+    scrollPackages() {
+      let contactFooter = document.querySelector('#scroll-signup')
+      window.scrollBy({
+        top: contactFooter.getBoundingClientRect().y - 30,
+        left: 0,
+        behavior: "smooth",
+      });
     }
   }
 })

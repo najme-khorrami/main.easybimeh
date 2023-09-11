@@ -13,23 +13,63 @@
         </q-btn>
         <!-- dialog -->
         <q-dialog v-model="packagesComparison">
-          <q-card>
+          <q-card style="width: 900px; max-width: 80vw;">
             <q-card-section class="row justify-between">
               <div class="row items-center">
                 <q-img src="../../src/assets/compare-icon.svg" width="40px" fit="contain" class="q-mr-sm"></q-img>
                 <span style="font-size: 18px;">مقایسه بسته ها</span>
               </div>
-              <q-btn class="packages-comparison text-white q-py-sm q-px-lg">
+              <q-btn class="packages-comparison text-white q-py-sm q-px-lg" onclick="window.print()">
                 <span class="q-pr-sm" style="font-size: 16px;">پرینت</span>
                 <q-icon name="fa-solid fa-print"></q-icon>
               </q-btn>
             </q-card-section>
-            <q-card-section class="main-section" horizontal>
-              <!-- should make table -->
+            <q-card-section class="main-section row" horizontal>
+              <div class="col capabilities">
+                <div class="header" style="font-size: 16px;">قابلیت ها</div>
+                <div class="body">
+                  <div v-for="(feature,index) in planComparison" :key="index" class="q-pa-xs">{{ feature }}</div>
+                </div>
+              </div>
+              <div class="col free-pack">
+                <div class="header">بسته رایگان</div>
+                <div class="body">
+                  <div v-for="(item,index) in plansState1" :key="index" class="q-pa-xs">
+                    <q-img v-if="item == true" src="../../src/assets/true.svg" width="9px"></q-img>
+                    <q-img v-if="item == false" src="../../src/assets/false.svg" width="9px"></q-img>  
+                  </div>
+                </div>
+              </div>
+              <div class="col bronze-pack">
+                <div class="header">بسته برنزی</div>
+                <div class="body">
+                  <div v-for="(item,index) in plansState2" :key="index" class="q-pa-xs">
+                    <q-img v-if="item == true" src="../../src/assets/true.svg" width="9px"></q-img>
+                    <q-img v-if="item == false" src="../../src/assets/false.svg" width="9px"></q-img>    
+                  </div>
+                </div>
+              </div>
+              <div class="col silver-pack">
+                <div class="header">بسته نقره ای</div>
+                <div class="body">
+                  <div v-for="(item,index) in plansState3" :key="index" class="q-pa-xs">
+                    <q-img v-if="item == true" src="../../src/assets/true.svg" width="9px"></q-img>
+                    <q-img v-if="item == false" src="../../src/assets/false.svg" width="9px"></q-img>    
+                  </div>
+                </div>
+              </div>
+              <div class="col gold-pack">
+                <div class="header">بسته طلایی</div>
+                <div class="body">
+                  <div v-for="(item,index) in plansState4" :key="index" class="q-pa-xs">
+                    <q-img v-if="item == true" src="../../src/assets/true.svg" width="9px"></q-img>
+                    <q-img v-if="item == false" src="../../src/assets/false.svg" width="9px"></q-img>  
+                  </div>
+                </div>
+              </div>
             </q-card-section>
           </q-card>
         </q-dialog>
-        <!-- dialog -->
       </div>
       <carousel :items-to-show="1" dir="rtl" :items-to-scroll="1" :wrapAround="true" :autoplay="3000" :transition="1000" :pauseAutoplayOnHover="true" :breakpoints="breakpoints">
         <Slide v-for="(item,index) in plansList" :key="index">
@@ -118,6 +158,11 @@ data() {
         mouseDrag: false,
       },
     },
+    planComparison: '',
+    plansState1: '',
+    plansState2: '',
+    plansState3: '',
+    plansState4: '',
     selectModel: 'یک ساله', // should fix
     options: ['یک ساله','شش ماهه','سه ماهه']
   }
@@ -131,17 +176,82 @@ created() {
   .catch((error) => {
     console.error(error);
   });
+  axios
+  .get("https://server.easybimeh.com/api/EasyBimehPlan/PlanComparison")
+  .then((response) => {
+    this.planComparison = response.data.message.features
+    this.plansState1 = response.data.message.plansState[0].featuresState
+    this.plansState2 = response.data.message.plansState[1].featuresState
+    this.plansState3 = response.data.message.plansState[2].featuresState
+    this.plansState4 = response.data.message.plansState[3].featuresState
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 }
 });
 </script>
 
 <style lang="scss" scoped>
+  .package-section {
+    min-height: 500px;
+  }
   .packages-comparison {
     background: $gradient-primary;
     border-radius: 30px;
   }
   .q-dialog .main-section {
-    background-color: #e8eaee;
+    background-color: $bg-white;
+    padding: 10px;
+    text-align: center;
+    > div {
+      margin: 5px;
+      border-radius: 5px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(146, 146, 146, 0.7);
+      .header {
+        color: white;
+        font-size: 14px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .body {
+        font-size: 12px;
+        > div:nth-child(odd) {
+          background-color: $bg-white;
+        }
+        > div:nth-child(even) {
+          background-color: white;
+        }
+      }
+    }
+    .capabilities {
+      .header {
+        background-color: #2f3061;
+      }
+    }
+    .free-pack {
+      .header {
+        background: $gradient-primary;
+      }
+    }
+    .bronze-pack {
+      .header {
+        background: linear-gradient(98.54deg,#af6a27 0,#c17a32 26.58%,#d58c3f 53.98%,#e29747 81.64%,#e69b4a 100%);
+      }
+    }
+    .silver-pack {
+      .header {
+        background: linear-gradient(98.38deg,#9694a8 0,#b0adc8 23.01%,#c8c4e7 63.87%,#d1cdf2 100%);
+      }
+    }
+    .gold-pack {
+      .header {
+        background: linear-gradient(97.28deg,#f0b213 0,#f5c625 59.33%,#fdea46 100%);
+      }
+    }
   }
   .packagestyle1 {
     .card-users span ,

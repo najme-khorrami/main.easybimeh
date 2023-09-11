@@ -134,21 +134,33 @@
             <p class="text-white text-weight-light q-py-md" style="font-size: 14px;line-height: 30px;">{{ description }}</p>
           </div>
           <div class="q-pa-md row no-wrap">
+            <!-- should add samandehi logo -->
             <div class="bg-white q-pa-sm q-ma-sm rounded-borders shadow-3 row justify-center items-center" style="width: 110px;height: 160px;">
-              
-              <q-img src="../../src/assets/samandehi.png" alt="samandehi logo"></q-img>
+              <a :href="samandehi" target="_blank">
+                <img src="../../src/assets/samandehi.png" alt="samandehi logo" />
+              </a>
             </div>
-            <div class="cursor-pointer bg-white q-pa-sm q-ma-sm rounded-borders shadow-3 row justify-center items-center" style="width: 110px;height: 160px;">
-              <!--should fix--> 
-              <q-img src="https://trustseal.enamad.ir/logo.aspx?id=115535&Code=FQGeGpyKQvc9MWO4cvaB" alt="enamd logo" @click="window.open('https://trustseal.enamad.ir/?id=115535&amp;Code=FQGeGpyKQvc9MWO4cvaB', 'Popup','toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30')"></q-img>
-              
-              
-
-
-            </div>
+            <!-- should add enamad logo -->
             <div class="bg-white q-pa-sm q-ma-sm rounded-borders shadow-3 row justify-center items-center" style="width: 110px;height: 160px;">
-              <q-img src="../../src/assets/anjoman.png"></q-img>
+              <a :href="enamadLink">
+                <img src="../../src/assets/anjoman.png" alt="enamad logo"/>
+              </a>
             </div>
+            <!-- should add anjoman logo -->
+            <div class="cursor-pointer bg-white q-pa-sm q-ma-sm rounded-borders shadow-3 row justify-center items-center" style="width: 110px;height: 160px;" @click="anjomanDialog = true">
+              <img src="../../src/assets/anjoman.png" /> 
+            </div>
+            <!-- anjoman dialog -->
+            <q-dialog v-model="anjomanDialog">
+              <q-card style="width: 900px; max-width: 80vw;">
+                <q-card-section style="max-height: 50vh" class="scroll">
+                  <q-img src="../../src/assets/certificate.jpg" fit="contain"></q-img>
+                </q-card-section>
+                <q-card-actions align="right">
+                  <q-btn label="بستن" color="primary" v-close-popup />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
           </div>
         </div>
       </div>
@@ -167,7 +179,7 @@
 </template>
 
 <script>
-import { defineComponent,ref,onMounted  } from 'vue'
+import { defineComponent } from 'vue'
 import axios from "axios";
 
 export default defineComponent({
@@ -215,7 +227,8 @@ export default defineComponent({
       showRequestDialog: false,
       description: '',
       enamadLink: '',
-      samandehi: ''
+      samandehi: '',
+      anjomanDialog: false
     }
   },
   created() {
@@ -236,6 +249,7 @@ export default defineComponent({
       this.footerConct[2].title = data.address[0].content
       this.description = data.description[0].content
       this.enamadLink = data.enamad[0].link
+      this.samandehi = data.samandehi[0].link
     })
     .catch((error) => {
       console.error(error);
@@ -250,8 +264,25 @@ export default defineComponent({
       window.scrollTo( 0, contactFooter.getBoundingClientRect().y - 50 );
     },
     scrollSignup() {
+      if(this.$route.path === '/'){
+        let contactFooter = document.querySelector('#scroll-signup')
+        window.scrollBy({
+          top: contactFooter.getBoundingClientRect().y - 50,
+          left: 0,
+          behavior: "smooth",
+        });
+      }else {
+        this.$router.push('/')
+        setTimeout(this.gotoSignup, 1000);
+      }
+    },
+    gotoSignup() {
       let contactFooter = document.querySelector('#scroll-signup')
-      window.scrollBy( 0, contactFooter.getBoundingClientRect().y - 50 );
+      window.scrollBy({
+        top: contactFooter.getBoundingClientRect().y - 30,
+        left: 0,
+        behavior: "smooth",
+      });
     },
     onSubmit() {
       // do sth on submit
@@ -391,6 +422,10 @@ export default defineComponent({
   }
   .footer-2 {
     background: $gradient-primary;
+    img {
+      display: block;
+      width: 100%;
+    }
   }
  
   @media (max-width: $breakpoint-sm-min) {  // 0 to 769px
