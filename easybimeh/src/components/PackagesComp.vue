@@ -24,6 +24,9 @@
                 <q-icon name="fa-solid fa-print"></q-icon>
               </q-btn>
             </q-card-section>
+            <!-- <q-card-section>
+              <q-table dense :rows="rows" :columns="columns" row-key="name" />
+            </q-card-section> -->
             <q-card-section class="main-section row" horizontal>
               <div class="col capabilities">
                 <div class="header" style="font-size: 16px;">قابلیت ها</div>
@@ -73,7 +76,7 @@
       </div>
       <carousel :items-to-show="1" dir="rtl" :items-to-scroll="1" :wrapAround="true" :autoplay="3000" :transition="1000" :pauseAutoplayOnHover="true" :breakpoints="breakpoints">
         <Slide v-for="(item,index) in plansList" :key="index">
-          <q-card class="shadow-3 full-width" :class="item.easyBimehPlan.packageClass">
+          <q-card class="shadow-3 full-width " :class="item.easyBimehPlan.packageClass">
             <div class="card-header relative-position">
               <q-img :src="bgImage+index+'.svg'"></q-img>
               <span class="absolute-center q-pb-lg text-h6 text-center text-white">{{ item.easyBimehPlan.title }}</span>
@@ -82,31 +85,38 @@
               <span>با {{ item.easyBimehPlan.maxUsers }} کاربر</span>
             </q-card-section>
             <q-card-section class="card-features">
-              <div v-for="feature in item.easyBimehPlanFeatures.slice(0, 5)" :key="feature.id" class="justify-start">
+              <div v-for="feature in item.easyBimehPlanFeatures.slice(0, 5)" :key="feature.id" class="justify-start text-no-wrap">
                 <q-img :src="checkIcon+index+'.svg'" width="15px" height="20px" fit="contain" class="q-mr-sm"></q-img>
-                <span>{{ feature.title }}</span>
+                <span class="text-no-wrap">{{ feature.title }}</span>
               </div>
             </q-card-section>
             <q-card-section horizontal class="card-dialog-btn">
-              <q-btn icon-right="arrow_back" label="مشاهده کامل ویژگی های بسته" falt unelevated square align="between" class="full-width"></q-btn>
+              <q-btn icon-right="arrow_back" label="مشاهده کامل ویژگی های بسته" falt unelevated square align="between" class="full-width" @click="showPackDialog(evt,item,index)"></q-btn>
             </q-card-section>
             <q-card-section class="card-discount q-my-md q-pa-none">
-              <div v-if="index !== 0" class="discount not-free row no-wrap">
+              <div v-if="index !== 0" class="discount not-free row no-wrap items-end">
                 <div class="col-8">
-                  <label for="select-price" class="text-grey-7">بسته زمانی را انتخاب نمایید:</label>
-                  <!-- should fix -->
+                  <label for="select-price" class="text-grey-7 text-no-wrap">بسته زمانی را انتخاب نمایید:</label>
                   <q-select dense color="grey-7" outlined :options="options" v-model="selectModel" class="q-ml-md" behavior="menu"></q-select> 
                 </div>
-                <div class="col-4 relative-position">
-                  <span class="absolute-right text-red-7" style="left: 10px;top: 0;">تخفیف</span>
-                  <q-img src="../../src/assets/label.svg" fit="contain" width="70%" style="float: left;top: 50%;transform: translateY(-60%);"></q-img>
-                  <span class="absolute-right text-white" style="top: 32px;left: 10px;font-size: 18px;">{{  }}%</span>
+                <div class="col-4 relative-position" style="height: 100%;">
+                  <span class="absolute-top-right text-red-5 q-mr-sm q-mt-sm" style="font-size: 16px;">تخفیف</span>
+                  <div style="width: 70px;height: 40px;" class="absolute-bottom-right">
+                    <img src="../../src/assets/label.svg" style="width: 100%;height: 100%;" alt="" />
+                    <div class="absolute-full row justify-end items-center">
+                      <span class="text-white q-mr-sm" style="font-size: 20px;">{{  }}%</span>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div v-if="index == 0" class="discount free relative-position">
-                <q-img src="../../src/assets/free.svg" fit="contain" width="70%" style="float: left;top: 50%;transform: translateY(-50%);"></q-img>
-                <span class="absolute-right text-white" style="top: 32px;left: 10px;font-size: 18px;">100%</span>
-                <span class="absolute-left text-white" style="top: 32px;right: 40%;">تخفیف</span>
+                <div style="width: 200px;height: 40px;" class="absolute-bottom-right">
+                  <img src="../../src/assets/free.svg" style="width: 100%;height: 100%;" alt="" />
+                  <div class="absolute-full row justify-between items-center">
+                    <span class="text-white q-ml-lg" style="font-size: 20px;">تخفیف</span>
+                    <span class="text-white q-mr-sm" style="font-size: 20px;">100%</span>
+                  </div>
+                </div>
               </div>
               <div class="row justify-between full-width text-teal-4 bg-teal-1 q-py-sm q-px-md" style="font-size: 16px;">
                 <span>حق اشتراک ماهیانه</span>
@@ -114,18 +124,35 @@
                 <span v-if="index != 0">{{  }}%</span>
               </div>
             </q-card-section>
-            <q-card-actions vertical horizontal>
-              <q-btn icon="add_shopping_cart" label="فعال سازی" flat class="text-white" padding="8px"></q-btn>
+            <q-card-actions vertical horizontal class="q-pa-none">
+              <q-btn icon="add_shopping_cart" label="فعال سازی" flat class="text-white" padding="md" href="insuranceCentreRegistration"></q-btn>
             </q-card-actions>
           </q-card>
         </Slide>
       </carousel>
+      <!-- dialog for all features of a package -->
+      <q-dialog v-model="packDialog" class="packageDialog">
+        <q-card style="max-width: 80vw;">
+          <q-card-section>
+            <span class="text-weight-bold"> ویژگی های {{ dialogContent.easyBimehPlan.title }}</span>
+          </q-card-section>
+          <q-card-section style="max-height: 65vh" class="scroll">
+            <div v-for="feature,index in dialogContent.easyBimehPlanFeatures" :key="feature.id" class="justify-start">
+              <q-img :src="checkIcon+number+'.svg'" width="15px" height="20px" fit="contain" class="q-mr-sm"></q-img>
+              <span>{{ feature.title }}</span>
+            </div>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn label="تایید" color="primary" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </section>
 </template>
 
 <script>
-import { defineComponent,ref } from "vue";
+import { defineComponent } from "vue";
 import axios from "axios";
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide } from 'vue3-carousel'
@@ -163,6 +190,9 @@ data() {
     plansState2: '',
     plansState3: '',
     plansState4: '',
+    packDialog: false,
+    dialogContent: '',
+    number: 0,
     selectModel: 'یک ساله', // should fix
     options: ['یک ساله','شش ماهه','سه ماهه']
   }
@@ -188,6 +218,13 @@ created() {
   .catch((error) => {
     console.error(error);
   });
+},
+methods: {
+  showPackDialog(evt,item,index) {
+    this.packDialog = true
+    this.dialogContent = item
+    this.number = index
+  }
 }
 });
 </script>
@@ -304,6 +341,11 @@ created() {
         text-align: center;
     }
   }
+  .packageDialog {
+    span {
+      font-size: 16px;
+    }
+  }
   .card-features {
     line-height: 35px;
     text-align: left;
@@ -315,10 +357,8 @@ created() {
     padding: 10px;
   }
   .card-discount .discount{
-    height: 90px;
-  }
-  .discount.free {
-    font-size: 16px;
+    height: 70px;
+    margin-bottom: 20px;
   }
 
   @media (max-width: 769px) {  // 0 to 769px

@@ -26,7 +26,7 @@
         </p>
         <!-- active advantage box -->
         <div class="carousel-container" style="display: inline-flex;">
-          <q-carousel v-model="slide" :autoplay="2500" animated infinite transition-duration="500" style="height: 100%;background-color: transparent;">
+          <q-carousel v-model="slide" :autoplay="2200" animated infinite transition-duration="500" style="height: 100%;background-color: transparent;">
             <q-carousel-slide v-for="item in itemsList" :key="item.id" class="active-advantage bg-white q-pa-sm" :name="item.id">
               <span class="number text-white text-h5">
                 <span>{{item.id}}</span>

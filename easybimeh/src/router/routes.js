@@ -12,7 +12,8 @@ const routes = [
       { path: 'typesOfInsurance', component: () => import('pages/TypesOfInsurance.vue') },
       { path: 'termsConditions', component: () => import('pages/TermsConditions.vue') },
       { path: 'registerComplaint', component: () => import('pages/RegisterComplaint.vue') },
-      { path: 'infography', component: () => import('pages/Infography.vue') }
+      { path: 'infography', component: () => import('pages/Infography.vue') },
+      { path: 'insuranceCentreRegistration', component: () => import('pages/InsuranceCentreRegistration.vue') }
     ]
   },
 
