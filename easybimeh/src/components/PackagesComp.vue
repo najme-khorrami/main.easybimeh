@@ -12,9 +12,9 @@
           <span class="text-white q-pl-md" style="font-size: 16px;">مقایسه بسته ها</span>
         </q-btn>
         <!-- dialog -->
-        <q-dialog v-model="packagesComparison">
+        <q-dialog v-model="packagesComparison" class="compare-dialog">
           <q-card style="width: 900px; max-width: 80vw;">
-            <q-card-section class="row justify-between">
+            <q-card-section class="top-header row justify-between">
               <div class="row items-center">
                 <q-img src="../../src/assets/compare-icon.svg" width="40px" fit="contain" class="q-mr-sm"></q-img>
                 <span style="font-size: 18px;">مقایسه بسته ها</span>
@@ -24,47 +24,44 @@
                 <q-icon name="fa-solid fa-print"></q-icon>
               </q-btn>
             </q-card-section>
-            <!-- <q-card-section>
-              <q-table dense :rows="rows" :columns="columns" row-key="name" />
-            </q-card-section> -->
             <q-card-section class="main-section row" horizontal>
-              <div class="col capabilities">
+              <div class="capabilities">
                 <div class="header" style="font-size: 16px;">قابلیت ها</div>
                 <div class="body">
-                  <div v-for="(feature,index) in planComparison" :key="index" class="q-pa-xs">{{ feature }}</div>
+                  <div v-for="(feature,index) in planComparison" :key="index" class="q-pa-xs flex flex-center" :style="{'height': index>21 ? '70px' : '30px'}">{{ feature }}</div>
                 </div>
               </div>
-              <div class="col free-pack">
+              <div class="free-pack">
                 <div class="header">بسته رایگان</div>
                 <div class="body">
-                  <div v-for="(item,index) in plansState1" :key="index" class="q-pa-xs">
+                  <div v-for="(item,index) in plansState1" :key="index" class="q-pa-xs flex flex-center" :style="{'height': index>21 ? '70px' : '30px'}">
                     <q-img v-if="item == true" src="../../src/assets/true.svg" width="9px"></q-img>
                     <q-img v-if="item == false" src="../../src/assets/false.svg" width="9px"></q-img>  
                   </div>
                 </div>
               </div>
-              <div class="col bronze-pack">
+              <div class="bronze-pack">
                 <div class="header">بسته برنزی</div>
                 <div class="body">
-                  <div v-for="(item,index) in plansState2" :key="index" class="q-pa-xs">
+                  <div v-for="(item,index) in plansState2" :key="index" class="q-pa-xs flex flex-center" :style="{'height': index>21 ? '70px' : '30px'}">
                     <q-img v-if="item == true" src="../../src/assets/true.svg" width="9px"></q-img>
                     <q-img v-if="item == false" src="../../src/assets/false.svg" width="9px"></q-img>    
                   </div>
                 </div>
               </div>
-              <div class="col silver-pack">
+              <div class="silver-pack">
                 <div class="header">بسته نقره ای</div>
                 <div class="body">
-                  <div v-for="(item,index) in plansState3" :key="index" class="q-pa-xs">
+                  <div v-for="(item,index) in plansState3" :key="index" class="q-pa-xs flex flex-center" :style="{'height': index>21 ? '70px' : '30px'}">
                     <q-img v-if="item == true" src="../../src/assets/true.svg" width="9px"></q-img>
                     <q-img v-if="item == false" src="../../src/assets/false.svg" width="9px"></q-img>    
                   </div>
                 </div>
               </div>
-              <div class="col gold-pack">
+              <div class="gold-pack">
                 <div class="header">بسته طلایی</div>
                 <div class="body">
-                  <div v-for="(item,index) in plansState4" :key="index" class="q-pa-xs">
+                  <div v-for="(item,index) in plansState4" :key="index" class="q-pa-xs flex flex-center" :style="{'height': index>21 ? '70px' : '30px'}">
                     <q-img v-if="item == true" src="../../src/assets/true.svg" width="9px"></q-img>
                     <q-img v-if="item == false" src="../../src/assets/false.svg" width="9px"></q-img>  
                   </div>
@@ -94,21 +91,29 @@
               <q-btn icon-right="arrow_back" label="مشاهده کامل ویژگی های بسته" falt unelevated square align="between" class="full-width" @click="showPackDialog(evt,item,index)"></q-btn>
             </q-card-section>
             <q-card-section class="card-discount q-my-md q-pa-none">
+
               <div v-if="index !== 0" class="discount not-free row no-wrap items-end">
                 <div class="col-8">
                   <label for="select-price" class="text-grey-7 text-no-wrap">بسته زمانی را انتخاب نمایید:</label>
-                  <q-select dense color="grey-7" outlined :options="options" v-model="selectModel" class="q-ml-md" behavior="menu"></q-select> 
+
+                  <q-select v-if="index==1" dense color="grey-7" outlined :options="options" v-model="bronzeModel" class="q-ml-md" behavior="menu" @update:model-value="changeBronzeValue"></q-select> 
+                  <q-select v-if="index==2" dense color="grey-7" outlined :options="options" v-model="silverModel" class="q-ml-md" behavior="menu" @update:model-value="changeSilverValue"></q-select> 
+                  <q-select v-if="index==3" dense color="grey-7" outlined :options="options" v-model="goldModel" class="q-ml-md" behavior="menu" @update:model-value="changeGoldValue"></q-select> 
+
                 </div>
                 <div class="col-4 relative-position" style="height: 100%;">
                   <span class="absolute-top-right text-red-5 q-mr-sm q-mt-sm" style="font-size: 16px;">تخفیف</span>
                   <div style="width: 70px;height: 40px;" class="absolute-bottom-right">
                     <img src="../../src/assets/label.svg" style="width: 100%;height: 100%;" alt="" />
                     <div class="absolute-full row justify-end items-center">
-                      <span class="text-white q-mr-sm" style="font-size: 20px;">{{  }}%</span>
+                      <span v-if="index==1" class="text-white q-mr-sm" style="font-size: 20px;">{{ bronzePercent }}%</span>
+                      <span v-if="index==2" class="text-white q-mr-sm" style="font-size: 20px;">{{ silverPercent }}%</span>
+                      <span v-if="index==3" class="text-white q-mr-sm" style="font-size: 20px;">{{ goldPercent }}%</span>
                     </div>
                   </div>
                 </div>
               </div>
+
               <div v-if="index == 0" class="discount free relative-position">
                 <div style="width: 200px;height: 40px;" class="absolute-bottom-right">
                   <img src="../../src/assets/free.svg" style="width: 100%;height: 100%;" alt="" />
@@ -121,11 +126,14 @@
               <div class="row justify-between full-width text-teal-4 bg-teal-1 q-py-sm q-px-md" style="font-size: 16px;">
                 <span>حق اشتراک ماهیانه</span>
                 <span v-if="index == 0">رایگان</span>
-                <span v-if="index != 0">{{  }}%</span>
+                <span v-if="index == 1">{{ bronzePrice }} هزار تومان</span>
+                <span v-if="index == 2">{{ silverPrice }} هزار تومان</span>
+                <span v-if="index == 3">{{ goldPrice }} هزار تومان</span>
               </div>
             </q-card-section>
             <q-card-actions vertical horizontal class="q-pa-none">
-              <q-btn icon="add_shopping_cart" label="فعال سازی" flat class="text-white" padding="md" href="insuranceCentreRegistration"></q-btn>
+              <q-btn icon="add_shopping_cart" label="فعال سازی" flat class="text-white" padding="md" to="insuranceCentreRegistration" @click="gost(item,index,bronzeModel,silverModel
+              ,goldModel)"></q-btn>
             </q-card-actions>
           </q-card>
         </Slide>
@@ -193,8 +201,16 @@ data() {
     packDialog: false,
     dialogContent: '',
     number: 0,
-    selectModel: 'یک ساله', // should fix
-    options: ['یک ساله','شش ماهه','سه ماهه']
+    bronzeModel: 'یکساله', 
+    silverModel: 'یکساله', 
+    goldModel: 'یکساله', 
+    options: ['سه ماهه','شش ماهه','یکساله'],
+    bronzePercent: '',
+    silverPercent: '',
+    goldPercent: '',
+    bronzePrice: '',
+    silverPrice: '',
+    goldPrice: ''
   }
 },
 created() {
@@ -202,6 +218,14 @@ created() {
   .get("https://server.easybimeh.com/api/Information?key=0")
   .then((response) => {
     this.plansList = response.data.message.plans
+
+    this.bronzePrice = this.plansList[1].easyBimehPlanPrices[2].monthlyPrice.toString().slice(0,-4)
+    this.silverPrice = this.plansList[2].easyBimehPlanPrices[2].monthlyPrice.toString().slice(0,-4)
+    this.goldPrice = this.plansList[3].easyBimehPlanPrices[2].monthlyPrice.toString().slice(0,-4)
+
+    this.bronzePercent = this.plansList[3].easyBimehPlanPrices[2].discount
+    this.silverPercent = this.plansList[3].easyBimehPlanPrices[2].discount
+    this.goldPercent = this.plansList[3].easyBimehPlanPrices[2].discount
   })
   .catch((error) => {
     console.error(error);
@@ -224,6 +248,38 @@ methods: {
     this.packDialog = true
     this.dialogContent = item
     this.number = index
+  },
+  changeBronzeValue(value) {
+    this.plansList[1].easyBimehPlanPrices.forEach(element => {
+      if (element.title == value) {
+        this.bronzePercent = element.discount
+        this.bronzePrice = element.monthlyPrice.toString().slice(0,-4)
+      }
+    });
+  },
+  changeSilverValue(value) {
+    this.plansList[2].easyBimehPlanPrices.forEach(element => {
+      if (element.title == value) {
+        this.silverPercent = element.discount
+        this.silverPrice = element.monthlyPrice.toString().slice(0,-4)
+      }
+    });
+  },
+  changeGoldValue(value) {
+    this.plansList[3].easyBimehPlanPrices.forEach(element => {
+      if (element.title == value) {
+        this.goldPercent = element.discount
+        this.goldPrice = element.monthlyPrice.toString().slice(0,-4)
+      }
+    });
+  },
+  gost(item,index,bronze,silver,gold) {
+    localStorage.setItem('chosenPackage',JSON.stringify(item))
+    localStorage.setItem('chosenIndexPackage',JSON.stringify(index))
+    if(index == 0) localStorage.setItem('subscription',JSON.stringify('free'))
+    else if(index == 1) localStorage.setItem('subscription',JSON.stringify(bronze))
+    else if(index == 2) localStorage.setItem('subscription',JSON.stringify(silver))
+    else if(index == 3) localStorage.setItem('subscription',JSON.stringify(gold))
   }
 }
 });
@@ -253,6 +309,7 @@ methods: {
         display: flex;
         align-items: center;
         justify-content: center;
+        white-space: break-spaces;
       }
       .body {
         font-size: 12px;
@@ -265,26 +322,31 @@ methods: {
       }
     }
     .capabilities {
+      width: 220px;
       .header {
         background-color: #2f3061;
       }
     }
     .free-pack {
+      width: calc((100% - 220px)/4);
       .header {
         background: $gradient-primary;
       }
     }
     .bronze-pack {
+      width: calc((100% - 220px)/4);
       .header {
         background: linear-gradient(98.54deg,#af6a27 0,#c17a32 26.58%,#d58c3f 53.98%,#e29747 81.64%,#e69b4a 100%);
       }
     }
     .silver-pack {
+      width: calc((100% - 220px)/4);
       .header {
         background: linear-gradient(98.38deg,#9694a8 0,#b0adc8 23.01%,#c8c4e7 63.87%,#d1cdf2 100%);
       }
     }
     .gold-pack {
+      width: calc((100% - 220px)/4);
       .header {
         background: linear-gradient(97.28deg,#f0b213 0,#f5c625 59.33%,#fdea46 100%);
       }
@@ -362,6 +424,29 @@ methods: {
   }
 
   @media (max-width: 769px) {  // 0 to 769px
+    .q-dialog.compare-dialog {
+      .q-card {
+        max-width: 100% !important;
+      }
+      .top-header {
+        span {
+          font-size: 16px !important;
+        }
+        .q-img {
+          width: 30px !important;
+        }
+      }
+    } 
+    .q-dialog .main-section > div {
+      margin: 2px;
+      &.capabilities .header {
+        font-size: 14px !important;
+      }
+      .header {
+        height: 45px;
+        font-size: 12px;
+      }
+    }
     .package-section .header {
       span {
         font-size: 16px;

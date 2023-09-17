@@ -190,11 +190,11 @@ export default defineComponent({
     position: relative;
     .progress-box {
       width: 100%;
-      height: 3px;
+      height: 2.5px;
       background-color: #cecece;
       .progress {
         width: 0%;
-        height: 3px;
+        height: 2.5px;
         background-color: $accent;
         transition: width 1s;
       }
@@ -219,6 +219,10 @@ export default defineComponent({
           rotate: -45deg;
         }
       }
+    }
+    .progress,
+    .step {
+      box-shadow: -2px 4px 12px rgba(255, 153, 18, .65);
     }
   }
 
