@@ -275,7 +275,6 @@ methods: {
   },
   gost(item,index,bronze,silver,gold) {
     localStorage.setItem('chosenPackage',JSON.stringify(item))
-    localStorage.setItem('chosenIndexPackage',JSON.stringify(index))
     if(index == 0) localStorage.setItem('subscription',JSON.stringify('free'))
     else if(index == 1) localStorage.setItem('subscription',JSON.stringify(bronze))
     else if(index == 2) localStorage.setItem('subscription',JSON.stringify(silver))

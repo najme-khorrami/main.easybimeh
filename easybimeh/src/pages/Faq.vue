@@ -6,7 +6,7 @@
             <q-img src="../../src/assets/top-questions.svg" width="120px" fit="contain"></q-img>
             <h6 class="text-weight-bold q-py-md">چطور می توانیم به شما کمک کنیم؟</h6>
             <div class="search-box shadow-1 q-px-md bg-white">
-                <q-input borderless v-model="faqSearch" @update:model-value="questionSearch"  placeholder="پرسش یا واژه مورد نظر خود را جستجو کنید ...">
+                <q-input borderless v-model="faqSearch" @update:model-value="questionSearch" placeholder="پرسش یا واژه مورد نظر خود را جستجو کنید ...">
                     <template v-slot:prepend>
                         <q-icon v-if="faqSearch === ''" name="search" />
                         <q-icon v-else name="clear" color="red" class="cursor-pointer" @click="clearQuestion" />
