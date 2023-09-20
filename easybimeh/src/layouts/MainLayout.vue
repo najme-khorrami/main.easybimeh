@@ -143,7 +143,7 @@
             <!-- should add enamad logo -->
             <div class="bg-white q-pa-sm q-ma-sm rounded-borders shadow-3 row justify-center items-center" style="width: 110px;height: 160px;">
               <a :href="enamadLink">
-                <img src="../../src/assets/anjoman.png" alt="enamad logo"/>
+                <img src="" alt="enamad logo"/>
               </a>
             </div>
             <!-- should add anjoman logo -->
