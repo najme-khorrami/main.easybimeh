@@ -37,7 +37,7 @@
           <q-btn flat class="btn--no-hover q-pa-none q-ma-none full-height" to="/">
             <q-img src="../../src/assets/easybimeh-logo-white.svg" alt="ایزی بیمه" width="180px" style="min-width:130px;" fit="fill"></q-img>
           </q-btn>
-          <q-btn class="eb-connect full-height q-mx-sm" href="#">
+          <q-btn class="eb-connect full-height q-mx-sm" href="/ebconnect/" target="_blank">
             <q-img src="../../src/assets/eb-connect.svg" alt="eb-connect" width="130px" height="30px" fit="contain" class="gt-md"></q-img>
             <q-img src="../../src/assets/eb-short.svg" alt="eb-connect" width="25px" height="35px" fit="contain" class="lt-lg"></q-img>
           </q-btn>
@@ -52,24 +52,26 @@
           <q-btn @click="scrollSignup" class="sign-up gt-sm full-height" size="14px" padding="0 35px">
             <a class="cursor-pointer text-white">ثبت نام</a>
           </q-btn>
-          <button class="bar-btn lt-md absolute-right" @click="showMenu">
-            <span></span><span></span><span></span>
+          <button class="bar-btn lt-md absolute-right" @click="showMenu" :class="{close: ifShow}">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
           </button>
       </q-toolbar>
       </div>
     </div>
 
     <!-- toggle menu -->
-    <section v-if="ifShow" class="lt-md full-menu bg-white q-px-lg column justify-between">
+    <section :class="{active: ifShow}" class="lt-md full-menu bg-white q-px-lg column">
       <q-list>
         <q-item v-for="item in toggleMenuList" :key="item.id" class="item-menu">
           <a class="full-width text-black text-weight-medium q-py-sm" :href="item.href">{{ item.title }}</a>
         </q-item>
       </q-list>
-      <div class="">
+      <div class="q-mt-sm">
         <q-btn color="info" text-color="black" size="16px" class="text-weight-light" label="سامانه جامع مدیریت کارگزاری آنلاین"></q-btn>
       </div>
-      <div class="row justify-center q-pb-md" style="position: sticky;bottom: 0;">
+      <div class="row no-wrap justify-center q-pb-md full-width" style="position: fixed;bottom: 100px;left: 50%;transform: translateX(-50%);">
         <q-btn flat icon-right="info" label="درباره ما" style="border-left: 1px solid #dfdfdf;"></q-btn>
         <q-btn flat icon-right="phone" label="تماس با ما"></q-btn>
       </div>
@@ -303,6 +305,7 @@ export default defineComponent({
   // header
   .contact-header {
     height: 35px;
+    position: relative;
     z-index: 2;
   }
   .menu-header {
@@ -330,15 +333,37 @@ export default defineComponent({
         width: 100%;
         height: 3px;
         background-color: white;
+        transition: .3s ease-in-out;
+        transform-origin: left center;
+      }
+      &.close {
+        span:nth-child(1) {
+          transform: rotate(45deg);
+        }
+        span:nth-child(2) {
+          width: 0%;
+          opacity: 0;
+          transition: .1s;
+        }
+        span:nth-child(3) {
+          transform: rotate(-45deg);
+        }
       }
     }
   }
   .full-menu {
     z-index: 1;
     width: 100%;
-    height:100vh;
+    height:calc(100vh - 35px);
     position: sticky;
     top: 75px;
+    transform: translateY(-130vh);
+    transition: transform .5s ease, opacity ease .2s;
+    margin-bottom: -100vh;
+    &.active {
+      transform: translateY(0);
+      transition: transform .5s ease, opacity ease .2s;
+    }
     .item-menu {
       border-bottom: .5px solid #dfdfdf;
     }

@@ -423,6 +423,34 @@ methods: {
   }
 
   @media (max-width: 769px) {  // 0 to 769px
+    .package-section {
+      min-height: 500px;
+      .card-header {
+        padding: 10px;
+        .q-img {
+          display: none;
+        }
+        span {
+          position: relative;
+          left: auto;
+        }
+      }
+    }
+    .packagestyle1 .card-header {
+      background: $gradient-primary;
+    }
+    .packagestyle2 .card-header {
+      background: linear-gradient(98.54deg,#af6a27 0,#c17a32 26.58%,#d58c3f 53.98%,#e29747 81.64%,#e69b4a 100%);
+    }
+    .packagestyle3 .card-header {
+      background: linear-gradient(98.38deg,#9694a8 0,#b0adc8 23.01%,#c8c4e7 63.87%,#d1cdf2 100%);
+    }
+    .packagestyle4 .card-header {
+      background: linear-gradient(97.28deg,#f0b213 0,#f5c625 59.33%,#fdea46 100%);
+    }
+    .card-users span {
+        margin: 0 !important;
+    }
     .q-dialog.compare-dialog {
       .q-card {
         max-width: 100% !important;

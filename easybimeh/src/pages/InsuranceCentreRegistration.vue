@@ -44,7 +44,7 @@ export default defineComponent({
   data() {
     return {
       compName: 'RegisterForm',
-      thisUser: [],
+      thisUser: []
     }
   },
   methods: {

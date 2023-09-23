@@ -113,6 +113,7 @@
             <q-card-section class="q-pt-none">
                 <span>زمان باقیمانده</span>
                 <!--timer-->
+                <div id="countdown"></div>
             </q-card-section>
             <q-card-actions align="right">
                 <q-btn label="ارسال مجدد کد فعالسازی"></q-btn>
@@ -135,7 +136,8 @@ export default defineComponent({
         price: '',
         userPhone: '',
         codeDialog: false,
-        code: ''
+        code: '',
+        endTimer: ''
     }
   },
   created() {
@@ -154,6 +156,26 @@ export default defineComponent({
   methods: {
     gotoPayment() {
         this.codeDialog = true
+        this.setTimer()
+    },
+    setTimer() {
+        var timeInSecs;
+        var ticker;
+        var secs = 3*60
+        timeInSecs = parseInt(secs);
+        ticker = setInterval(function() {
+            secs = timeInSecs;
+            if (secs > 0) {
+                timeInSecs--; 
+            }
+            else {
+                clearInterval(ticker);
+            }
+            var mins = Math.floor(secs/60);
+            secs %= 60;
+            var pretty = ( (mins < 10) ? "0" : "" ) + mins + ":" + ( (secs < 10) ? "0" : "" ) + secs;
+            document.getElementById("countdown").innerHTML = pretty;
+        }, 1000);
     }
   }
 })

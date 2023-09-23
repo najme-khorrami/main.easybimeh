@@ -17,6 +17,14 @@ const routes = [
     ]
   },
 
+  {
+    path: '/ebconnect',
+    component: () => import('layouts/EBLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/EBIndexPage.vue') },
+    ]
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {
