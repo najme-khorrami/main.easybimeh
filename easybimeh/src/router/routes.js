@@ -22,6 +22,7 @@ const routes = [
     component: () => import('layouts/EBLayout.vue'),
     children: [
       { path: '', component: () => import('pages/EBIndexPage.vue') },
+      { path: 'whitelabel', component: () => import('pages/WhiteLabel.vue') },
     ]
   },
 
