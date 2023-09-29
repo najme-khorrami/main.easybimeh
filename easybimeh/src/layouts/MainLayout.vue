@@ -5,7 +5,7 @@
       <div class="container full-width">
         <div class="row justify-between">
           <div class="right-side row justify-center items-center">
-            <a v-for="item in conIconList" :key="item.id" class="cursor-pointer" :class="[item.name,'q-ma-xs','q-pa-xs']" target="_blank" :href="item.href">
+            <a v-for="item in conIconList" :key="item.id" class="cursor-pointer" :class="[item.name,'q-ma-xs','q-pa-xs']" target="_blank" :href="item.href" >
               <q-icon :name="item.icon" size="12px">
                 <q-tooltip transition-show="fade" transition-hide="fade">{{ item.title }}</q-tooltip>
               </q-icon>

@@ -1,5 +1,6 @@
 <template>
     <q-page>
+
         <section id="main-banner">
             <div class="container">
                 <div class="row q-my-lg justify-center items-center">
@@ -83,13 +84,13 @@
                     </div>
                 </div>
                 <div class="feature-product q-mt-xl">
-                    <div class="header">
+                    <div class="header q-mt-lg">
                         <span>
                             ایزی بیمه کانکت (EBConnect)، هر آنچه برای آنلاین شدن نیاز دارید!
                         </span>
                     </div>
-                    <div class="content">
-                        <div v-for="(item,index) in featureProducts" :key="index">
+                    <div class="content q-my-md">
+                        <div v-for="(item,index) in featureProducts" :key="index" class="q-pb-sm">
                             <q-img src="../../src/assets/check.svg" width="22px" height="22px" fit="contain"></q-img>
                             <p style="display: inline;">{{ item }}</p>
                         </div>
@@ -97,6 +98,134 @@
                 </div>
             </div>
         </section>
+
+        <section id="why-is-better" class="q-py-lg">
+            <div class="title">
+                <span>چرا وایت لیبل ایبیکانکت بهتر است؟ </span>
+            </div>
+            <div class="main q-py-md">
+                <div class="container row justify-center items-center">
+                    <q-card>
+                        <q-card-section>
+                            <img src="../../src/assets/section6.svg" alt="">
+                        </q-card-section>
+                        <q-card-section class="q-pt-none" tag="p">
+                            شما 
+                            <span>خدمات فروش</span>
+                            انواع بیمه نامه از تمام شرکت‌ها و محصولات را همزمان خواهید داشت
+                        </q-card-section>
+                    </q-card>
+                    <q-card>
+                        <q-card-section>
+                            <img src="../../src/assets/image4.svg" alt="">
+                        </q-card-section>
+                        <q-card-section class="q-pt-none" tag="p">
+                            انجام
+                            <span>خدمات تخصصی سئو</span>
+                            با امکان نوشتن بلاگ توسط شما
+                        </q-card-section>
+                    </q-card>
+                    <q-card>
+                        <q-card-section>
+                            <img src="../../src/assets/image3.svg" alt="">
+                        </q-card-section>
+                        <q-card-section class="q-pt-none" tag="p">
+                            قدرت رقابتی بالا و کسب سود بالاتر
+                        </q-card-section>
+                    </q-card>
+                    <q-card>
+                        <q-card-section>
+                            <img src="../../src/assets/image2.svg" alt="">
+                        </q-card-section>
+                        <q-card-section class="q-pt-none" tag="p">
+                            متصل به سامانه شرکت‌ها و ارائه لحظه ای بهترین قیمت    
+                        </q-card-section>
+                    </q-card>
+                    <q-card>
+                        <q-card-section>
+                            <img src="../../src/assets/image5.svg" alt="">
+                        </q-card-section>
+                        <q-card-section class="q-pt-none" tag="p">
+                            ارسال 
+                            <span>پیامک</span>
+                            با نام شما
+                        </q-card-section>
+                    </q-card>
+                </div>
+            </div>
+        </section>
+
+        <section id="advantages" class="q-pt-lg">
+            <div class="row items-end">
+                <div class="image-box">
+                    <img src="../../src/assets/section-5-bg.svg" alt="">
+                </div>
+                <div class="text-box">
+                    <div class="title">
+                        <span>مزیت‌های رقابتی ایبیکانکت </span>
+                    </div>
+                    <div class="li">
+                        <img src="../../src/assets/check.svg" alt="">
+                        <p> ایبیکانکت سعی دارد با توجه به شرایط بازار و نیاز‌های خاص دفاتر نمایندگی و کارگزاری فروش بیمه نامه در ایران، با ارائه طیف کاملی از نیازهای آنلاین به صورت SaaS، تمام امکانات یک دفتر آنلاین ATO را با کمترین هزینه و ریسک در اختیار فعالان این بازار قرار دهد. </p>
+                    </div>
+                    <div class="li">
+                        <img src="../../src/assets/check.svg" alt="">
+                        <p> در حالی که محصولات مشابه داخلی و خارجی موجود در بازار تنها قسمتی از این ویژگی‌ها را تحت پوشش قرار میدهند و همزمان هزینه راه اندازی بسیار بالایی دارند، راهکارهای ایبیکانکت برای افزایش فروش آنلاین محصولات بیمه ای بدون هیچ هزینه اولیه ای انجام می‌شود و کسب و کارهای مختلف می‌توانند بر اساس نیاز و اندازه خود از این ویژگی‌ها استفاده نمایند. </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="managment" class="q-py-lg">
+            <div class="title q-pb-md">
+                <span>امکانات مدیریتی و کنترلی ایبیکانکت</span>
+            </div>
+            <div class="container row justify-center">
+                <q-card>
+                    <q-card-section>
+                        <img src="../../src/assets/section6.svg" alt="">
+                    </q-card-section>
+                    <q-card-section>
+                        <p> مدیریت کاربران، مشتریان، شبکه فروش، محصولات بیمه ای، شرکت ها، کارمزد ها، درگاه پرداخت و ..</p>
+                    </q-card-section>
+                </q-card>
+                <q-card>
+                    <q-card-section>
+                        <img src="../../src/assets/sec7.svg" alt="">
+                    </q-card-section>
+                    <q-card-section>
+                        <p>پشتیبانی از کانالهای فروش B2C B2B و ایزی بیمه و دامنه اختصاصی </p>
+                    </q-card-section>
+                </q-card>
+            </div>
+        </section>
+
+        <section id="web-service" class="q-py-lg">
+            <div class="container">
+                <div class="title">
+                    <span>مهم ترین مزایای وب سرویس </span>
+                </div>
+                <div class="body">
+                    <article>
+                        <div v-for="(item,index) in webserviceAdv.slice(0,4)" :key="index">
+                            <img src="../../src/assets/check.svg" alt="">
+                            <p>{{ item }}</p>
+                        </div>
+                    </article>
+                    <article>
+                        <div v-for="(item,index) in webserviceAdv.slice(4,8)" :key="index">
+                            <img src="../../src/assets/check.svg" alt="">
+                            <p>{{ item }}</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="api-provider">
+            
+        </section>
+
     </q-page>
 </template>
   
@@ -117,6 +246,9 @@ export default defineComponent({
             mainBtnHref: 'whitelabel',
             featureProducts: [
                 ' ایبیکانکت یک سیستم مبتنی بر وب است که تمام نیازهای آنلاین یک دفتر نمایندگی بیمه یا کارگزاری بیمه یا پیشخوان فروش بیمه را برآورده می‌کند و باعث افزایش فروش هرچه بیشتر می‌شود. ',' در ایبیکانکت شما می‌توانید به تعداد نامحدود وب سرویس استعلام نرخ بیمه نامه، محصولات بیمه ای و پرداخت خسارت را به سرویس‌های آنلاین خود اضافه نمایید، بیمه نامه‌های قابل ارایه و شبکه فروش خود را در سیستم تعریف کنید و در نهایت از طریق پنل مدیریتی ایبیکانکت بر اساس ظرفیت‌ها و سیاست‌های فروش B2C و B2B، تمام وب سرویس‌ها و خدمات مستقیم خود را به صورت یک وب سرویس یکپارچه به سایت‌ها و سرویس‌های فروش خود متصل نمایید. ',' ظرفیت فروش را به طور قابل توجهی افزایش دهد. '
+            ],
+            webserviceAdv: [
+                ' دسترسی آنی به محصولات و طرح‌های بیمه ای همه شرکت‌های بیمه بصورت لحظه ای ',' رقابتی بودن قیمت‌ها و ارائه پایین ترین نرخ‌ها ',' سرعت بالا و پایداری سیستم ',' امکان ارائه اطلاعات در دو فرمت استاندارد XML و JSON ',' پروتکل‌های استاندارد و امنیت بالای وب سرویس ',' در دسترس بودن تابع‌های پیش نوشته شده به زبان #C ',' دردسترس بودن پنل RESELLER برای وب سرویس '
             ]
         }
     }
@@ -134,6 +266,14 @@ export default defineComponent({
         background: url('../../src/assets/bg.svg') no-repeat center;
         background-size: cover;
         padding: 30px 0 200px 0;
+        .row {
+            & > div:nth-child(1) {
+                padding-right: 15px;
+            }
+            & > div:nth-child(2) {
+                padding-left: 15px;
+            }
+        }
         h1 {
             font-size: 30px;
             color: $secondry-color;
@@ -159,7 +299,7 @@ export default defineComponent({
         background-size: 40%;
         background-position: bottom right;
         background-repeat: no-repeat;
-        background-color: #f4f6f9;
+        background-color: $light-background;
         margin: auto;
         background-color: $light-background;
         .products {
@@ -218,7 +358,6 @@ export default defineComponent({
             }
         }
         .feature-product {
-            
             .header {
                 width: 60%;
                 span {
@@ -235,6 +374,128 @@ export default defineComponent({
             }
         }
     }
+    #why-is-better {
+        background-color: #fff;
+        .title {
+            text-align: center;
+            span {
+                color: $bg-header;
+                font-size: 24px;
+                font-weight: bold;
+            }
+        }
+        .main {
+            background: url('../../src/assets/sinos.svg') 20% 40% no-repeat;
+
+            .q-card {
+                width: 195px;
+                height: 195px;
+                text-align: center;
+                margin: 15px 15px 0;
+                border-radius: 30px;
+                box-shadow: 2px 10px 12px rgba(10,13,53,.08);
+                img {
+                    width: 58px;
+                    height: 55px;
+                }
+                p {
+                    font-weight: bold;
+                    span {
+                        color: $bg-header;
+                    }
+                }
+            }
+        }
+    }
+    #advantages {
+        background-color: $light-background;
+        .image-box {
+            width: 30%;
+            img {
+                display: block;
+            }
+        }
+        .text-box {
+            padding: 0 50px;
+            .title span {
+                font-size: 24px;
+                color: $bg-header;
+                font-weight: bold;
+                display: block;
+                margin-bottom: 15px;
+            }
+            width: 70%;
+            .li {
+                padding-bottom: 15px;
+                line-height: 25px;
+                img {
+                    width: 22px;
+                    height: 22px;
+                    margin-right: 8px;
+                    border: 1px solid red;
+                    transform: translateY(5px);
+                }
+                p {
+                    font-size: 15px;
+                    display: inline;
+                }
+            }
+        }
+    }
+    #managment {
+        background: url('../../src/assets/bg.svg') center no-repeat;
+        background-size: cover;
+        .title {
+            text-align: center;
+            span {
+                color: #fff;
+                font-weight: bold;
+                font-size: 24px;
+            }
+        }
+        .q-card {
+            text-align: center;
+            width: 400px;
+            height: 250px;
+            border-radius: 30px;
+            margin: 10px;
+            box-shadow: 2px 10px 12px rgba(10,13,53,.15);
+            p {
+                font-size: 18px;
+            }
+            img {
+                width: 99px;
+                height: 95px;
+            }
+        }
+    }
+    #web-service {
+        background-color: #fff;
+        .title span {
+            font-size: 24px;
+            font-weight: bold;
+            color: $bg-header;
+        }
+        .body { 
+            display: flex;
+            line-height: 25px;
+            article {
+                p {
+                    font-size: 15px;
+                    display: inline;
+                }
+                img {
+                    width: 20px;
+                    height: 20px;
+                    transform: translateY(5px);
+                    margin-right: 8px;
+                }
+            }
+            article:nth-child(2) {
+                padding-left: 50px;
+            }
+        }
+    }
     div {
         border: 1px solid red;
     }
@@ -243,6 +504,15 @@ export default defineComponent({
         #main-banner {
             padding: 0;
             padding-bottom: 20px;
+            .row {
+                & > div:nth-child(1) {
+                    padding-right: 0;
+                    margin-top: 30px;
+                }
+                & > div:nth-child(2) {
+                    padding-left: 0;
+                }
+            }
             .q-img {
                 max-width: 450px !important;
                 margin-bottom: 20px;
@@ -257,10 +527,20 @@ export default defineComponent({
             }
         }
         #main-products {
+            background-size: 100%;
             margin: 0;
+            .container {
+                padding: 0;
+            }
             .products {
+                width: 100%;
+                margin: 0;
                 border-radius: 0;
                 transform: translateY(0);
+                box-shadow: none !important;
+                .title {
+                    display: none;
+                }
                 .body {
                     .btn-container {
                         width: 100% !important;
@@ -268,6 +548,29 @@ export default defineComponent({
                             width: 100% !important;
                         }
                     }
+                    .box > div {
+                        padding: 20px 0;
+                        .header span {
+                            padding-bottom: 8px;
+                        }
+                        .content > div {
+                            padding-bottom: 8px;
+                        }
+                        &.btn-container {
+                            padding: 0;
+                        }
+                    }
+                }
+            }
+            .feature-product {
+                min-height: 700px;
+                padding: 0 20px;
+                .header,
+                .content {
+                    width: 100%;
+                }
+                .header {
+                    text-wrap: wrap;
                 }
             }
         }
@@ -275,6 +578,86 @@ export default defineComponent({
     @media (max-width: $breakpoint-sm) {
         #main-banner {
             p {
+                font-size: 18px;
+            }
+        }
+        #main-products {
+            .feature-product {
+                margin-top: 10px;
+                .header span {
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+                .content p {
+                    font-size: 15px;
+                }
+            }
+        }
+        #why-is-better {
+            .title {
+                span {
+                    font-size: 18px;
+                }
+            }
+            .main {
+                background: none;
+                .container {
+                    padding: 0;
+                }
+                .q-card {
+                    width: 100%;
+                    height: auto;
+                    margin: 0 20px;
+                    border-radius: 0;
+                    box-shadow: none !important;
+                    padding-top: 20px;
+                    border-bottom: 1px solid #f4f3f9;
+                    p {
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+        #advantages {
+            > div {
+                flex-direction: column-reverse;
+            }
+            .image-box {
+                width: 100%;
+            }
+            .text-box {
+                padding: 0 20px;
+                .title span {
+                    font-size: 24px;
+                }
+                width: 100%;
+            }
+        }
+    }
+    @media (max-width: 900px) {
+        #web-service {
+            .title span {
+                font-size: 20px;
+            }
+            .body { 
+                flex-direction: column;
+                article:nth-child(2) {
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+    @media (max-width: $breakpoint-sm-min) {
+        #advantages {
+            .text-box {
+                padding: 0 10px;
+                .title span {
+                    font-size: 20px;
+                }
+            }
+        }
+        #managment {
+            .title span {
                 font-size: 18px;
             }
         }
