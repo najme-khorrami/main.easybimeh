@@ -14,8 +14,8 @@
                     </button>
                     <q-toolbar-title style="padding: 0;margin: 0 10px;" >
                         <div class="tabs full-width gt-sm row no-wrap justify-between items-center">
-                            <div v-for="item in headerList" :key="item.id" >
-                                <a :href="item.link" class="block text-white" style="font-size: 14px;text-wrap: nowrap;">{{ item.title }}</a>
+                            <div v-for="item in headerList" :key="item.id" @click="call(item.link)" class="cursor-pointer">
+                                <a  class="block text-white" style="font-size: 14px;text-wrap: nowrap;">{{ item.title }}</a>
                             </div>
                         </div>
                     </q-toolbar-title>
@@ -62,21 +62,73 @@ export default defineComponent({
     data() {
         return {
             headerList: [
-                {id:1 ,title: 'محصولات اصلی',link: '#'},
-                {id:2 ,title: 'مزیت‌های رقابتی',link: '#'},
-                {id:3 ,title: 'وایت لیبل ایبیکانکت',link: '#'},
-                {id:4 ,title: 'امکانات مدیریتی و کنترلی',link: '#'},
-                {id:5 ,title: 'ارائه دهنده API برای صنعت بیمه',link: '#'},
-                {id:6 ,title: 'ارائه سرویس های بیمه',link: '#'}
+                {id:1 ,title: 'محصولات اصلی',link: 'scrollMainProducts'},
+                {id:2 ,title: 'مزیت‌های رقابتی',link: 'scrollAdvantages'},
+                {id:3 ,title: 'وایت لیبل ایبیکانکت',link: 'scrollWhyLabelEB'},
+                {id:4 ,title: 'امکانات مدیریتی و کنترلی',link: 'scrollManagment'},
+                {id:5 ,title: 'ارائه دهنده API برای صنعت بیمه',link: 'scrollَApiProvider'},
+                {id:6 ,title: 'ارائه سرویس های بیمه',link: 'scrollWebserviceProvider'}
             ],
             year: '2023',
-            ifShow: false
+            ifShow: false,
+            sectionID: ''
         }
     },
     methods: {
         showMenu() {
             this.ifShow = !this.ifShow
-        }
+        },
+        call(method) {
+            switch(method) {
+                case 'scrollMainProducts':
+                    this.sectionID = '#products'
+                    this.scroll()
+                    break;
+                case 'scrollAdvantages':
+                    this.sectionID = '#advantages'
+                    this.scroll()
+                    break;
+                case 'scrollWhyLabelEB':
+                    this.sectionID = '#why-is-better'
+                    this.scroll()                
+                    break;
+                case 'scrollManagment':
+                    this.sectionID = '#managment'
+                    this.scroll()
+                    break;
+                case 'scrollَApiProvider':
+                    this.sectionID = '#api-provider'
+                    this.scroll()
+                    break;
+                case 'scrollWebserviceProvider':
+                    this.sectionID = '#webservice-provider'
+                    this.scroll()
+                    break;
+            }
+        },
+        scroll() {
+            if(this.$route.path === '/ebconnect/'){
+                console.log('in if scroll')
+                let targetElem = document.querySelector(this.sectionID)
+                window.scrollBy({
+                    top: targetElem.getBoundingClientRect().y - 72,
+                    left: 0,
+                    behavior: "smooth",
+                });
+            }else {
+                console.log('in else scroll')
+                this.$router.push('/ebconnect/')
+                setTimeout(this.gotoId, 1000);
+            }
+        },
+        gotoId() {
+            let targetElem = document.querySelector(this.sectionID)
+            window.scrollBy({
+                top: targetElem.getBoundingClientRect().y - 72,
+                left: 0,
+                behavior: "smooth",
+            });
+        },
     }
 })
 </script>

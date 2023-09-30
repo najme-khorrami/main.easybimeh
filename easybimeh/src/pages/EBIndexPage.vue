@@ -31,12 +31,12 @@
 
         <section id="main-products">
             <div class="container">
-                <div class="products q-pa-lg">
+                <div id="products" class="products q-pa-lg">
                     <div class="title"><span>محصولات اصلی</span></div>
                     <div class="body row">
                         <div class="col-xs-12 col-md-5">
                             <div class="box column">
-                                <q-img src="../../src/assets/Asset4.svg"></q-img>
+                                <q-img src="../../src/assets/Asset4.svg" fit="contain"></q-img>
                                 <div>
                                     <div class="header q-px-lg">
                                         <span class="block">وب سرویس ها</span>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="col-xs-12 col-md-5">
                             <div class="box column">
-                                <q-img src="../../src/assets/Asset-pc.svg"></q-img>
+                                <q-img src="../../src/assets/Asset-pc.svg" fit="contain"></q-img>
                                 <div>
                                     <div class="header q-px-lg">
                                         <span class="block">وایت لیبل white label </span>
@@ -222,8 +222,116 @@
             </div>
         </section>
 
-        <section id="api-provider">
-            
+        <section id="api-provider" class="q-pt-lg row items-end">
+            <div class="text-box">
+                <div class="title">
+                    <span>ارائه دهنده API برای صنعت بیمه </span>
+                </div>
+                <div class="body">
+                    <div v-for="(item,index) in apiProvider" :key="index">
+                        <img src="../../src/assets/check.svg" alt="">
+                        <p>{{ item }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="image-box">
+                <img src="../../src/assets/section8.svg" alt="">
+            </div>
+        </section>
+
+        <section id="webservice-provider" class="q-py-lg">
+            <div class="container">
+                <div class="title">
+                    <span>ارائه سرویس‌های بیمه </span>
+                    <p>ابزارهای یکپارچه سازی ایبیکانکت برای پیاده سازی بدون ریسک EDI و XML</p>
+                </div>
+                <div class="box-container row">
+                    <div class="column">
+                        <q-card class="box box1">
+                            <q-card-section>
+                                <span>بیمه گذاران</span>
+                            </q-card-section>
+                            <q-card-section>
+                                <div v-for="(item,index) in box1" :key="index">
+                                    <img src="../../src/assets/check.svg" alt="">
+                                    <p>{{ item }}</p>
+                                </div>
+                            </q-card-section>
+                        </q-card>
+                        <q-card class="box box2">
+                            <q-card-section>
+                                <span>این نرم افزار همانطور که می‌خواهید ایفای نقش می‌کند </span>
+                            </q-card-section>
+                            <q-card-section>
+                                <div v-for="item in box2" :key="item.id" class="item q-py-sm">
+                                    <img src="../../src/assets/check.svg" alt="">
+                                    <span>{{ item.title }}</span>
+                                    <p>{{ item.ptext }}</p>
+                                </div>
+                            </q-card-section>
+                        </q-card>
+                    </div>
+                    <div class="column">
+                        <q-card class="box box3">
+                            <q-card-section>
+                                <span> API‌هایی برای دفاتر نمایندگی </span>
+                            </q-card-section>
+                            <q-card-section>
+                                <div v-for="(item,index) in box3" :key="index">
+                                    <img src="../../src/assets/check.svg" alt="">
+                                    <p>{{ item }}</p>
+                                </div>
+                            </q-card-section>
+                        </q-card>
+                        <q-card class="box box4">
+                            <q-card-section>
+                                <span>سرویس ایبیکانکت با عملکردی صحیح و قابل اطمینان</span>
+                            </q-card-section>
+                            <q-card-section>
+                                <div v-for="(item,index) in box4_1" :key="index">
+                                    <img src="../../src/assets/check.svg" alt="">
+                                    <p>{{ item }}</p>
+                                </div>
+                                <div v-for="item in box4_2" :key="item.id" class="item q-py-sm">
+                                    <img src="../../src/assets/check.svg" alt="">
+                                    <span>{{ item.title }}</span>
+                                    <br>
+                                    <p>{{ item.ptext }}</p>
+                                </div>
+                            </q-card-section>
+                        </q-card>
+                    </div>
+                    <div class="column">
+                        <q-card class="box box5">
+                            <q-card-section>
+                                <span> وب سایت ها، اپلیکیشن‌های موبایلی و رسانه‌ی اجتماعی </span>
+                            </q-card-section>
+                            <q-card-section>
+                                <div v-for="(item,index) in box5" :key="index">
+                                    <img src="../../src/assets/check.svg" alt="">
+                                    <p>{{ item }}</p>
+                                </div>
+                            </q-card-section>
+                        </q-card>
+                        <q-card class="box box6">
+                            <q-card-section>
+                                <span>در XML اصلی ایبیکانکت چه سرویسهایی وجود دارد؟</span>
+                            </q-card-section>
+                            <q-card-section style="position: relative;">
+                                <div v-for="(item,index) in box6_1" :key="index">
+                                    <p>{{ item }}</p>
+                                </div>
+                                <div v-for="(item,index) in box6_2" :key="index">
+                                    <img src="../../src/assets/check.svg" alt="">
+                                    <span>{{ item }}</span>
+                                </div>
+                                <q-img src="../../src/assets/img-sec9.svg" width="100px" fit="contain" style="position: absolute;left:40px;top: 50%;"></q-img>
+                            </q-card-section>
+                        </q-card>
+                    </div>
+                </div>
+            </div>
+            <img src="../../src/assets/footer.svg" class="bg" alt="">
         </section>
 
     </q-page>
@@ -249,6 +357,40 @@ export default defineComponent({
             ],
             webserviceAdv: [
                 ' دسترسی آنی به محصولات و طرح‌های بیمه ای همه شرکت‌های بیمه بصورت لحظه ای ',' رقابتی بودن قیمت‌ها و ارائه پایین ترین نرخ‌ها ',' سرعت بالا و پایداری سیستم ',' امکان ارائه اطلاعات در دو فرمت استاندارد XML و JSON ',' پروتکل‌های استاندارد و امنیت بالای وب سرویس ',' در دسترس بودن تابع‌های پیش نوشته شده به زبان #C ',' دردسترس بودن پنل RESELLER برای وب سرویس '
+            ],
+            apiProvider: [
+                ' درصورتیکه قصد توسعه‌ی یک واسط ساده و یا پیاده سازی یک معماری خدمات محور جامع (CSA) را دارید، ایبیکانکت به ارائه‌ی یک سری از ابزارهای یکپارچه سازی بیمه ای، تجارب و تخصص‌های فنی پرداخته تا بتواند با کاهش زمان توسعه و حذف ریسک، شما را در رساندن به موفقیت یاری نماید ',' API خدمات اطلاعاتی بیمه ای تحت وب که به مشتریان این امکان را می‌دهد تا به مشاهده‌ی سوابق بیمه ای و کلیه‌ی سیاست‌های بیمه ای خود بپردازند. نرم افزار پیشنهادی ما به یکپارچه سازی و مدیریت API‌های قانونی با سرعتی بالا پرداخته است. از این رو در صورتیکه پروژه‌ی شما ماهیتی پیچیده داشته باشد، ما شما را در سهولت کار یاری می‌نماییم. ',' ما به یکپارچه سازی API/XML برای شرکت‌های بیمه ای پرداخته‌ایم تا بتوانند از مزایای حجم اطلاعاتی گسترده ای که در پایگاه‌های داده ای ذخیره شده است بهره ببرند. ',' استانداردهای داده ای زبان نشان گذاری توسعه پذیر (XML) با هدف انتقال و ذخیره سازی کارآمد داده‌های بیمه ای بین هسته‌های بیمه ای و وب سایت‌هایی که خدمات بیمه ای ارائه می‌دهند طراحی شده است. با این سیستم می‌توانید خدماتتان را به سایر صنایع نیز عرضه نمایید و سیاست‌های بیمه ای‌تان را در اختیار مشتریان صنایعی دیگر مانند صنایع خودرو در جهت خرید خودرو، بیمه مالکین خانه، بیمه مسافرت برای اپلیکیشن‌های مسافرتی، بیمه اجاره و بیمه عمر برای افرادی که ازدواج کرده‌اند و یا صاحب بچه هستند قرار دهید. ',' یک شرکت بیمه ای با ارائه‌ی API‌ها برای این اپلیکیشن‌ها در حوزه‌های مختلف، این فرصت را دارد تا مشتریان جدیدی را با تمرکز بر روی حوزه‌هایی که حتی به فکر بیمه‌ی خدمات خود نیافتاده اند جذب نماید. '
+            ],
+            box1: [
+                ' بیمه گذاران می‌توانند مشتریان شما را بدون هیچ کاغذ بازی در ظرف چند ثانیه جذب نمایند. ',' برای مثال شما می‌توانید API‌ها را در اختیار اعضای اتحادیه‌های گوناگون، کارفرمایان و غیره قرار دهید تا آن‌ها خدمات بیمه ایشان را در اختیار مشتریان و یا کارمندانشان قرار دهند. ',' API‌ها می‌توانند شما را در انجام آسان تر و سریع تر کسب و کارتان یاری نمایند. '
+            ],
+            box2: [
+                {id:1 ,title:'کانکتور‌های API:' ,ptext:' در چند دقیقه می‌توان به صورت خودکار به استخراج فراداده‌ها از سیستم بیمه ای اصلی و یک API استاندارد که شامل منطق بیمه می‌باشد دست یافت. '},
+                {id:2 ,title:'توسعه API:' ,ptext:' توسعه با یک کلیک به این معنا بوده که API را می‌توان به آسانی مصرف نموده و یا آن را توسط هر توسعه دهنده‌ی دیگری برای هر سرویس دیجیتالی مورد استفاده قرار داد. '},
+                {id:3 ,title:'طراحی API:' ,ptext:' با استفاده از ویزاردها و قالب‌های داخلی می‌توان به صورت خودکار به توسعه‌ی کامپوننت‌ها در داخل اپلیکیشن‌های موبایلی و یا وب، API‌هایی از نوع REST و یا خدمات وب SOA پرداخت. '},
+                {id:4 ,title:' تست API:' ,ptext:' مدیریت آسان API‌ها به وسیله‌ی پنل نظارتی و مدیریت به منظور پیدا کردن همه‌ی تراکنش‌ها و فعالیت‌ها '},
+                {id:5 ,title:' ارتقاء API:' ,ptext:' تزریق چندین لایه‌ی امنیتی و افزایش کارائی. در صورت نیاز می‌توان به ویرایش فراداده‌ها به منظور ایجاد یک راهکار سفارشی پرداخت. '},
+                {id:6 ,title:' مدیریت API:' ,ptext:' مدیریت آسان API‌ها به وسیله‌ی پنل نظارتی و مدیریت API به منظور پیدا کردن همه‌ی تراکنش‌ها و فعالیت‌ها '}
+            ],
+            box3: [
+                ' بسیاری از API‌ها را می‌توان به صورت داخلی مورد استفاده قرار داد و یا بعضی از آن‌ها را به صورت عمومی با شرکایتان استفاده نمایید تا فرصت‌های تجاری بیشتری را کسب نمایید و به جذب مشتریان بیشتری بپردازید ',' برای مثال بجای اینکه API‌ها تنها در اختیار شرکای انتخابی قرار گیرند، می‌توان آن‌ها را به صورت عمومی در اختیار هر نماینده ای قرار داد تا از آن‌ها برای فروش خدمات بیمه ای استفاده نماید. ',' همچنین ممکن است یک API را در اختیار یک اپلیکیشن قرار دهید تا شرکتتان از فرصت حضور در بازارهای جدید استفاده نماید '
+            ],
+            box4_1: [
+                ' سرویس API ایبیکانکت روشی ایمن و صحیح است که در آن راهکاری سریع و قابل اطمینان را توسعه می‌دهیم. این روش می‌تواند به سیستم‌های پشتیبان اصلی شرکت‌های بیمه ای از طریق موبایل، بستر ابری و راهکارهای تحت وب متصل شود. با بهره برداری از این سرویس در سیستم فروشگاه و وب سایت الکترونیکی‌ می‌توان از مزایای آن بهره برد. ',' با بهره برداری از این نرم افزار در سیستم فروشگاه و وب سایت الکترونیکی‌تان می‌توانید از مزایای آن برخوردار شوید. خدمات ما محدودیت سنی و جنسیتی ندارد و از استانداردهای خاصی پیروی می‌نماید. '
+            ],
+            box4_2: [
+                {id:1 ,title:'سرعت' ,ptext:' ارائه‌ی راهکارهای API در ظرف چند دقیقه به جای چندین ماه '},
+                {id:2 ,title:'سادگی' ,ptext:' حذف نیاز در بکارگیری مجموعه ای از فناوری‌های پیچیده '},
+                {id:3 ,title:'امنیت' ,ptext:' کاهش ریسک شکست با API‌هایی قوی از نظر امنیتی '}
+            ],
+            box5: [
+                ' در این حوزه شما نقش یک مشتری API را بر عهده دارید و مصرف کننده‌ی اطلاعات وب سایت خودتان نیز هستید. روندهای جدیدی را می‌توان در وب سایت ها، اپلیکیشن‌ها و رسانه‌های اجتماعی در پیش گرفت تا خدمات بیمه ای خود را در اختیار کسب و کارها قرار دهید و از فرصت‌های بی شمار این روندها نیز استفاده نمایید. برای مثال همه‌ی وب سایت‌های فروشگاه‌های الکترونیکی از این نوع خدمت استفاده می‌کنند و آن را در کسب و کار خود نیز به کار گرفته‌اند؛ این کار به آن‌ها در مسائلی که به رضایت مندی مشتری ربط دارد کمک می‌نماید. ',' پاسخ به خواسته‌ها و نیازمندی‌های مشتریان و کسب و کارها می‌تواند شما را قادر سازد تا راهکارهای بیمه ای را به آن‌ها پیشنهاد کنید. می‌توان از فرصت‌های بیمه ای جدیدی مانند بیمه‌ی سفر، ازدواج و زایمان نیز استفاده نمود. '
+            ],
+            box6_1: [
+                ' یکی از مزایای عمده‌ی XML این است که انواع دسته بندی‌های بیمه ای را در خود جای داده است.',' خدمات XML ایبیکانکت، شامل پیام‌های تجاری استانداردی است که برای انتقال اطلاعات در بین شرکت‌های بیمه ای و واسطه ها، دفاتر نمایندگان، وب سایت‌های فروش الکترونیک و سرویس دهندگان آنلاین در حوزه‌های زیر کاربرد دارد: '
+            ],
+            box6_2: [
+                ' بیمه شخص ثالث ','بیمه بدنه خودرو','بیمه مسئولیت','بیمه عمر','بیمه مسافرتی','بیمه حوادث','بیمه آتش سوزی'
             ]
         }
     }
@@ -306,7 +448,7 @@ export default defineComponent({
             background-color: #fff;
             border-radius: 30px;
             transform: translateY(-150px);
-            margin-bottom: -150px;
+            margin-bottom: -130px;
             box-shadow: 1px 2px 3px rgba(10,13,53,.1);
             .title {
                 text-align: center;
@@ -319,7 +461,7 @@ export default defineComponent({
                     .q-img {
                         max-width: 250px;
                         max-height: 200px;
-                        margin: auto;
+                        margin: 20px auto;
                     }
                     .header {
                         color: $bg-header;
@@ -416,7 +558,7 @@ export default defineComponent({
             }
         }
         .text-box {
-            padding: 0 50px;
+            padding: 0 150px 0 50px;
             .title span {
                 font-size: 24px;
                 color: $bg-header;
@@ -496,10 +638,131 @@ export default defineComponent({
             }
         }
     }
-    div {
-        border: 1px solid red;
+    #api-provider {
+        background-color: $light-background;
+        .text-box {
+            width: 60%;
+            padding: 0 0 0 150px;
+            margin: 10px 0 20px 0;
+            .title {
+                color: $bg-header;
+                font-size: 24px;
+                font-weight: bold;
+            }
+            .body {
+                line-height: 25px;
+                img {
+                    width: 22px;
+                    height: 22px;
+                    margin-right: 8px;
+                    transform: translateY(5px);
+                }
+                p {
+                    display: inline;
+                }
+            }
+        }
+        .image-box {
+            width: 40%;
+            img {
+                display: block;
+            }
+        }
     }
-
+    #webservice-provider {
+        background: url('../../src/assets/sinos.svg') 50% no-repeat;
+        position: relative;
+        .title {
+            text-align: center;
+            span {
+                color: $bg-header;
+                font-size: 24px;
+                font-weight: bold;
+            }
+            p {
+                font-size: 20px;
+                font-weight: bold;
+            }
+        }
+        .box-container {
+            .column {
+                width: 33.33%;
+                .box {
+                    margin: 12px 8px;
+                    border-radius: 30px;
+                    box-shadow: 2px 10px 12px rgba(10,13,53,.12);
+                    .q-card__section:nth-of-type(1) {
+                        background-color: $bg-header;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        text-align: center;
+                        height: 80px;
+                        span {
+                            color: #fff;
+                            font-size: 18px;
+                            font-weight: 400;
+                        }
+                    }
+                    .q-card__section:nth-of-type(2) {
+                        line-height: 25px;
+                        span {
+                            font-size: 18px;
+                            font-weight: bold;
+                            color: $bg-header;
+                        }
+                    }
+                    p {
+                        font-size: 15px;
+                        display: inline;
+                    }
+                    img {
+                        width: 20px;
+                        height: 20px;
+                        transform: translateY(5px);
+                        margin-right: 8px;
+                    }
+                }
+                .box2,.box4
+                .q-card__section:nth-of-type(2) {
+                    .item {
+                        border-bottom: 1px solid rgb(226, 226, 226);
+                        &:last-of-type {
+                            border-bottom: none;
+                        }
+                    }
+                }
+            }
+        }
+        img.bg {
+            position: absolute;
+            width: 100vw;
+            height: auto;
+            left: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+    }
+    
+    @media (max-width: $breakpoint-md-max) {
+        #advantages .text-box {
+            padding: 0 100px 0 50px;
+        }
+        #api-provider {
+            .text-box {
+                padding: 0 0 0 100px;
+            }
+        }
+    }
+    @media (max-width: 1200px) {
+        #webservice-provider {
+            .box-container {
+                .column {
+                    width: 50%;
+                }
+            }
+        }
+    }
     @media (max-width: $breakpoint-md-min) {
         #main-banner {
             padding: 0;
@@ -574,6 +837,18 @@ export default defineComponent({
                 }
             }
         }
+        #advantages .text-box {
+            padding: 0 20px !important;
+        }
+        #api-provider {
+            .text-box {
+                padding: 0 20px !important;
+                width: 100%;
+            }
+            .image-box {
+                width: 100%;
+            }
+        }
     }
     @media (max-width: $breakpoint-sm) {
         #main-banner {
@@ -626,11 +901,25 @@ export default defineComponent({
                 width: 100%;
             }
             .text-box {
-                padding: 0 20px;
                 .title span {
                     font-size: 24px;
                 }
                 width: 100%;
+            }
+        }
+        #api-provider {
+            .title span {
+                font-size: 20px;
+            }
+        }
+        #webservice-provider {
+            .title {
+                span {
+                    font-size: 20px;
+                }
+                p {
+                    font-size: 15px;
+                }
             }
         }
     }
@@ -646,19 +935,67 @@ export default defineComponent({
                 }
             }
         }
+        #webservice-provider {
+            background: none;
+            .box-container {
+                .column {
+                    width: 100%;
+                    .box {
+                        margin: 12px 40px;
+                        border-radius: 0;
+                        .q-card__section:nth-of-type(1) {
+                            span {
+                                font-size: 16px;
+                            }
+                        }
+                        .q-card__section:nth-of-type(2) {
+                            line-height: 23px;
+                            span {
+                                font-size: 16px;
+                            }
+                        }
+                        img {
+                            width: 18px;
+                            height: 18px;
+                        }
+                    }
+                }
+            }
+            img.bg {
+                display: none;
+            }
+        }
     }
     @media (max-width: $breakpoint-sm-min) {
         #advantages {
             .text-box {
-                padding: 0 10px;
+                padding: 0 10px !important;
                 .title span {
                     font-size: 20px;
                 }
             }
         }
+        #api-provider {
+            .text-box {
+                padding: 0 10px !important;
+                margin-bottom: 0;
+            }
+        }
         #managment {
             .title span {
                 font-size: 18px;
+            }
+        }
+        #webservice-provider {
+            .container {
+                padding: 0 0;
+            }
+            .box-container {
+                .column {
+                    .box {
+                        margin: 12px 0;
+                    }
+                }
             }
         }
     }
