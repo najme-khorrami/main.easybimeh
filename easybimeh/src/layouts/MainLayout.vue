@@ -42,7 +42,7 @@
             <q-img src="../../src/assets/eb-short.svg" alt="eb-connect" width="25px" height="35px" fit="contain" class="lt-lg"></q-img>
           </q-btn>
           <q-btn color="info" padding="0 15px" size="14px" class="system-btn full-height">
-            <a href="#" class="text-weight-light text-black">سامانه جامع مدیریت کارگزاری آنلاین</a>
+            <a class="text-weight-light text-black" href="/OnlineBroker/">سامانه جامع مدیریت کارگزاری آنلاین</a>
           </q-btn>
           <div class="tabs full-height gt-sm row no-wrap justify-between items-center">
             <div v-for="item in tabList" :key="item.id">
@@ -63,13 +63,13 @@
 
     <!-- toggle menu -->
     <section :class="{active: ifShow}" class="lt-md full-menu bg-white q-px-lg column">
-      <q-list>
+      <div>
         <q-item v-for="item in toggleMenuList" :key="item.id" class="item-menu">
           <a class="full-width text-black text-weight-medium q-py-sm" :href="item.href">{{ item.title }}</a>
         </q-item>
-      </q-list>
+      </div>
       <div class="q-mt-sm">
-        <q-btn color="info" text-color="black" size="16px" class="text-weight-light" label="سامانه جامع مدیریت کارگزاری آنلاین"></q-btn>
+        <q-btn color="info" href="/OnlineBroker/" text-color="black" size="16px" class="text-weight-light" label="سامانه جامع مدیریت کارگزاری آنلاین"></q-btn>
       </div>
       <div class="row no-wrap justify-center q-pb-md full-width" style="position: fixed;bottom: 100px;left: 50%;transform: translateX(-50%);">
         <q-btn flat icon-right="info" label="درباره ما" style="border-left: 1px solid #dfdfdf;"></q-btn>
@@ -366,6 +366,7 @@ export default defineComponent({
     }
     .item-menu {
       border-bottom: .5px solid #dfdfdf;
+      width: 100%;
     }
     .item-menu:last-of-type {
       border-bottom: none;

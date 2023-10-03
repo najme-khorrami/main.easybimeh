@@ -26,6 +26,14 @@ const routes = [
     ]
   },
 
+  {
+    path: '/OnlineBroker',
+    component: () => import('layouts/OBLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/OBIndexPage.vue') },
+    ]
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {

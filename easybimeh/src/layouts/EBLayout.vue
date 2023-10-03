@@ -31,7 +31,7 @@
                     <a class="full-width text-black text-weight-medium q-py-sm" href="/">صفحه اصلی</a>
                 </q-item>
                 <q-item v-for="item in headerList" :key="item.id" class="item-menu">
-                    <a class="full-width text-black text-weight-medium q-py-sm" :href="item.link">{{ item.title }}</a>
+                    <a class="full-width text-black text-weight-medium q-py-sm" @click="call(item.link)">{{ item.title }}</a>
                 </q-item>
             </q-list>
         </section>
@@ -82,26 +82,32 @@ export default defineComponent({
             switch(method) {
                 case 'scrollMainProducts':
                     this.sectionID = '#products'
+                    this.ifShow = false
                     this.scroll()
                     break;
                 case 'scrollAdvantages':
                     this.sectionID = '#advantages'
+                    this.ifShow = false
                     this.scroll()
                     break;
                 case 'scrollWhyLabelEB':
                     this.sectionID = '#why-is-better'
+                    this.ifShow = false
                     this.scroll()                
                     break;
                 case 'scrollManagment':
                     this.sectionID = '#managment'
+                    this.ifShow = false
                     this.scroll()
                     break;
                 case 'scrollَApiProvider':
                     this.sectionID = '#api-provider'
+                    this.ifShow = false
                     this.scroll()
                     break;
                 case 'scrollWebserviceProvider':
                     this.sectionID = '#webservice-provider'
+                    this.ifShow = false
                     this.scroll()
                     break;
             }
@@ -187,9 +193,9 @@ export default defineComponent({
     .full-menu {
         z-index: 1;
         width: 100%;
-        height:calc(100vh - 35px);
+        height: calc(100vh - 35px);
         position: sticky;
-        top: 75px;
+        top: 72px;
         transform: translateY(-130vh);
         transition: transform .5s ease, opacity ease .2s;
         margin-bottom: -100vh;
