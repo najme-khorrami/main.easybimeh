@@ -574,7 +574,6 @@ export default defineComponent({
                     width: 22px;
                     height: 22px;
                     margin-right: 8px;
-                    border: 1px solid red;
                     transform: translateY(5px);
                 }
                 p {

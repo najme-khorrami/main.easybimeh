@@ -156,7 +156,7 @@
     <div class="contactus">
         <div class="container row items-end">
             <q-img src="../../src/assets/online.png" width="40px" height="50px"></q-img>
-            <p> جهت مشاوره های خرید و آشنایی تخصصی با محصول با این شماره تماس حاصل فرمایید .</p>
+            <span> جهت مشاوره های خرید و آشنایی تخصصی با محصول با این شماره تماس حاصل فرمایید .</span>
             <a href="tel:02191691049">02191691049</a>
         </div>
     </div>
@@ -498,11 +498,10 @@ export default defineComponent({
         background-color: $green-color;
         margin-top: 60px;
         box-shadow: $dark-shadow;
-        padding: 10px 0;
-        p {
+        padding: 15px 0;
+        span {
             color: #fff;
             font-size: 17px;
-            line-height: 0;
             padding: 0 10px;
         }
         a {
@@ -511,14 +510,12 @@ export default defineComponent({
         }
         &:hover {
             background-color: $yellow-color;
-            p {
+            span {
                 color: #000;
             }
         }
     }
-    * {
-        border: 1px solid red;
-    }
+
     @media (max-width: $breakpoint-md-min) {
         #header {
             background: url('../../src/assets/middle-banner.svg') 50% no-repeat;
