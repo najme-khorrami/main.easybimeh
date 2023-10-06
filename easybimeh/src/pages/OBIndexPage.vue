@@ -274,11 +274,6 @@ export default defineComponent({
         display: inline;
         border-radius: 15px;
     }
-    .sections-container {
-        // background-color: $bg-color;
-        // background: url('../../src/assets/background.svg') 50% no-repeat;
-        // background-size: cover;
-    }
     #btn {
         .box {
             box-shadow: -2px 8px 8px rgba(10,13,53,0.4);

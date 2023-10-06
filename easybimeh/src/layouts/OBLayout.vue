@@ -197,9 +197,6 @@ export default defineComponent({
         }
     }
 
-    * {
-        // border: 1px solid red;
-    }
     @media (max-width: $breakpoint-sm-min) {
         header {
             margin: 0 !important;
