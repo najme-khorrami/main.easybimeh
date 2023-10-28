@@ -1,8 +1,8 @@
 {
   "name": "easybimeh",
   "version": "0.0.1",
-  "description": "A Quasar Project",
-  "productName": "easybimeh",
+  "description": "easybimeh",
+  "productName": " ایزی بیمه؛ نرم افزار مدیریت دفاتر نمایندگی و کارگزاری بیمه",
   "author": "najme-khorrami <najme@gmail.com>",
   "private": true,
   "scripts": {

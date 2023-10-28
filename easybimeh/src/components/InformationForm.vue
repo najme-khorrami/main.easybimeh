@@ -87,7 +87,7 @@
     </section>
     <div class="btn-group q-my-md">
         <q-btn flat class="edit shadow-10" label="ویرایش اطلاعات" @click="this.$emit('changeComp', 'RegisterForm')"></q-btn>
-        <q-btn flat class="confirm shadow-10" label="تایید و پرداخت" @click="gotoPayment"></q-btn>
+        <q-btn flat class="confirm shadow-10" label="تایید نهایی" @click="gotoPayment"></q-btn>
     </div>
 
     <!-- activation code dialog -->
@@ -125,6 +125,7 @@
 
 <script>
 import { defineComponent } from "vue";
+import axios from "axios";
 
 export default defineComponent({
   name: 'InformationForm',
@@ -157,6 +158,19 @@ export default defineComponent({
     gotoPayment() {
         this.codeDialog = true
         this.setTimer()
+        let nationalCode = this.userInfo.find((item)=>item.name == 'nationalCode')
+        axios.get("https://server.easybimeh.com/api/Account/SendSmsToken", {
+        headers: {
+            'nationalCode':nationalCode,
+            'mobile':this.userPhone
+        }
+        })
+        .then(response => {
+            console.log('res:',response)
+        })
+        .catch(error => {
+            console.error(error);
+        })
     },
     setTimer() {
         var timeInSecs;
@@ -239,14 +253,14 @@ export default defineComponent({
     background-color: rgba(0,145,113,.08);
     border-radius: 3px;
     h4 {
-        color: #009171;
+        // color: #009171;
         font-size: 20px;
         font-weight: bold;
     }
     span {
         font-size: 16px;
         font-weight: bold;
-        color: #009171;
+        // color: #009171;
     }
     ul {
         list-style: none;
@@ -254,11 +268,11 @@ export default defineComponent({
         li {
             &::before {
                 content: "• ";
-                color: #009171;
+                // color: #009171;
             }
             font-size: 16px;
             span {
-                color: #009171;
+                // color: #009171;
                 font-weight: bold;
             }
         }

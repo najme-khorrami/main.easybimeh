@@ -410,21 +410,21 @@ export default defineComponent({
             }
             let typeOfPersonality = (this.personality == 'realPerson') ? 'حقیقی' : 'حقوقی';
             this.userInfo = [
-                {id: 1,title: 'نوع دفتر بیمه',content: typeOfInsure},
-                {id: 2,title: 'َشخصیت',content: typeOfPersonality},
-                {id: 3,title: 'نام دفتر بیمه',content: this.officeName},
-                {id: 4,title: typeOfCode ,content: this.codeAgency},
-                {id: 5,title: typeOfCompany ,content: companies},
-                {id: 6,title: 'نام',content: this.name},
-                {id: 7,title: 'نام خانوادگی',content: this.family},
-                {id: 8,title: 'تلفن همراه',content: this.password},
-                {id: 9,title: 'کد ملی',content: this.username},
-                {id: 10,title: 'ایمیل',content: this.email},
-                {id: 11,title: 'تلفن',content: this.phone},
-                {id: 12,title: 'استان',content: this.state},
-                {id: 13,title: 'شهر',content: this.city},
-                {id: 14,title: 'نشانی',content: this.address},
-                {id: 15,title: 'دامنه (عنوان سایت اختصاصی شما)',content: 'https://' + this.domain + '.easybimeh.com'},
+                {id: 1,name: 'typeOfInsure',title: 'نوع دفتر بیمه',content: typeOfInsure},
+                {id: 2,name: 'typeOfPersonality',title: 'َشخصیت',content: typeOfPersonality},
+                {id: 3,name: 'officeName',title: 'نام دفتر بیمه',content: this.officeName},
+                {id: 4,name: 'codeAgency',title: typeOfCode ,content: this.codeAgency},
+                {id: 5,name: 'companies',title: typeOfCompany ,content: companies},
+                {id: 6,name: 'name',title: 'نام',content: this.name},
+                {id: 7,name: 'family',title: 'نام خانوادگی',content: this.family},
+                {id: 8,name: 'userPhone',title: 'تلفن همراه',content: this.password},
+                {id: 9,name: 'nationalCode',title: 'کد ملی',content: this.username},
+                {id: 10,name: 'email',title: 'ایمیل',content: this.email},
+                {id: 11,name: 'phone',title: 'تلفن',content: this.phone},
+                {id: 12,name: 'state',title: 'استان',content: this.state},
+                {id: 13,name: 'city',title: 'شهر',content: this.city},
+                {id: 14,name: 'address',title: 'نشانی',content: this.address},
+                {id: 15,name: 'domain',title: 'دامنه (عنوان سایت اختصاصی شما)',content: 'https://' + this.domain + '.easybimeh.com'},
             ]
             this.$emit('changeComp', 'InformationForm')
             this.$emit('userInfo', this.userInfo)

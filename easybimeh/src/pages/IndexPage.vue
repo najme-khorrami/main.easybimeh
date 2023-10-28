@@ -14,11 +14,16 @@
             <div class="left-side text-center q-py-lg">
               <h2 class="text-white text-weight-bold q-px-sm">{{ headerDescription.title }}</h2>
               <p class="text-white">{{ headerDescription.content }}</p>
-              <q-btn padding="8px 12px">
-                <a href="infography" class="text-white">
-                  {{ headerBtnLabel }}
-                  <q-icon name="fa-solid fa-arrow-left" size="18px" class="q-pl-sm"></q-icon>
-                </a>
+              <div class="q-mb-md">
+                <q-btn padding="8px 12px">
+                  <a href="infography" class="text-white">
+                    {{ headerBtnLabel1 }}
+                    <q-icon name="fa-solid fa-arrow-left" size="18px" class="q-pl-sm"></q-icon>
+                  </a>
+                </q-btn>
+              </div>
+              <q-btn padding="8px 16px" class="btn-label2" @click="scrollSignup">
+                  {{ headerBtnLabel2 }}
               </q-btn>
             </div>
           </div>
@@ -67,21 +72,21 @@
   </q-page>
 
   <InsureCompsSlider />
-  <PackagesComp />
+  <ServicesComp />
   
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 import InsureCompsSlider from 'components/InsureCompsSlider.vue';
-import PackagesComp from 'components/PackagesComp.vue';
+import ServicesComp from 'components/ServicesComp.vue';
 import axios from "axios";
 
 export default defineComponent({
   name: 'IndexPage',
   components: {
     InsureCompsSlider,
-    PackagesComp
+    ServicesComp
   },
 
   data() {
@@ -92,7 +97,8 @@ export default defineComponent({
         {id:3 ,title:'وقت یه آموزش مختصره!' ,src:'../../src/assets/step3.svg'},
         {id:4 ,title:'به سایت اختصاصی خودت خوش اومدی!' ,src:'../../src/assets/step4.svg'}
       ],
-      headerBtnLabel: '',
+      headerBtnLabel1: 'آشنایی بیشتر با ایزی بیمه',
+      headerBtnLabel2: 'رایگان شروع کنید',
       headerDescription: ''
     }
   },
@@ -101,7 +107,6 @@ export default defineComponent({
     .get("https://server.easybimeh.com/api/Information?key=0")
     .then((response)=> {
         let data = response.data.message.information
-        this.headerBtnLabel = data.buttonLabel[0].title
         this.headerDescription = data.headerDescription[0]
     })
     .catch((error)=> {
@@ -118,7 +123,15 @@ export default defineComponent({
     deleteProgress() {
       let progressEl = document.querySelector('.progress')
       progressEl.style.width = '0px'
-    }
+    },
+    scrollSignup() {
+      let contactFooter = document.querySelector('#scroll-signup')
+      window.scrollBy({
+        top: contactFooter.getBoundingClientRect().y - 50,
+        left: 0,
+        behavior: "smooth",
+      });
+    },
   }
 })
 </script>
@@ -151,6 +164,10 @@ export default defineComponent({
       a {
         display: flex;
         align-items: center;
+      }
+      &.btn-label2 {
+        background: linear-gradient(90deg,#09ebfa 0, #77d7dc 100%);
+        color: #fff;
       }
     }
   }

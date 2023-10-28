@@ -1,5 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf">
+    <!-- banner -->
+    <div class="banner">
+      <img src="" alt="">
+    </div>
     <!-- contact header -->
     <div class="contact-header bg-secondary">
       <div class="container full-width">
@@ -22,9 +26,8 @@
             </a>
           </div>
           <div class="lt-md left-side row justify-center items-center">
-            <a @click="scrollSignup" class="concat text-white q-pa-xs cursor-pointer">
-              ثبت نام
-              <q-icon name="fa-solid fa-arrow-right-to-bracket" size="14px" class="q-px-xs"></q-icon>
+            <a @click="() => { gotoSignup(); showMenu(); }" class="concat text-white q-pa-xs cursor-pointer">
+              سرویس ها و قیمت ها 
             </a>
           </div>
         </div>
@@ -37,20 +40,22 @@
           <q-btn flat class="btn--no-hover q-pa-none q-ma-none full-height" to="/">
             <q-img src="../../src/assets/easybimeh-logo-white.svg" alt="ایزی بیمه" width="180px" style="min-width:130px;" fit="fill"></q-img>
           </q-btn>
-          <q-btn class="eb-connect full-height q-mx-sm" href="/ebconnect/" target="_blank">
-            <q-img src="../../src/assets/eb-connect.svg" alt="eb-connect" width="130px" height="30px" fit="contain" class="gt-md"></q-img>
-            <q-img src="../../src/assets/eb-short.svg" alt="eb-connect" width="25px" height="35px" fit="contain" class="lt-lg"></q-img>
-          </q-btn>
-          <q-btn color="info" padding="0 15px" size="14px" class="system-btn full-height">
-            <a class="text-weight-light text-black" href="/OnlineBroker/" target="_blank">سامانه جامع مدیریت کارگزاری آنلاین</a>
-          </q-btn>
+          <div style="display: flex;height: 100%;">
+            <q-btn class="eb-connect full-height q-mx-sm" href="/ebconnect/" target="_blank">
+              <q-img src="../../src/assets/eb-connect.svg" alt="eb-connect" width="110px" height="30px" fit="contain" class="gt-md"></q-img>
+              <q-img src="../../src/assets/eb-short.svg" alt="eb-connect" width="30px" height="40px" fit="contain" class="lt-lg"></q-img>
+            </q-btn>
+            <q-btn color="info" padding="0 8px" size="14px" class="system-btn full-height">
+              <a class="text-weight-light text-black" href="/OnlineBroker/" target="_blank">سامانه جامع مدیریت کارگزاری آنلاین</a>
+            </q-btn>
+          </div>
           <div class="tabs full-height gt-sm row no-wrap justify-between items-center">
             <div v-for="item in tabList" :key="item.id">
               <a @click="showRequestDialog = (item.id == 4) ? true : false;" :href="item.href" class="block text-white q-pa-md" style="font-size: 14px;white-space: nowrap;">{{ item.title }}</a>
             </div>
           </div>
-          <q-btn @click="scrollSignup" class="sign-up gt-sm full-height" size="14px" padding="0 35px">
-            <a class="cursor-pointer text-white">ثبت نام</a>
+          <q-btn @click="scrollSignup" class="sign-up gt-sm full-height" size="14px">
+            <a class="cursor-pointer text-white">سرویس ها و قیمت ها</a>
           </q-btn>
           <button class="bar-btn lt-md absolute-right" @click="showMenu" :class="{close: ifShow}">
             <span class="bar"></span>
@@ -64,8 +69,14 @@
     <!-- toggle menu -->
     <section :class="{active: ifShow}" class="lt-md full-menu bg-white q-px-lg column">
       <div>
-        <q-item v-for="item in toggleMenuList" :key="item.id" class="item-menu">
-          <a class="full-width text-black text-weight-medium q-py-sm" :href="item.href">{{ item.title }}</a>
+        <q-item v-for="item in toggleMenuList.slice(0,1)" :key="item.id" class="item-menu">
+          <a class="full-width text-black text-weight-medium q-py-sm" @click="() => { gotoSignup(); showMenu(); }">{{ item.title }}</a>
+        </q-item>
+        <q-item v-for="item in toggleMenuList.slice(1,2)" :key="item.id" class="item-menu">
+          <a class="full-width text-black text-weight-medium q-py-sm" @click="() => { showRequestDialog = true; showMenu(); }">{{ item.title }}</a>
+        </q-item>
+        <q-item v-for="item in toggleMenuList.slice(2,)" :key="item.id" class="item-menu">
+          <a class="full-width text-black text-weight-medium q-py-sm" @click="redirect(item)" :href="item.href">{{ item.title }}</a>
         </q-item>
       </div>
       <div class="q-mt-sm">
@@ -202,7 +213,7 @@ export default defineComponent({
         {id:4 ,title:'پیگیری درخواست' ,href:'#' },
       ],
       toggleMenuList: [
-        {id:1 ,title:'ثبت نام' ,href:'#' },
+        {id:1 ,title:'سرویس ها و قیمت ها' ,href:'#' },
         {id:2 ,title:'پیگیری درخواست' ,href:'#' },
         {id:3 ,title:'پرسش های متداول' ,href:'faq' },
         {id:4 ,title:'یادآور تمدید بیمه نامه' ,href:'#' },
@@ -293,6 +304,15 @@ export default defineComponent({
     resetDialog() {
       this.trackingCode = ''
       this.nationalCode = ''
+    },
+    redirect(item) {
+      if(item.title == 'سرویس ها و قیمت ها') {
+        this.ifShow = false
+        this.gotoSignup()
+      }else if(item.title == 'پیگیری درخواست') {
+        this.ifShow = false
+        this.showRequestDialog = true
+      }
     }
   }
 })
@@ -301,6 +321,12 @@ export default defineComponent({
 <style lang="scss" scoped>
   :deep(.q-btn.btn--no-hover .q-focus-helper) {
     display: none;  /* no hover on buttons*/
+  }
+  .banner {
+    width: 100vw;
+    position: relative;
+    z-index: 3;
+    height: 0;
   }
   // header
   .contact-header {
@@ -418,7 +444,12 @@ export default defineComponent({
   }
   .sign-up {
     background: linear-gradient(105.61deg,#ff9912 0,#ff9b17 25.89%,#ffa226 53.54%, #ffac3e 79%, #ffb95c 100%);
-    white-space: nowrap;
+    // white-space: nowrap;
+    // a {
+    //   white-space: nowrap;
+    //   overflow: hidden;
+    //   text-overflow: ellipsis;
+    // }
   }
   .system-btn a {
     white-space: nowrap;
