@@ -26,7 +26,7 @@
             </a>
           </div>
           <div class="lt-md left-side row justify-center items-center">
-            <a @click="() => { gotoSignup(); showMenu(); }" class="concat text-white q-pa-xs cursor-pointer">
+            <a @click="() => { scrollSignup(); ifShow=false; }" class="concat text-white q-pa-xs cursor-pointer">
               سرویس ها و قیمت ها 
             </a>
           </div>
@@ -70,7 +70,7 @@
     <section :class="{active: ifShow}" class="lt-md full-menu bg-white q-px-lg column">
       <div>
         <q-item v-for="item in toggleMenuList.slice(0,1)" :key="item.id" class="item-menu">
-          <a class="full-width text-black text-weight-medium q-py-sm" @click="() => { gotoSignup(); showMenu(); }">{{ item.title }}</a>
+          <a class="full-width text-black text-weight-medium q-py-sm" @click="() => { scrollSignup(); showMenu(); }">{{ item.title }}</a>
         </q-item>
         <q-item v-for="item in toggleMenuList.slice(1,2)" :key="item.id" class="item-menu">
           <a class="full-width text-black text-weight-medium q-py-sm" @click="() => { showRequestDialog = true; showMenu(); }">{{ item.title }}</a>

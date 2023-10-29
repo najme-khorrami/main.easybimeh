@@ -93,4 +93,9 @@ export default defineComponent({
     }
   } 
 }
+@media (max-width: $breakpoint-md-min) {
+  .top-header {
+    margin-top: 30px;
+  }
+}
 </style>

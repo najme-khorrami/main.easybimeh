@@ -181,7 +181,6 @@ created() {
   .get("https://server.easybimeh.com/api/Information?key=0")
   .then((response) => {
     this.plansList = response.data.message.plans
-    console.log(this.plansList)
     this.agencyPrice = this.plansList[1].easyBimehPlanPrices[2].monthlyPrice.toString().slice(0,-4)
     this.brokerPrice = this.plansList[2].easyBimehPlanPrices[2].monthlyPrice.toString().slice(0,-4)
 
