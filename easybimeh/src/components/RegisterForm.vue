@@ -306,12 +306,6 @@
         </q-card>
     </q-dialog>
 
-    <p class="error-notif" v-if="errorNotif">
-      <!-- <span ref="errNotif">یک متن ارور</span> -->
-      متن ارور
-      <q-btn icon="close" stack flat class="q-pr-none" size="12px" color="red-1" @click="errorNotif = false" />
-    </p>
-
 </template>
 
 <script>
@@ -348,7 +342,8 @@ export default defineComponent({
       cityOptions: [],
       alert: false,
       userInfo: [],
-      errorNotif: false
+      errorNotif: false,
+      isExist: 0
     }
   },
   watch: {
@@ -394,7 +389,7 @@ export default defineComponent({
   },
   methods: {
     onSubmit() {
-      this.$refs.qForm.validate().then(success => {
+      this.$refs.qForm.validate().then(async (success) => {
         
         if (success) {
           if (this.insureType == '') {
@@ -404,64 +399,69 @@ export default defineComponent({
             this.$refs.radioSlot2.innerHTML = 'نوع شخصیت بیمه الزامی است'
           }
           if(this.insureType !== '' && this.personality !== '') {
-            
-            // let typeOfInsure,typeOfCode,typeOfCompany,companies;
-            // if(this.insureType == 'InsurAgency') {
-            //     typeOfInsure = 'نمایندگی بیمه';
-            //     typeOfCode =  'کد نمایندگی';
-            //     typeOfCompany = 'شرکت بیمه';
-            //     companies = this.insureCompany;
-            // }else {
-            //     typeOfInsure = 'کارگزاری بیمه';
-            //     typeOfCode = 'کد کارگزاری';
-            //     typeOfCompany = 'شرکت های بیمه';
-            //     companies = this.insureCompany2;
-            // }
-            // let typeOfPersonality = (this.personality == 'realPerson') ? 'حقیقی' : 'حقوقی';
-            // this.userInfo = [
-            //     {id: 1,name: 'typeOfInsure',title: 'نوع دفتر بیمه',content: typeOfInsure},
-            //     {id: 2,name: 'typeOfPersonality',title: 'َشخصیت',content: typeOfPersonality},
-            //     {id: 3,name: 'officeName',title: 'نام دفتر بیمه',content: this.officeName},
-            //     {id: 4,name: 'codeAgency',title: typeOfCode ,content: this.codeAgency},
-            //     {id: 5,name: 'companies',title: typeOfCompany ,content: companies},
-            //     {id: 6,name: 'name',title: 'نام',content: this.name},
-            //     {id: 7,name: 'family',title: 'نام خانوادگی',content: this.family},
-            //     {id: 8,name: 'userPhone',title: 'تلفن همراه',content: this.password},
-            //     {id: 9,name: 'nationalCode',title: 'کد ملی',content: this.username},
-            //     {id: 10,name: 'email',title: 'ایمیل',content: this.email},
-            //     {id: 11,name: 'phone',title: 'تلفن',content: this.phone},
-            //     {id: 12,name: 'state',title: 'استان',content: this.state},
-            //     {id: 13,name: 'city',title: 'شهر',content: this.city},
-            //     {id: 14,name: 'address',title: 'نشانی',content: this.address},
-            //     {id: 15,name: 'domain',title: 'دامنه (عنوان سایت اختصاصی شما)',content: 'https://' + this.domain + '.easybimeh.com'},
-            // ]
+            event.preventDefault()
 
-            
-            let isExist = false;
             let valueList = [this.domain,this.username,this.password]
-            console.log('values:',valueList)
+            this.isExist = 0
             for (let index = 0; index < 3; index++) {
-              axios
+              await axios
               .get('https://server.easybimeh.com/api/InsuranceCentre/ExistChecked', { 
                 params: { value : valueList[index] ,checkedType : index} 
               })
               .then((response) => {
-                isExist = isExist || !response.isSuccess
-                // this.$refs.errNotif.innerHTML = response.message
+                this.isExist = this.isExist + 1
               })
               .catch((error) => {
                 console.error(error);
+                const msg = error.request.response
+                const msgIndex = msg.indexOf('"message":') + '"message":'.length;
+                const msgEndIndex = msg.indexOf(',', msgIndex);
+                const message = msg.substring(msgIndex+1, msgEndIndex - 1);
                 this.errorNotif = true
-                // this.$refs.errNotif.innerHTML = error.message
+                this.$q.notify({
+                  message: message,
+                  color: 'red-5',
+                  timeout: 3000,
+                  position: 'bottom-right',
+                  actions: [{ icon: 'close', color: 'white' }]
+                })
               });
             }
-            console.log("TEST",isExist)
-            
-            event.preventDefault()
-            // if(isExist) {
-            //   this.$emit('changeComp', 'InformationForm')
-            //   this.$emit('userInfo', this.userInfo)
-            // }
+
+            if(this.isExist === 3) {
+              let typeOfInsure,typeOfCode,typeOfCompany,companies;
+              if(this.insureType == 'InsurAgency') {
+                  typeOfInsure = 'نمایندگی بیمه';
+                  typeOfCode =  'کد نمایندگی';
+                  typeOfCompany = 'شرکت بیمه';
+                  companies = this.insureCompany;
+              }else {
+                  typeOfInsure = 'کارگزاری بیمه';
+                  typeOfCode = 'کد کارگزاری';
+                  typeOfCompany = 'شرکت های بیمه';
+                  companies = this.insureCompany2;
+              }
+              let typeOfPersonality = (this.personality == 'realPerson') ? 'حقیقی' : 'حقوقی';
+              this.userInfo = [
+                  {id: 1,name: 'typeOfInsure',title: 'نوع دفتر بیمه',content: typeOfInsure},
+                  {id: 2,name: 'typeOfPersonality',title: 'َشخصیت',content: typeOfPersonality},
+                  {id: 3,name: 'officeName',title: 'نام دفتر بیمه',content: this.officeName},
+                  {id: 4,name: 'codeAgency',title: typeOfCode ,content: this.codeAgency},
+                  {id: 5,name: 'companies',title: typeOfCompany ,content: companies},
+                  {id: 6,name: 'name',title: 'نام',content: this.name},
+                  {id: 7,name: 'family',title: 'نام خانوادگی',content: this.family},
+                  {id: 8,name: 'userPhone',title: 'تلفن همراه',content: this.password},
+                  {id: 9,name: 'nationalCode',title: 'کد ملی',content: this.username},
+                  {id: 10,name: 'email',title: 'ایمیل',content: this.email},
+                  {id: 11,name: 'phone',title: 'تلفن',content: this.phone},
+                  {id: 12,name: 'state',title: 'استان',content: this.state},
+                  {id: 13,name: 'city',title: 'شهر',content: this.city},
+                  {id: 14,name: 'address',title: 'نشانی',content: this.address},
+                  {id: 15,name: 'domain',title: 'دامنه (عنوان سایت اختصاصی شما)',content: 'https://' + this.domain + '.easybimeh.com'},
+              ]
+              this.$emit('changeComp', 'InformationForm')
+              this.$emit('userInfo', this.userInfo)
+            }
           }
         }
         else {
@@ -503,19 +503,6 @@ export default defineComponent({
 :deep(.q-icon.on-left) {
   margin: 0 15px !important;
 }
-.error-notif {
-  position: fixed;
-  bottom: 50px;
-  right: -150px;
-  z-index: 1000;
-  background-color: #d9534f;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 5px;
-  transition: ease-in-out .3s;
-  transform: translateX(-200px);
-}
-
 .form {
   font-size: 16px;
   .header {

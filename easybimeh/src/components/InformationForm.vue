@@ -91,10 +91,10 @@
     </div>
 
     <!-- activation code dialog -->
-    <q-dialog v-model="codeDialog" persistent ref="codeModal" class="payment-dialog">
+    <q-dialog v-model="dialogVisible" persistent ref="codeModal" class="payment-dialog">
         <q-card>
             <q-card-section class="relative-position">
-                <q-btn flat icon="arrow_back" class="absolute-right" v-close-popup></q-btn>
+                <q-btn flat icon="arrow_back" class="absolute-right" @click="closeDialog"></q-btn>
             </q-card-section>
             <q-card-section>
                 <div class="q-mt-md" style="font-size: 12px;font-weight: bold;">
@@ -112,12 +112,11 @@
             </q-card-section>
             <q-card-section class="q-pt-none">
                 <span>زمان باقیمانده</span>
-                <!--timer-->
-                <div id="countdown"></div>
+                <div id="countdown">{{ formatTime }}</div>
             </q-card-section>
             <q-card-actions align="right">
-                <q-btn label="ارسال مجدد کد فعالسازی"></q-btn>
-                <q-btn color="primary" label="اعتبارسنجی و ثبت نهایی"></q-btn>
+                <q-btn label="ارسال مجدد کد فعالسازی" @click="resendCode" :disabled="!resendEnabled"></q-btn>
+                <q-btn color="primary" label="اعتبارسنجی و ثبت نهایی" @click="confirm"></q-btn>
             </q-card-actions>
         </q-card>
     </q-dialog>
@@ -136,9 +135,15 @@ export default defineComponent({
         packageMonth: '',
         price: '',
         userPhone: '',
-        codeDialog: false,
+        dialogVisible: false,
         code: '',
-        endTimer: ''
+        timerId: null,
+        timeLeft: 180,
+        savedTimeLeft: 0,
+        resendEnabled: false,
+        nationalCode: '',
+        isSend: false,
+        fullName: ''
     }
   },
   created() {
@@ -152,44 +157,117 @@ export default defineComponent({
   },
   props:['userInfo'],
   mounted() {
-    this.userPhone = this.userInfo[7].content
+    this.userPhone = this.userInfo.find((item)=>item.name == 'userPhone').content
+    this.nationalCode = this.userInfo.find((item)=>item.name == 'nationalCode').content
+    this.fullName = this.userInfo.find((item)=>item.name == 'name').content +' '+ this.userInfo.find((item)=>item.name == 'family').content
+  },
+  computed: {
+    formatTime() {
+        const minutes = Math.floor(this.timeLeft / 60);
+        const seconds = this.timeLeft % 60;
+        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
   },
   methods: {
     gotoPayment() {
-        this.codeDialog = true
-        this.setTimer()
-        let nationalCode = this.userInfo.find((item)=>item.name == 'nationalCode')
-        axios.get("https://server.easybimeh.com/api/Account/SendSmsToken", {
-        headers: {
-            'nationalCode':nationalCode,
-            'mobile':this.userPhone
+        this.dialogVisible = true
+        this.verifySmsToken()
+    },
+    async verifySmsToken() {
+        await axios.get("https://server.easybimeh.com/api/Account/SendSmsToken", {
+        params: {
+            nationalCode: this.nationalCode,
+            mobile: this.userPhone
         }
         })
         .then(response => {
-            console.log('res:',response)
+            console.log('response',response)
+            this.isSend = response.isSuccess
         })
         .catch(error => {
             console.error(error);
+            const msg = error.request.response
+            const msgIndex = msg.indexOf('"message":') + '"message":'.length;
+            const msgEndIndex = msg.indexOf(',', msgIndex);
+            const message = msg.substring(msgIndex+1, msgEndIndex - 1);
+            this.errorNotif = true
+            this.$q.notify({
+                message: message,
+                color: 'red-5',
+                timeout: 3000,
+                position: 'bottom-right',
+                actions: [{ icon: 'close', color: 'white' }]
+            })
         })
+        if(!this.isSend) this.startTimer()
     },
-    setTimer() {
-        var timeInSecs;
-        var ticker;
-        var secs = 3*60
-        timeInSecs = parseInt(secs);
-        ticker = setInterval(function() {
-            secs = timeInSecs;
-            if (secs > 0) {
-                timeInSecs--; 
+    startTimer() {
+        this.dialogVisible = true;
+        this.resendEnabled = false;
+        if (this.savedTimeLeft > 0) {
+            this.timeLeft = this.savedTimeLeft;
+            this.savedTimeLeft = 0;
+        } else {
+            this.timeLeft = 180;
+        }
+        this.timerId = setInterval(() => {
+            this.timeLeft--;
+            if (this.timeLeft === 0) {
+                clearInterval(this.timerId);
+                this.resendEnabled = true;
             }
-            else {
-                clearInterval(ticker);
-            }
-            var mins = Math.floor(secs/60);
-            secs %= 60;
-            var pretty = ( (mins < 10) ? "0" : "" ) + mins + ":" + ( (secs < 10) ? "0" : "" ) + secs;
-            document.getElementById("countdown").innerHTML = pretty;
-        }, 1000);
+        }, 1000);       
+    },
+    stopTimer() {
+        clearInterval(this.timerId);
+        this.timeLeft = 180;
+        this.resendEnabled = false;
+        this.startTimer();
+    },
+    closeDialog() {
+        clearInterval(this.timerId);
+        this.savedTimeLeft = this.timeLeft;
+        this.timeLeft = 0;
+        this.resendEnabled = false;
+        this.dialogVisible = false;
+    },
+    resendCode() {
+        clearInterval(this.timerId);
+        this.savedTimeLeft = this.timeLeft;
+        this.timeLeft = 0;
+        this.resendEnabled = false;
+        this.verifySmsToken()
+    },
+    confirm() {
+        axios.get("https://server.easybimeh.com/api/Account/VerifySmsTokenCode", {
+        params: {
+            mobile: this.userPhone,
+            nationalCode: this.nationalCode,
+            token: this.code,
+            insuranceCentreSubDomain: 'verify',
+            aliasName: this.fullName
+        }
+        })
+        .then(response => {
+            console.log('response',response)
+            // this.isSend = response.isSuccess
+            // بریم مرحله بعد
+        })
+        .catch(error => {
+            console.error(error);
+            const msg = error.request.response
+            const msgIndex = msg.indexOf('"message":') + '"message":'.length;
+            const msgEndIndex = msg.indexOf(',', msgIndex);
+            const message = msg.substring(msgIndex+1, msgEndIndex - 1);
+            this.errorNotif = true
+            this.$q.notify({
+                message: message,
+                color: 'red-5',
+                timeout: 3000,
+                position: 'bottom-right',
+                actions: [{ icon: 'close', color: 'white' }]
+            })
+        })
     }
   }
 })
