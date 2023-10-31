@@ -143,7 +143,7 @@ export default defineComponent({
         resendEnabled: false,
         nationalCode: '',
         isSend: false,
-        fullName: ''
+        fullName: '',
     }
   },
   created() {
@@ -185,19 +185,7 @@ export default defineComponent({
             this.isSend = response.isSuccess
         })
         .catch(error => {
-            console.error(error);
-            const msg = error.request.response
-            const msgIndex = msg.indexOf('"message":') + '"message":'.length;
-            const msgEndIndex = msg.indexOf(',', msgIndex);
-            const message = msg.substring(msgIndex+1, msgEndIndex - 1);
-            this.errorNotif = true
-            this.$q.notify({
-                message: message,
-                color: 'red-5',
-                timeout: 3000,
-                position: 'bottom-right',
-                actions: [{ icon: 'close', color: 'white' }]
-            })
+            this.showErrorNotif(error)
         })
         if(!this.isSend) this.startTimer()
     },
@@ -238,8 +226,8 @@ export default defineComponent({
         this.resendEnabled = false;
         this.verifySmsToken()
     },
-    confirm() {
-        axios.get("https://server.easybimeh.com/api/Account/VerifySmsTokenCode", {
+    async confirm() {
+        await axios.get("https://server.easybimeh.com/api/Account/VerifySmsTokenCode", {
         params: {
             mobile: this.userPhone,
             nationalCode: this.nationalCode,
@@ -248,25 +236,39 @@ export default defineComponent({
             aliasName: this.fullName
         }
         })
-        .then(response => {
-            console.log('response',response)
-            // this.isSend = response.isSuccess
-            // بریم مرحله بعد
+        .then(async (response) => {
+            // await axios.post("https://server.easybimeh.com/api/InsuranceCentre", this.allUSerInfo)
+            // .then(response => {
+            //     this.$q.notify({
+            //         message: response.message,
+            //         color: 'green-6',
+            //         timeout: 3000,
+            //         position: 'bottom-right',
+            //         actions: [{ icon: 'close', color: 'white' }]
+            //     })
+            //     // بریم مرحله بعد
+            //     this.$emit('changeComp', 'ConnectBank')
+            // })
+            // .catch(error => {
+            //     this.showErrorNotif(error)
+            // })
         })
         .catch(error => {
-            console.error(error);
-            const msg = error.request.response
-            const msgIndex = msg.indexOf('"message":') + '"message":'.length;
-            const msgEndIndex = msg.indexOf(',', msgIndex);
-            const message = msg.substring(msgIndex+1, msgEndIndex - 1);
-            this.errorNotif = true
-            this.$q.notify({
-                message: message,
-                color: 'red-5',
-                timeout: 3000,
-                position: 'bottom-right',
-                actions: [{ icon: 'close', color: 'white' }]
-            })
+            this.showErrorNotif(error)
+        })
+    },
+    showErrorNotif(error) {
+        const msg = error.request.response
+        const msgIndex = msg.indexOf('"message":') + '"message":'.length;
+        const msgEndIndex = msg.indexOf(',', msgIndex);
+        const message = msg.substring(msgIndex+1, msgEndIndex - 1);
+        this.errorNotif = true
+        this.$q.notify({
+            message: message,
+            color: 'red-5',
+            timeout: 3000,
+            position: 'bottom-right',
+            actions: [{ icon: 'close', color: 'white' }]
         })
     }
   }

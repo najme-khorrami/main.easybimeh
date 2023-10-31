@@ -34,12 +34,14 @@
 import { defineComponent } from 'vue';
 import RegisterForm from 'components/RegisterForm.vue'
 import InformationForm from 'components/InformationForm.vue'
+import ConnectBank from 'components/ConnectBank.vue'
 
 export default defineComponent({
   name: 'InsuranceCentreRegistration',
   components: {
     RegisterForm,
-    InformationForm
+    InformationForm,
+    ConnectBank
   },
   data() {
     return {

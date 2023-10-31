@@ -15,10 +15,8 @@
                                     <span class="text-negative">*</span>
                                     :
                                 </label>
-                                <q-radio color="#616161" class="q-px-xs" dense v-model="insureType" val="InsurAgency"
-                                    label="نمایندگی بیمه" />
-                                <q-radio color="#616161" class="q-px-xs" dense v-model="insureType" val="InsurBrokerage"
-                                    label="کارگزاری بیمه" />
+                                <q-radio color="#616161" v-for="item in insureCenterTypes" :key="item.id" class="q-px-xs" dense v-model="insureType" :val="item.id"
+                                    :label="item.title" />
                             </div>
                             <div ref="radioSlot1" class="text-negative" style="font-size: 14px;"></div>
                         </div>
@@ -53,15 +51,15 @@
                                 :rules="[val => val !== '' || 'کد نمایندگی الزامی است']">
                                 <template #label>
                                     <div class="row">
-                                        <div v-if="insureType == 'InsurAgency' || insureType == ''">کد نمایندگی</div>
-                                        <div v-if="insureType == 'InsurBrokerage'">کد کارگزاری</div>
+                                        <div v-if="insureType == 3 || insureType == ''">کد نمایندگی</div>
+                                        <div v-if="insureType == 5">کد کارگزاری</div>
                                         <span class="text-red q-pl-xs">*</span>
                                     </div>
                                 </template>
                             </q-input>
                         </div>
                         <div class="col-lg-6 col-xs-12 q-px-md q-pt-md">
-                            <q-select v-if="insureType == 'InsurAgency' || insureType == ''" borderless
+                            <q-select v-if="insureType == 3 || insureType == ''" borderless
                                 v-model="insureCompany" label-slot label-color="black" :options="companiesOptions"
                                 behavior="menu" no-error-icon reactive-rules
                                 :rules="[val => val !== '' || 'نمایندگی کدام شرکت بیمه هستید؟ الزامی است']">
@@ -73,7 +71,7 @@
                                         @click.stop.prevent="insureCompany = ''" class="cursor-pointer" size="14px" />
                                 </template>
                             </q-select>
-                            <q-select v-if="insureType == 'InsurBrokerage'" multiple borderless label-slot
+                            <q-select v-if="insureType == 5" multiple borderless label-slot
                                 v-model="insureCompany2" label-color="black" :options="companiesOptions" behavior="menu"
                                 @update:model-value="onPopUp" ref="qSelRef" use-chips>
                                 <template #label>
@@ -317,33 +315,39 @@ export default defineComponent({
 
   data() {
     return {
-      insureType: '',
-      personality: '',
-      officeName: '',
-      codeAgency: '',
+      insureType: '', 
+      insureCenterTypes: [], 
+      personality: '', 
+      officeName: '', 
+      codeAgency: '', 
       insureCompany: '',
       insureCompany2: [],
-      state: '',
-      city: '',
-      email: '',
-      phone: '',
-      address: '',
-      name: '',
-      family: '',
-      password: '',
-      username:'',
+      state: '', 
+      city: '', 
+      email: '', 
+      phone: '', 
+      address: '', 
+      name: '', 
+      family: '', 
+      password: '', 
+      username:'', 
       siteAddress: 'آدرس سایت شما',
       packageName: '',
       packageMonth: '',
       price: '',
-      domain: '',
+      domain: '', 
       companiesOptions: [],
-      provinceOptions: [],
-      cityOptions: [],
+      provinceOptions: [], 
+      cityOptions: [], 
       alert: false,
       userInfo: [],
+      userInfoPost: {},
       errorNotif: false,
-      isExist: 0
+      isExist: 0,
+      provinceList: null,
+      cityList: null, 
+      companyList: [],
+      compId: []
     }
   },
   watch: {
@@ -364,10 +368,19 @@ export default defineComponent({
     });
 
     axios
+    .get("https://server.easybimeh.com/api/ComboData/InsuranceCentreTypes")
+    .then((response) => {
+      this.insureCenterTypes = response.data.message
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+    axios
     .get("https://server.easybimeh.com/api/ComboData/Province")
     .then((response) => {
-      let province = response.data.message
-      province.forEach(el => {
+      this.provinceList = response.data.message
+      this.provinceList.forEach(el => {
         this.provinceOptions.push(el.title)
       })
     })
@@ -378,8 +391,8 @@ export default defineComponent({
     axios
     .get("https://server.easybimeh.com/api/ComboData/InsuranceCompany")
     .then((response) => {
-      let companies = response.data.message
-      companies.forEach(el => {
+      this.companyList = response.data.message
+      this.companyList.forEach(el => {
         this.companiesOptions.push(el.title)
       })
     })
@@ -430,17 +443,28 @@ export default defineComponent({
 
             if(this.isExist === 3) {
               let typeOfInsure,typeOfCode,typeOfCompany,companies;
-              if(this.insureType == 'InsurAgency') {
-                  typeOfInsure = 'نمایندگی بیمه';
-                  typeOfCode =  'کد نمایندگی';
-                  typeOfCompany = 'شرکت بیمه';
-                  companies = this.insureCompany;
+              if(this.insureType == 3) {
+                typeOfInsure = 'نمایندگی بیمه';
+                typeOfCode =  'کد نمایندگی';
+                typeOfCompany = 'شرکت بیمه';
+                companies = this.insureCompany;
+                this.compId = []
+                this.compId.push(this.companyList.find((item)=>item.title == companies).id)
               }else {
-                  typeOfInsure = 'کارگزاری بیمه';
-                  typeOfCode = 'کد کارگزاری';
-                  typeOfCompany = 'شرکت های بیمه';
-                  companies = this.insureCompany2;
+                typeOfInsure = 'کارگزاری بیمه';
+                typeOfCode = 'کد کارگزاری';
+                typeOfCompany = 'شرکت های بیمه';
+                companies = this.insureCompany2;
+                this.compId = []
+                companies.forEach((item)=>{
+                  this.companyList.forEach((cl)=>{
+                    if(item == cl.title) {
+                      this.compId.push(cl.id)
+                    }
+                  })
+                }) 
               }
+              // console.log('this.compId',this.compId)
               let typeOfPersonality = (this.personality == 'realPerson') ? 'حقیقی' : 'حقوقی';
               this.userInfo = [
                   {id: 1,name: 'typeOfInsure',title: 'نوع دفتر بیمه',content: typeOfInsure},
@@ -459,6 +483,65 @@ export default defineComponent({
                   {id: 14,name: 'address',title: 'نشانی',content: this.address},
                   {id: 15,name: 'domain',title: 'دامنه (عنوان سایت اختصاصی شما)',content: 'https://' + this.domain + '.easybimeh.com'},
               ]
+              this.userInfoPost = {
+                packageInfo: {
+                  id: null,
+                  title: null,
+                  dayCount: 0,
+                  dayRemaining: 0,
+                  price: null,
+                  priceLabel: null,
+                  isActive: false,
+                  planFeatureIds: []
+                },
+                person: {
+                  isActive: true,
+                  genderType: 0,
+                  personalityType: (this.personality == 'realPerson') ? 0 : 1,
+                  firstName: this.name, 
+                  lastName: this.family,
+                  mobile: this.password,
+                  nationalCode: this.username 
+                },
+                insuranceCentre: {
+                  isActive: true,
+                  personalityType: this.personality,
+                  showInEasyBimeh: false,
+                  whiteLabel: false,
+                  insuranceCompanyId: this.compId,
+                  cashPayment: false,
+                  installmentsPayment: false,
+                  hidePolicyOnLanding: false,
+                  hidePlanOnLanding: false,
+                  insuranceCentreType: this.insureType, 
+                  centerName: this.officeName, 
+                  centerCode: this.codeAgency,
+                  cityId: this.cityList.find((item)=>item.title == this.city).id,
+                  provinceId: this.provinceList.find((item)=>item.title == this.state).id,
+                  email: this.email,
+                  phone: this.phone, 
+                  address: this.address, 
+                  latitude: 35.6892,
+                  longitude: 51.389
+                },
+                insuranceCentrePortal: {
+                  licensed: false,
+                  subDomainName: this.domain 
+                },
+                selectedSendingMethods: [],
+                insuranceCentreSendingMethods: [],
+                packageDataSource: [],
+                insuranceCentreDeliveryMethods: [],
+                easyBimehPlanPriceId: null,
+                packages: [],
+                insuranceCentreTypes: [],
+                insuranceCompany: [],
+                insuranceCentreStatus: [],
+                banks: [],
+                applicationGateway: [],
+                province: [],
+                insuranceCentreType: this.insureType 
+              }
               this.$emit('changeComp', 'InformationForm')
               this.$emit('userInfo', this.userInfo)
             }
@@ -483,8 +566,8 @@ export default defineComponent({
       axios
       .get("https://server.easybimeh.com/api/ComboData/City", { params: { provinceId: id+1 } })
       .then((response) => {
-        let cities = response.data.message
-        cities.forEach(el => {
+        this.cityList = response.data.message
+        this.cityList.forEach(el => {
           this.cityOptions.push(el.title)
         })
       })
